@@ -1,5 +1,27 @@
-.poster {
+.poster img {
     width: 120px;
     float: left;
     margin-right: 25px;
+}
+
+.showInfo p:first-child {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.unavailable {
+    filter: grayscale(100%);
+}
+
+.favorites a, .favorites a:hover {
+    text-decoration: none;
+    color: #636b6f;
+}
+
+.fa-heart, .fa-heart-o:hover {
+    color: #dc458f;
+}
+
+.fa-heart:hover {
+    color: #636b6f;
 }

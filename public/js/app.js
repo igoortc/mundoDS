@@ -42987,7 +42987,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [
+  return _c("span", { staticClass: "favorites" }, [
     _vm.isFavorited
       ? _c(
           "a",
@@ -43000,7 +43000,11 @@ var render = function() {
               }
             }
           },
-          [_c("i", { staticClass: "fa fa-heart" })]
+          [
+            _c("i", { staticClass: "fa fa-heart" }),
+            _vm._v(" "),
+            _c("span", [_vm._v("Favorited!")])
+          ]
         )
       : _c(
           "a",
@@ -43013,7 +43017,11 @@ var render = function() {
               }
             }
           },
-          [_c("i", { staticClass: "fa fa-heart-o" })]
+          [
+            _c("i", { staticClass: "fa fa-heart-o" }),
+            _vm._v(" "),
+            _c("span", [_vm._v("Favorite this show!")])
+          ]
         )
   ])
 }
