@@ -19,3 +19,5 @@ Route::post('favorite/{show}', 'ShowsController@favoriteShow');
 Route::post('unfavorite/{show}', 'ShowsController@unFavoriteShow');
 
 Route::get('my_favorites', 'UsersController@myFavorites')->middleware('auth');
+
+Route::get('show/{show}', 'ShowsController@show');

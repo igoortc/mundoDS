@@ -10,9 +10,16 @@ class ShowsController extends Controller
 {
     public function index()
     {
-        $shows = Show::paginate(5);
+        $shows = Show::paginate(3);
 
         return view('shows.index', compact('shows'));
+    }
+
+    public function show(Show $show)
+    {
+        $show = Show::where('id', $show->id)
+            ->first();
+        return view('shows.show', compact('show'));
     }
 
     /**
