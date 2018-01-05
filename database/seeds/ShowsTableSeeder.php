@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class ShowsTableSeeder extends Seeder
 {
@@ -21,7 +22,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 3,
             'status' => "E",
             'netflix' => "https://www.netflix.com/title/80066227",
-            'imdb' => "http://www.imdb.com/title/tt4094300/"],
+            'imdb' => "http://www.imdb.com/title/tt4094300/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 2, 
             'name' => "Gilmore Girls", 
@@ -30,7 +32,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 7,
             'status' => "F",
             'netflix' => "https://www.netflix.com/title/70155618",
-            'imdb' => "http://www.imdb.com/title/tt0238784/"],
+            'imdb' => "http://www.imdb.com/title/tt0238784/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 3, 
             'name' => "Glee", 
@@ -39,7 +42,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 6,
             'status' => "F",
             'netflix' => "https://www.netflix.com/title/70143843",
-            'imdb' => "http://www.imdb.com/title/tt1327801/"],
+            'imdb' => "http://www.imdb.com/title/tt1327801/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 4, 
             'name' => "Jane The Virgin", 
@@ -48,7 +52,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 4,
             'status' => "E",
             'netflix' => "https://www.netflix.com/title/80027158",
-            'imdb' => "http://www.imdb.com/title/tt3566726/"],
+            'imdb' => "http://www.imdb.com/title/tt3566726/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 5, 
             'name' => "Orphan Black", 
@@ -57,7 +62,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 5,
             'status' => "F",
             'netflix' => "https://www.netflix.com/title/70276033",
-            'imdb' => "http://www.imdb.com/title/tt2234222/"],
+            'imdb' => "http://www.imdb.com/title/tt2234222/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 6, 
             'name' => "Sense8", 
@@ -66,7 +72,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 2,
             'status' => "E",
             'netflix' => "https://www.netflix.com/title/80025744",
-            'imdb' => "http://www.imdb.com/title/tt2431438/"],
+            'imdb' => "http://www.imdb.com/title/tt2431438/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 7, 
             'name' => "Sex and the City", 
@@ -75,7 +82,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 6,
             'status' => "F",
             'netflix' => "",
-            'imdb' => "http://www.imdb.com/title/tt0159206/"],
+            'imdb' => "http://www.imdb.com/title/tt0159206/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 8, 
             'name' => "Shadowhunters", 
@@ -84,7 +92,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 2,
             'status' => "E",
             'netflix' => "https://www.netflix.com/title/80084447",
-            'imdb' => "http://www.imdb.com/title/tt4145054/"],
+            'imdb' => "http://www.imdb.com/title/tt4145054/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 9, 
             'name' => "The Big Bang Theory", 
@@ -93,7 +102,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 11,
             'status' => "E",
             'netflix' => "https://www.netflix.com/title/70143830",
-            'imdb' => "http://www.imdb.com/title/tt0898266/"],
+            'imdb' => "http://www.imdb.com/title/tt0898266/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 10, 
             'name' => "The Handmaid's Tale", 
@@ -102,7 +112,8 @@ class ShowsTableSeeder extends Seeder
             'seasons' => 1,
             'status' => "E",
             'netflix' => "",
-            'imdb' => "http://www.imdb.com/title/tt5834204/"],
+            'imdb' => "http://www.imdb.com/title/tt5834204/",
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
             ]);
     }
 }
