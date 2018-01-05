@@ -24,7 +24,7 @@ npm install
 ### Migrations and seeder
 Check the database info on the `.env` file.
 ```
-php artisan migration
+php artisan migrate
 ```
 ```
 php artisan db:seed

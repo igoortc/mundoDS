@@ -47,4 +47,12 @@ class ShowsController extends Controller
 
         return back();
     }
+
+    // public function showEpisodes(Show $show)
+    // {
+    //     $showEpisodes = Show::episodes()->where('show_id', $show->id)
+    //                     ->paginate(5);
+
+    //     return back();
+    // }
 }

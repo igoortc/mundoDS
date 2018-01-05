@@ -14,6 +14,7 @@ require('./bootstrap');
  */
 
 Vue.component('favorite', require('./components/Favorite.vue'));
+Vue.component('episodes', require('./components/Episode.vue'));
 
 const app = new Vue({
     el: '#app'

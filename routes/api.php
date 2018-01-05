@@ -16,5 +16,5 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::resource('shows', 'Api\ShowController')
-    ->only(['index', 'store', 'show']);
+Route::resource('shows', 'Api\ShowController');
+Route::resource('shows.episodes', 'Api\EpisodeController');

@@ -28,4 +28,9 @@ class Show extends Model
                             ->where('show_id', $this->id)
                             ->first();
     }
+
+    // public function episodes()
+    // {
+    //     return $this->hasMany(Episode::class, 'episodes', 'id', 'show_id')->withTimeStamps();
+    // }
 }

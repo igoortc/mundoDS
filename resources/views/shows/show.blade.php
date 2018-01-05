@@ -38,6 +38,7 @@
                         @endif
                     </div>
                 </div>
+                <episodes :show={{ $show->id }}></episodes>
             </div>
         </div>
     </div>

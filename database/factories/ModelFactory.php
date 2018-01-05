@@ -23,16 +23,16 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Show::class, function (Faker\Generator $faker) {
-    $user = \App\User::inRandomOrder()->first();
+// $factory->define(App\Show::class, function (Faker\Generator $faker) {
+//     $user = \App\User::inRandomOrder()->first();
     
-    return [
-        'name' => $faker->name,
-        'poster' => $faker->imageUrl,
-        'synopsis' => $faker->sentence ,
-        'seasons' => $faker->randomDigit ,
-        'status' => $faker->randomLetter,
-        'netflix' => $faker->url,
-        'imdb' => $faker->url
-    ];
-});
+//     return [
+//         'name' => $faker->name,
+//         'poster' => $faker->imageUrl,
+//         'synopsis' => $faker->sentence ,
+//         'seasons' => $faker->randomDigit ,
+//         'status' => $faker->randomLetter,
+//         'netflix' => $faker->url,
+//         'imdb' => $faker->url
+//     ];
+// });
