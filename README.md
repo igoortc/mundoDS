@@ -32,4 +32,13 @@ php artisan db:seed
 ```
 php artisan serve
 ```
+
+### Running the application
+```
+npm run dev
+```
 Go to [http://localhost:8000/](http://localhost:8000/).
+
+### Troubleshooting
+* If an error (like `ELIFECYCLE`) comes up when running `npm run dev`, try deleting the `node_modules` folder then running `npm install` again.
+* Make sure Laravel is [updated](https://laravel.com/docs/5.5/upgrade).
