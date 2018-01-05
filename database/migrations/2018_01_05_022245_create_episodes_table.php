@@ -14,7 +14,7 @@ class CreateEpisodesTable extends Migration
     public function up()
     {
         Schema::create('episodes', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('id')->unsigned()->primary();
             $table->string('name');
             $table->integer('show_id')->unsigned();
             $table->integer('season');

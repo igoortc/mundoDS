@@ -34,12 +34,10 @@
                                 <td>{{ episode.name }}</td>
                                 <td>{{ episode.date_aired }}</td>
                                 <td>
-                                    <i class="fa fa-eye"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
+                                    <watched
+                                        :episode="episode.id"
+                                        :watched="true"
+                                    ></watched>
                                 </td>
                         </tr>
                     </tbody>

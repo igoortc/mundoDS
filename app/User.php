@@ -34,4 +34,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Show::class, 'favorites', 'user_id', 'show_id')->withTimeStamps();
     }
+
+    public function watches()
+    {
+        return $this->belongsToMany(Episode::class, 'watches', 'user_id', 'episode_id')->withTimeStamps();
+    }
 }

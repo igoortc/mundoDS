@@ -18,4 +18,11 @@ class UsersController extends Controller
 
         return view('users.my_favorites', compact('myFavorites'));
     }
+
+    public function myWatched()
+    {
+        $myWatched = Auth::user()->watches;
+
+        return view('users.my_watched', compact('myWatched'));
+    }
 }

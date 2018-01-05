@@ -14,4 +14,17 @@ class EpisodesController extends Controller
 
     //     return back();
     // }
+    public function watchEpisode(Episode $episode)
+    {
+        Auth::user()->watches()->attach($episode->id);
+
+        return back();
+    }
+
+    public function unwatchEpisode(Episode $episode)
+    {
+        Auth::user()->watches()->detach($episode->id);
+
+        return back();
+    }
 }
