@@ -18,7 +18,7 @@ class EpisodeController extends Controller
     // }
     public function index($show, Request $request){
         $episodes = Episode::where('show_id', $show)
-                    ->get();;
+                    ->get();
 
         return  EpisodeResource::collection($episodes);
     }

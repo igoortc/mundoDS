@@ -20,6 +20,7 @@ class CreateEpisodesTable extends Migration
             $table->integer('season');
             $table->integer('number');
             $table->string('synopsis');
+            $table->date('date_aired');
             $table->timestamps();
 
             $table->foreign('show_id')

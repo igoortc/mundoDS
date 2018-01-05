@@ -35,10 +35,10 @@
                                 :show={{ $show->id }}
                                 :favorited={{ $show->favorited() ? 'true' : 'false' }}
                             ></favorite>
+                            <episodes :show={{ $show->id }}></episodes>
                         @endif
                     </div>
                 </div>
-                <episodes :show={{ $show->id }}></episodes>
             </div>
         </div>
     </div>

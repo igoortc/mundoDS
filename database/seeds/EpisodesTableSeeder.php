@@ -12,6 +12,7 @@ class EpisodesTableSeeder extends Seeder
      */
     public function run()
     {
+        // factory(App\Episode::class, 200)->create();
         DB::table('episodes')->delete();
         DB::table('episodes')->insert([
             ['id' => 111, 
@@ -20,6 +21,7 @@ class EpisodesTableSeeder extends Seeder
             'season' => 1,
             'number' => 1,
             'synopsis' => "After a chance encounter with childhood sweetheart Josh Chan, Rebecca Bunch uproots her life and moves across the country, hoping to find happiness in his arms. As Rebecca settles in, new coworker Paula begins meddling in her business.",
+            'date_aired' => '2018-01-02',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
             
             ['id' => 112, 
@@ -28,6 +30,7 @@ class EpisodesTableSeeder extends Seeder
             'season' => 1,
             'number' => 2,
             'synopsis' => "Rebecca meets Josh's friends and goes to great lengths to bond with his girlfriend, Valencia.",
+            'date_aired' => '2018-01-02',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 121, 
@@ -36,6 +39,7 @@ class EpisodesTableSeeder extends Seeder
             'season' => 2,
             'number' => 1,
             'synopsis' => "Rebecca thinks Josh is in love with her as she searches for Greg.",
+            'date_aired' => '2018-01-02',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id' => 211, 
@@ -44,6 +48,7 @@ class EpisodesTableSeeder extends Seeder
             'season' => 1,
             'number' => 1,
             'synopsis' => "Rory is accepted into the elite Chilton prep school. Bad news for Lorelai: she must make amends with her parents to borrow the money for Rory's tuition. The money is available--with strings attached.",
+            'date_aired' => '2018-01-02',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
             ]);
     }

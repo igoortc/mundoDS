@@ -36,3 +36,18 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 //         'imdb' => $faker->url
 //     ];
 // });
+
+// $factory->define(App\Episode::class, function (Faker\Generator $faker) {
+//     $user = \App\User::inRandomOrder()->first();
+    
+//     return [
+//         'id' => $faker->randomDigit,
+//         'name' => $faker->word,
+//         'show_id' => 1,
+//         'season' => $faker->randomDigit ,
+//         'number' => $faker->randomDigit,
+//         'synopsis' => $faker->sentence,
+//         'date_aired' => $faker->date,
+//         'created_at' => "2018-01-05 11:15:29"
+//     ];
+// });
