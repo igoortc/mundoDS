@@ -10,7 +10,7 @@
             @forelse ($myFavorites as $myFavorite)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ $myFavorite->name }}
+                        <a href="{{ url('/show/' . $myFavorite->id) }}"> {{ $myFavorite->name }} </a>
                     </div>
 
                     <div class="panel-body">

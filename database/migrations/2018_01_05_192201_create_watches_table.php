@@ -20,15 +20,15 @@ class CreateWatchesTable extends Migration
             $table->integer('rating');
             $table->timestamps();
 
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            // $table->foreign('user_id')
+            //     ->references('id')->on('users')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
             
-            $table->foreign('episode_id')
-                ->references('id')->on('episodes')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            // $table->foreign('episode_id')
+            //     ->references('id')->on('episodes')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
         });
     }
 

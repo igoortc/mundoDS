@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::resource('shows', 'Api\ShowController');
 Route::resource('shows.episodes', 'Api\EpisodeController');
+Route::resource('users.watches', 'Api\WatchController');

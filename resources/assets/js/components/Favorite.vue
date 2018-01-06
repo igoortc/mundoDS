@@ -4,7 +4,7 @@
             <i class="fa fa-heart"></i> <span>Favorited!</span>
         </a>
         <a href="#" v-else @click.prevent="favorite(show)">
-            <i class="fa fa-heart-o"></i> <span>Favorite this show!!</span>
+            <i class="fa fa-heart-o"></i> <span>Favorite this show!</span>
         </a>
     </span>
 </template>

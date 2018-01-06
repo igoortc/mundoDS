@@ -10,11 +10,12 @@
             @forelse ($myWatched as $myEpisode)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ $myEpisode->name }}
+                        <h4><strong>{{ $myEpisode->name }}</strong></h4>
+                        <a href="{{ url('/show/' . $myEpisode->show_id) }}">{{ $myEpisode->getShow($myEpisode->show_id) }}</a> - S{{ $myEpisode->season }} x E{{ $myEpisode->number }}
                     </div>
 
                     <div class="panel-body">
-                        {{ $myEpisode->season }} x {{ $myEpisode->number }}
+                        <blockquote>{{ $myEpisode->synopsis }}</blockquote>
                     </div>
                     @if (Auth::check())
                         <div class="panel-footer">

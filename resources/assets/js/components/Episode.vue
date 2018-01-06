@@ -16,7 +16,7 @@
                 :id="'T' + season" 
                 class="tab-pane" 
                 :class="{ active: isActive('T' + season) }">
-                <table class="table">
+                <table class="table" v-if="hasEpisodes(season)">
                     <thead class="thead-inverse">
                         <tr>
                             <th>#</th>
@@ -36,13 +36,13 @@
                                 <td>
                                     <watched
                                         :episode="episode.id"
-                                        :watched="true"
+                                        :user="user"
                                     ></watched>
                                 </td>
                         </tr>
                     </tbody>
                 </table>
-                <span v-if="!hasEpisodes(season)">No episodes of this season have aired yet!</span>
+                <span v-else>No episodes of this season have aired yet!</span>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
 
 <script>
     export default {
-        props: ['show'],
+        props: ['show', 'user'],
 
         data: function() {
             return {

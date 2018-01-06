@@ -27,9 +27,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**
-     * Get all of favorite shows for the user.
-     */
     public function favorites()
     {
         return $this->belongsToMany(Show::class, 'favorites', 'user_id', 'show_id')->withTimeStamps();

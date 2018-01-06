@@ -18,9 +18,6 @@ Route::get('/', 'ShowsController@index');
 Route::post('favorite/{show}', 'ShowsController@favoriteShow');
 Route::post('unfavorite/{show}', 'ShowsController@unFavoriteShow');
 
-Route::post('watch/{episode}', 'ShowsController@favoriteShow');
-Route::post('unwatch/{episode}', 'ShowsController@unFavoriteShow');
-
 Route::get('my_favorites', 'UsersController@myFavorites')->middleware('auth');
 
 Route::get('my_watched', 'UsersController@myWatched')->middleware('auth');

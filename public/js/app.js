@@ -43010,7 +43010,7 @@ var render = function() {
           [
             _c("i", { staticClass: "fa fa-heart-o" }),
             _vm._v(" "),
-            _c("span", [_vm._v("Favorite this show!!")])
+            _c("span", [_vm._v("Favorite this show!")])
           ]
         )
   ])
@@ -43130,7 +43130,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['show'],
+    props: ['show', 'user'],
 
     data: function data() {
         return {
@@ -43235,40 +43235,38 @@ var render = function() {
             attrs: { id: "T" + season }
           },
           [
-            _c("table", { staticClass: "table" }, [
-              _vm._m(0, true),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.episodes, function(episode, index) {
-                  return episode.season === season
-                    ? _c("tr", { key: index }, [
-                        _c("td", [_vm._v(_vm._s(episode.number))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(episode.name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(episode.date_aired))]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _c("watched", {
-                              attrs: { episode: episode.id, watched: true }
-                            })
-                          ],
-                          1
-                        )
-                      ])
-                    : _vm._e()
-                })
-              )
-            ]),
-            _vm._v(" "),
-            !_vm.hasEpisodes(season)
-              ? _c("span", [
+            _vm.hasEpisodes(season)
+              ? _c("table", { staticClass: "table" }, [
+                  _vm._m(0, true),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.episodes, function(episode, index) {
+                      return episode.season === season
+                        ? _c("tr", { key: index }, [
+                            _c("td", [_vm._v(_vm._s(episode.number))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(episode.name))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(episode.date_aired))]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c("watched", {
+                                  attrs: { episode: episode.id, user: _vm.user }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e()
+                    })
+                  )
+                ])
+              : _c("span", [
                   _vm._v("No episodes of this season have aired yet!")
                 ])
-              : _vm._e()
           ]
         )
       })
@@ -43366,45 +43364,114 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['episode', 'watched'],
+    props: ['episode', 'user'],
 
     data: function data() {
         return {
-            isWatched: ''
+            watched: {
+                id: '',
+                user_id: '',
+                episode_id: '',
+                rating: '',
+                date: ''
+            },
+            isWatched: '',
+            ratings: [1, 2, 3, 4, 5],
+            value: null,
+            watchedEpisodes: [],
+            isRated: ''
         };
     },
-
-    mounted: function mounted() {
-        this.isWatched = this.hasWatched ? true : false;
+    created: function created() {
+        this.getWatched();
     },
-
-
-    computed: {
-        hasWatched: function hasWatched() {
-            return this.watched;
-        }
-    },
-
     methods: {
         watch: function watch(episode) {
             var _this = this;
 
-            axios.post('/watch/' + episode).then(function (response) {
+            this.watched.user_id = this.user;
+            this.watched.episode_id = episode;
+            this.watched.rating = 0;
+            axios.post('/api/users/' + this.watched.user_id + '/watches', this.watched).then(function (response) {
                 return _this.isWatched = true;
             }).catch(function (response) {
                 return console.log(response.data);
             });
+            this.getWatched();
         },
         unwatch: function unwatch(episode) {
             var _this2 = this;
 
-            axios.post('/unwatch/' + episode).then(function (response) {
+            var watched_id = '';
+            for (var i = 0; i < this.watchedEpisodes.length; i++) {
+                if (this.watchedEpisodes[i].episode_id === episode) {
+                    watched_id = this.watchedEpisodes[i].id;
+                }
+            }
+            this.value = null;
+            axios.delete('/api/users/' + this.user + '/watches/' + watched_id).then(function (response) {
                 return _this2.isWatched = false;
             }).catch(function (response) {
                 return console.log(response.data);
             });
+        },
+        getWatched: function getWatched() {
+            var self = this;
+            axios.get('/api/users/' + self.user + '/watches/').then(function (response) {
+                self.watchedEpisodes = response.data.data;
+                for (var i = 0; i < self.watchedEpisodes.length; i++) {
+                    if (self.watchedEpisodes[i].episode_id === self.episode) {
+                        self.watched = self.watchedEpisodes[i];
+                        self.value = self.watchedEpisodes[i].rating;
+                        self.isWatched = true;
+                    }
+                }
+            });
+        },
+
+        star_over: function star_over(index) {
+            var self = this;
+            this.temp_value = this.value;
+            return this.value = index;
+        },
+        star_out: function star_out() {
+            var self = this;
+            return this.value = this.temp_value;
+        },
+        set: function set(value, episode) {
+            var _this3 = this;
+
+            var self = this;
+            this.temp_value = value;
+            var watched_id = '';
+            for (var i = 0; i < this.watchedEpisodes.length; i++) {
+                if (this.watchedEpisodes[i].episode_id === episode) {
+                    watched_id = this.watchedEpisodes[i].id;
+                }
+            }
+            this.watched.rating = value;
+            axios.put('/api/users/' + this.user + '/watches/' + watched_id + '?rating=' + this.watched.rating).then(function (response) {
+                return _this3.isRated = true;
+            }).catch(function (response) {
+                return console.log(response.data);
+            });
+            return this.value = value;
         }
     }
 });
@@ -43417,35 +43484,89 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [
-    _vm.isWatched
-      ? _c(
-          "a",
+  return _c(
+    "span",
+    [
+      _vm.isWatched
+        ? _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.unwatch(_vm.episode)
+                }
+              }
+            },
+            [_c("i", { staticClass: "fa fa-eye-slash" })]
+          )
+        : _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.watch(_vm.episode)
+                }
+              }
+            },
+            [_c("i", { staticClass: "fa fa-eye" })]
+          ),
+      _vm._v(" "),
+      _vm._l(_vm.ratings, function(rating, index) {
+        return _c(
+          "label",
           {
-            attrs: { href: "#" },
+            key: index,
+            staticClass: "star",
+            class: {
+              "is-selected": _vm.value >= rating && _vm.value != null,
+              disabledStar: !_vm.isWatched
+            },
             on: {
               click: function($event) {
-                $event.preventDefault()
-                _vm.unwatch(_vm.episode)
-              }
+                _vm.set(rating, _vm.episode)
+              },
+              mouseover: function($event) {
+                _vm.star_over(rating)
+              },
+              mouseout: _vm.star_out
             }
           },
-          [_c("i", { staticClass: "fa fa-eye-slash" })]
-        )
-      : _c(
-          "a",
-          {
-            attrs: { href: "#" },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                _vm.watch(_vm.episode)
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.value,
+                  expression: "value"
+                }
+              ],
+              staticClass: "radioStar",
+              attrs: { type: "radio" },
+              domProps: { value: rating, checked: _vm._q(_vm.value, rating) },
+              on: {
+                change: function($event) {
+                  _vm.value = rating
+                }
               }
-            }
-          },
-          [_c("i", { staticClass: "fa fa-eye" })]
+            }),
+            _c("i", {
+              staticClass: "fa",
+              class: {
+                "fa-star": _vm.value >= rating && _vm.value != null,
+                "fa-star-o": _vm.value < rating || _vm.value == null
+              }
+            })
+          ]
         )
-  ])
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Show;
 
 class UsersController extends Controller
 {
@@ -22,7 +23,6 @@ class UsersController extends Controller
     public function myWatched()
     {
         $myWatched = Auth::user()->watches;
-
         return view('users.my_watched', compact('myWatched'));
     }
 }
