@@ -1,79 +1,75 @@
 <template>
-    <span class="favorites">
+    <span>
         <notifications></notifications>
-        <a href="#" v-if="isFavorited" @click.prevent="unFavorite(show)">
-            <i class="fa fa-heart"></i> <span>Favorited!</span>
+        <a href="#" v-if="isFollowed" @click.prevent="unfollow(following)">
+            <i class="fa fa-heart"></i> <span>Followed!</span>
         </a>
-        <a href="#" v-else @click.prevent="favorite(show)">
-            <!-- <div class="row">
-                <vue-star animate="animated bounceIn" color="#F05654">
-                    <i slot="icon" class="fa fa-heart" @click="handleClick"></i>
-                </vue-star> 
-            </div> -->
-            <i class="fa fa-heart-o"></i> <span>Favorite this show!</span>
+        <a href="#" v-else @click.prevent="follow(following)">
+            <i class="fa fa-heart-o"></i> <span>Follow this person!</span>
         </a>
+        follower: {{ follower }}
+        following: {{ following }}
     </span>
 </template>
 
 <script>
     export default {
-        props: ['show', 'favorited'],
+        props: ['follower', 'following'],
 
         data: function() {
             return {
-                isFavorited: '',
+                isFollowed: '',
             }
         },
 
         mounted() {
-            this.isFavorited = this.isFavorite ? true : false;
+            this.isFollowed = this.hasFollowed ? true : false;
         },
 
         computed: {
-            isFavorite() {
-                return this.favorited;
+            hasFollowed() {
+                return this.following;
             },
         },
 
         methods: {
-            favorite(show) {
+            follow(following) {
                 let self = this;
-                axios.post('/favorite/'+show)
+                console.log('/follow/'+following);
+                axios.post('/follow/'+following)
                     .then(function (response) { 
-                        self.isFavorited = true;
+                        self.isFollowed = true;
                         self.$notify({
                             type: 'success',
-                            title: '<i class="fa fa-heart"></i> Yay! A new favorite!',
-                            text: 'You favorited this show!'
+                            title: '<i class="fa fa-heart"></i> Yay! New friends!',
+                            text: 'You followed this person!'
                         });
                     })
                     .catch(function (error) {
                         self.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Try reloading the page or contact the support! Failed to favorite the show.'
+                            text: 'Try reloading the page or contact the support! Failed to follow this person.'
                         });
                     });
             },
-            handleClick() {
-                console.log('h');
-            },
-            unFavorite(show) {
+            unfollow(following) {
                 let self = this;
-                axios.post('/unfavorite/'+show)
+                console.log('/unfollow/'+following);
+                axios.post('/unfollow/'+following)
                     .then(function (response) {
-                        self.isFavorited = false;
+                        self.isFollowed = false;
                         self.$notify({
                             type: 'warn',
                             title: '<i class="fa fa-meh-o"></i> Okay... Have a nice life!',
-                            text: 'You unfavorited this show!'
+                            text: 'You unfollowed this person!'
                         });
                     })
                     .catch(function (error) { 
                         self.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Try reloading the page or contact the support! Failed to unfavorite the show.'
+                            text: 'Try reloading the page or contact the support! Failed to unfollow this person.'
                         });
                     });
             }

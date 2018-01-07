@@ -18,12 +18,24 @@
     color: #636b6f;
 }
 
-.fa-heart, .fa-heart-o:hover {
+.fa-heart, .fa-heart-o:hover, .fa-meh-o, .fa-smile-o {
     color: #dc458f;
 }
 
 .fa-heart:hover {
     color: #636b6f;
+}
+
+.fa-ban {
+    color: #d83333;
+}
+
+.fa-star {
+    color: #ffb500;
+}
+
+.fa-frown-o, .fa-meh-o, .fa-smile-o {
+    font-size: 15px;
 }
 
 .star {
@@ -54,4 +66,24 @@
 .disabledStar {
     pointer-events: none;
     cursor: default;
+}
+
+.episodeDetail img {
+    width: 200px;
+    height: 112px;
+    object-fit: cover;
+}
+
+.episodeDetail div:nth-child(2) {
+    text-align: justify;
+}
+
+.np {
+    padding: 0 !important;
+}
+
+.VueStar {
+    position: absolute;
+    bottom: -55px;
+    left: -28px;
 }

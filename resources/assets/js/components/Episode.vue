@@ -1,5 +1,6 @@
 <template>
     <div id="app" class="episodeList">
+        <notifications></notifications>
         <ul class="nav nav-pills">
             <li 
                 v-for="(season, index) in showSeasons"
@@ -21,7 +22,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
-                            <th>Date</th>
+                            <th>Date aired</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -31,7 +32,7 @@
                             :key="index"
                             v-if="episode.season===season">
                                 <td>{{ episode.number }}</td>
-                                <td>{{ episode.name }}</td>
+                                <td><a :href="'/show/' + episode.show_id + '/episode/' + episode.id">{{ episode.name }}</a></td>
                                 <td>{{ episode.date_aired }}</td>
                                 <td>
                                     <watched
@@ -77,15 +78,31 @@
         methods: {
             getEpisodes()
             {
+                let self = this;
                 axios.get('/api/shows/'+ this.show + '/episodes')
-                    .then(response => {
-                        this.episodes = response.data.data;
+                    .then(function (response) {
+                        self.episodes = response.data.data;
+                    })
+                    .catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to load the episodes. '
+                        });
                     });
             },
             getSeasons () {
+                let self = this;
                 axios.get('/api/shows/'+ this.show)
-                    .then(response => {
-                        this.showSeasons = response.data.data.seasons;
+                    .then(function (response) {
+                        self.showSeasons = response.data.data.seasons;
+                    })
+                    .catch(function (error) { 
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to load the seasons of the show.'
+                        });
                     });
             },
             isActive (menuItem) {

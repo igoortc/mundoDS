@@ -22,8 +22,7 @@ class Show extends Model
         'imdb',
     ];
 
-    public function favorited()
-    {
+    public function favorited() {
         return (bool) Favorite::where('user_id', Auth::id())
                             ->where('show_id', $this->id)
                             ->first();

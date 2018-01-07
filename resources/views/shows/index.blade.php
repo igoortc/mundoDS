@@ -11,13 +11,20 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-md-3 col-3 poster">
+                            <div class="col-md-3 poster">
                                 <img src={{ $show->poster }}>
                             </div>
-                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9 showInfo">
+                            <div class="col-md-9 showInfo">
                                 <a href="{{ url('show') }}/{{ $show->id }}"><p>{{ $show->name }}</p></a>
                                 <div class="showDetail">
-                                    <span>{{ $show->seasons }} temporadas | </span>
+                                    <span>{{ $show->seasons }} seasons | </span>
+                                    @if ($show->status == 'E')
+                                    <span><i class="fa fa-television"></i> On air | </span>
+                                    @elseif ($show->status == 'F')
+                                    <span><i class="fa fa-paper-plane-o"></i> Finished | </span>
+                                    @elseif ($show->status == 'W')
+                                    <span><i class="fa fa-hand-paper-o"></i> To be released | </span>
+                                    @endif
                                     @if ($show->netflix != '')
                                     <a target="_blank" href={{ $show->netflix }}>
                                         <img alt="Netflix" src="https://assets.cdn.moviepilot.de/files/moviepilot/logos/netflix-archive.png/fill/16/16/netflix-archive.png">

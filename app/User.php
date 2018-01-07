@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Episode::class, 'watches', 'user_id', 'episode_id')->withTimeStamps();
     }
+
+    public function follows()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following', 'follower')->withTimeStamps();
+    }
 }

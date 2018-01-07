@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class EpisodeResource extends Resource
+class UserResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,7 @@ class EpisodeResource extends Resource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'show_id' => $this->show_id,
-            'season' => $this->season,
-            'number' => $this->number,
-            'synopsis' => $this->synopsis,
-            'date_aired' => $this->date_aired,
-            'image' => $this->image,
+            'email' => $this->email,
             'date' => $this->created_at->diffForHumans()
         ];
     }

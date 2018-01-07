@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Episode;
+use App\Show;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EpisodeResource;
@@ -21,5 +22,10 @@ class EpisodeController extends Controller
                     ->get();
 
         return  EpisodeResource::collection($episodes);
+    }
+
+    public function show(Show $show, Episode $episode)
+    {
+        return new EpisodeResource($episode);
     }
 }

@@ -69,6 +69,9 @@
                                         <a href="{{ url('my_watched') }}">My Watched</a>
                                     </li>
                                     <li>
+                                        <a href="{{ url('my_profile') }}">My Profile</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

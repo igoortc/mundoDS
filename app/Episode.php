@@ -15,18 +15,25 @@ class Episode extends Model
         'season',
         'number',
         'synopsis',
+        'image',
         'date_aired',
     ];
 
-    public function watched()
-    {
+    public function watched() {
         return (bool) Watch::where('user_id', Auth::id())
                             ->where('episode_id', $this->id)
                             ->first();
     }
 
-    public function getShow($id)
-    {
+    public function average() {
+        $average = Watch::where('episode_id', $this->id)
+                        ->avg('rating');
+        
+        return $average;
+
+    }
+
+    public function getShow($id) {
         $show = Show::find($id);
 
         return $show->name;

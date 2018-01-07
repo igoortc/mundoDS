@@ -1,0 +1,35 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <h3>{{ $episode->name }}</h3>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4><a href="{{ url('/show/' . $episode->show_id) }}">{{ $episode->getShow($episode->show_id) }}</a> - S{{ $episode->season }} x E{{ $episode->number }}</h4>
+                </div>
+
+                <div class="panel-body episodeDetail">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 np">
+                        <img src={{ $episode->image }}>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                        <p>{{ $episode->synopsis }}</p>
+                        @if (Auth::check())
+                        <p><strong>Your actions:</strong>
+                            <watched
+                                :episode={{ $episode->id }}
+                                :user={{ Auth::user()->id }}
+                            ></watched>
+                        </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+</div>
+@endsection

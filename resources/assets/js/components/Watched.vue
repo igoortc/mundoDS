@@ -1,5 +1,6 @@
 <template>
     <span>
+        <notifications></notifications>
         <a href="#" v-if="isWatched" @click.prevent="unwatch(episode)">
             <i class="fa fa-eye-slash"></i>
         </a>
@@ -51,9 +52,23 @@
                 this.watched.user_id = this.user;
                 this.watched.episode_id = episode;
                 this.watched.rating = 0;
-                axios.post('/api/users/'+ this.watched.user_id + '/watches', this.watched)
-                    .then(response => this.isWatched = true)
-                    .catch(response => console.log(response.data));
+                let self = this;
+                axios.post('/api/users/'+ self.watched.user_id + '/watches', self.watched)
+                    .then(function (response) {
+                        self.isWatched = true
+                        self.$notify({
+                            type: 'success',
+                            title: '<i class="fa fa-smile-o"></i> Yay! This show seems awesome!',
+                            text: 'You watched the episode!'
+                        });
+                    })
+                    .catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Watch the episode failed.'
+                        });
+                    });
                 this.getWatched();
             },
             unwatch(episode) {
@@ -64,13 +79,28 @@
                     }
                 }
                 this.value = null;
-                axios.delete('/api/users/'+ this.user + '/watches/' + watched_id)
-                    .then(response => this.isWatched = false)
-                    .catch(response => console.log(response.data));
+                let self = this;
+                axios.delete('/api/users/'+ self.user + '/watches/' + watched_id)
+                    .then(function (response) { 
+                        self.isWatched = false
+                        self.$notify({
+                            type: 'warn',
+                            title: '<i class="fa fa-ban"></i> You hated so much you even unwatched it?',
+                            text: 'You unwatched the episode!'
+                        });
+                    })
+                    .catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Unwatch the episode failed.'
+                        });
+                    });
             },
             getWatched() {
                 let self = this;
-                axios.get('/api/users/' + self.user + '/watches/').then(response => {
+                axios.get('/api/users/' + self.user + '/watches/')
+                    .then(function (response) {
                         self.watchedEpisodes = response.data.data;
                         for (let i = 0; i < self.watchedEpisodes.length; i++) {
                             if (self.watchedEpisodes[i].episode_id === self.episode) {
@@ -79,19 +109,25 @@
                                 self.isWatched = true;
                             }
                         }
+                    })
+                    .catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to load watched episodes.'
+                        });
                     });
             },
             star_over: function(index) {
-                var self = this;
+                let self = this;
                 this.temp_value = this.value;
                 return this.value = index;
             },
             star_out: function() {
-                var self = this;
+                let self = this;
                 return this.value = this.temp_value;
             },
             set: function(value, episode) {
-                var self = this;
                 this.temp_value = value;
                 let watched_id = '';
                 for (let i = 0; i < this.watchedEpisodes.length; i++) {
@@ -100,10 +136,24 @@
                     }
                 }
                 this.watched.rating = value;
-                axios.put('/api/users/'+ this.user + '/watches/' + watched_id + '?rating=' + this.watched.rating)
-                    .then(response => this.isRated = true)
-                    .catch(response => console.log(response.data));
-                return this.value = value;
+                let self = this;
+                axios.put('/api/users/'+ self.user + '/watches/' + watched_id + '?rating=' + self.watched.rating)
+                    .then(function (response) {
+                        self.isRated = true
+                        self.$notify({
+                            type: 'success',
+                            title: '<i class="fa fa-star"></i> Stars... stars everywhere!',
+                            text: 'You rated the episode!'
+                        });
+                    })
+                    .catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Rating episode failed.'
+                        });
+                    });
+                return self.value = value;
             }
         }
     }
