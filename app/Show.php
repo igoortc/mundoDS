@@ -29,9 +29,4 @@ class Show extends Model
                             ->where('show_id', $this->id)
                             ->first();
     }
-
-    // public function tvShowEpisodes()
-    // {
-    //     $this->hasMany('Episode', 'show_id', 'id');
-    // }
 }
