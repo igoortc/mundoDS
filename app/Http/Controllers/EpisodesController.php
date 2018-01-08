@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Episode;
 use App\Show;
+use App\Watch;
 use Illuminate\Http\Request;
 
 class EpisodesController extends Controller
@@ -20,6 +21,14 @@ class EpisodesController extends Controller
         $episode = Episode::where('id', $episode->id)
             ->first();
         return view('episodes.show', compact('episode'));
+    }
+
+    public function average($id) {
+        $average = Watch::where('episode_id', $id)
+                        ->avg('rating');
+        $avg = number_format($average, 1, '.', ',');
+        return $avg;
+
     }
 
     public function watchEpisode(Episode $episode)

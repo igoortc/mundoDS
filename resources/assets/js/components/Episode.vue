@@ -21,7 +21,7 @@
                     <thead class="thead-inverse">
                         <tr>
                             <th>#</th>
-                            <th>Title</th>
+                            <th>TitleZ</th>
                             <th>Date aired</th>
                             <th>Actions</th>
                         </tr>
@@ -31,7 +31,7 @@
                             v-for="(episode, index) in episodes" 
                             :key="index"
                             v-if="episode.season===season">
-                                <td>{{ episode.number }}</td>
+                                <td>{{ episode.number }} avg {{ average }}</td>
                                 <td><a :href="'/show/' + episode.show_id + '/episode/' + episode.id">{{ episode.name }}</a></td>
                                 <td>{{ episode.date_aired }}</td>
                                 <td>
@@ -63,6 +63,7 @@
                     synopsis: '',
                     date: '',
                 },
+                average: '',
                 episodes: [],
                 showSeasons: '',
                 activeSeason: 'T1',
@@ -71,11 +72,27 @@
         mounted() {
             this.getEpisodes();
             this.getSeasons();
+            // this.getAverage();
         },
         created() {
           this.startSeason();  
         },
         methods: {
+            // getAverage () {
+            //     let self = this;
+            //     console.log('/avgEpisode/' + this.episode.id)
+            //     axios.get('/avgEpisode/' + this.episode.id)
+            //         .then(function (response) {
+            //             self.average = response.data.data
+            //         })
+            //         .catch(function (error) {
+            //             self.$notify({
+            //                 type: 'error',
+            //                 title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+            //                 text: 'Try reloading the page or contact the support! Failed to load the episodes. '
+            //             });
+            //         });
+            // },
             getEpisodes()
             {
                 let self = this;
@@ -90,6 +107,7 @@
                             text: 'Try reloading the page or contact the support! Failed to load the episodes. '
                         });
                     });
+                console.log(self.episodes);
             },
             getSeasons () {
                 let self = this;

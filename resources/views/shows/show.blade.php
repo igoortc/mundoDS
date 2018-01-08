@@ -12,7 +12,7 @@
                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9 showInfo">
                         <p>{{ $show->name }}</p>
                         <div class="showDetail">
-                            <span>{{ $show->seasons }} temporadas | </span>
+                            <span>{{ $show->getAverage($show->id) }} <i class="fa fa-star"></i> | {{ $show->seasons }} temporadas | </span>
                             @if ($show->netflix != '')
                             <a target="_blank" href={{ $show->netflix }}>
                                 <img alt="Netflix" src="https://assets.cdn.moviepilot.de/files/moviepilot/logos/netflix-archive.png/fill/16/16/netflix-archive.png">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ShowsController extends Controller
 {
@@ -55,4 +56,13 @@ class ShowsController extends Controller
 
     //     return back();
     // }
+
+    public function average($id) {
+        $show = Show::find($id);
+        $episodes = DB::table('watches')
+        ->join('episodes', 'watches.episode_id', '=', 'episodes.id')
+        ->avg('watches.rating');
+
+        return $episodes;
+    }
 }

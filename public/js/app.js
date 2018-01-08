@@ -44334,6 +44334,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 synopsis: '',
                 date: ''
             },
+            average: '',
             episodes: [],
             showSeasons: '',
             activeSeason: 'T1'
@@ -44342,12 +44343,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         this.getEpisodes();
         this.getSeasons();
+        // this.getAverage();
     },
     created: function created() {
         this.startSeason();
     },
 
     methods: {
+        // getAverage () {
+        //     let self = this;
+        //     console.log('/avgEpisode/' + this.episode.id)
+        //     axios.get('/avgEpisode/' + this.episode.id)
+        //         .then(function (response) {
+        //             self.average = response.data.data
+        //         })
+        //         .catch(function (error) {
+        //             self.$notify({
+        //                 type: 'error',
+        //                 title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+        //                 text: 'Try reloading the page or contact the support! Failed to load the episodes. '
+        //             });
+        //         });
+        // },
         getEpisodes: function getEpisodes() {
             var self = this;
             axios.get('/api/shows/' + this.show + '/episodes').then(function (response) {
@@ -44359,6 +44376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     text: 'Try reloading the page or contact the support! Failed to load the episodes. '
                 });
             });
+            console.log(self.episodes);
         },
         getSeasons: function getSeasons() {
             var self = this;
@@ -44453,7 +44471,13 @@ var render = function() {
                       _vm._l(_vm.episodes, function(episode, index) {
                         return episode.season === season
                           ? _c("tr", { key: index }, [
-                              _c("td", [_vm._v(_vm._s(episode.number))]),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(episode.number) +
+                                    " avg " +
+                                    _vm._s(_vm.average)
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -44510,7 +44534,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Title")]),
+        _c("th", [_vm._v("TitleZ")]),
         _vm._v(" "),
         _c("th", [_vm._v("Date aired")]),
         _vm._v(" "),

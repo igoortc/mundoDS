@@ -34,3 +34,7 @@ Route::get('user/{user}', 'UsersController@show');
 
 Route::post('follow/{user}', 'UsersController@followUser');
 Route::post('unfollow/{user}', 'UsersController@unfollowUser');
+
+Route::get('average/{show}', 'ShowsController@average');
+
+Route::get('avgEpisode/{episode}', 'EpisodesController@average');
