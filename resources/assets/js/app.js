@@ -10,6 +10,8 @@ Vue.component('favorite', require('./components/Favorite.vue'));
 Vue.component('episodes', require('./components/Episode.vue'));
 Vue.component('watched', require('./components/Watched.vue'));
 Vue.component('follow', require('./components/Follow.vue'));
+Vue.component('followers', require('./components/Followers.vue'));
+Vue.component('following', require('./components/Following.vue'));
 
 const app = new Vue({
     el: '#app'

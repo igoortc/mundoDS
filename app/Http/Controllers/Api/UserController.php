@@ -12,7 +12,6 @@ class UserController extends Controller
     public function index()
     {
         $users = User::latest()
-            ->ignoreFlagged()
             ->paginate(20);
 
         return UserResource::collection($users);

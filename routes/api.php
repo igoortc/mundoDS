@@ -20,3 +20,5 @@ Route::resource('shows', 'Api\ShowController');
 Route::resource('shows.episodes', 'Api\EpisodeController');
 Route::resource('users.watches', 'Api\WatchController');
 Route::resource('users', 'Api\UserController');
+Route::resource('user.following', 'Api\UserFollowController');
+Route::resource('user.followers', 'Api\FollowController');

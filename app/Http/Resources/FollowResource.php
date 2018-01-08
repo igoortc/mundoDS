@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class UserResource extends Resource
+class FollowResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,8 @@ class UserResource extends Resource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
+            'user_id' => $this->user_id,
+            'following_id' => $this->following_id,
             'date' => $this->created_at->diffForHumans()
         ];
     }

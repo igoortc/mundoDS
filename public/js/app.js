@@ -11889,7 +11889,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(53);
+module.exports = __webpack_require__(59);
 
 
 /***/ }),
@@ -11916,6 +11916,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('favorite', __webpack_requ
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('episodes', __webpack_require__(44));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('watched', __webpack_require__(47));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('follow', __webpack_require__(50));
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('followers', __webpack_require__(53));
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('following', __webpack_require__(56));
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#app'
@@ -44901,11 +44903,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['follower', 'following'],
+    props: ['user_id', 'following_id'],
 
     data: function data() {
         return {
@@ -44920,15 +44920,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         hasFollowed: function hasFollowed() {
-            return this.following;
+            return this.following_id;
         }
     },
 
     methods: {
-        follow: function follow(following) {
+        follow: function follow(user_id) {
             var self = this;
-            console.log('/follow/' + following);
-            axios.post('/follow/' + following).then(function (response) {
+            axios.post('/follow/' + user_id).then(function (response) {
                 self.isFollowed = true;
                 self.$notify({
                     type: 'success',
@@ -44943,10 +44942,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
         },
-        unfollow: function unfollow(following) {
+        unfollow: function unfollow(user_id) {
             var self = this;
-            console.log('/unfollow/' + following);
-            axios.post('/unfollow/' + following).then(function (response) {
+            axios.post('/unfollow/' + user_id).then(function (response) {
                 self.isFollowed = false;
                 self.$notify({
                     type: 'warn',
@@ -44985,7 +44983,7 @@ var render = function() {
               on: {
                 click: function($event) {
                   $event.preventDefault()
-                  _vm.unfollow(_vm.following)
+                  _vm.unfollow(_vm.user_id)
                 }
               }
             },
@@ -45002,7 +45000,7 @@ var render = function() {
               on: {
                 click: function($event) {
                   $event.preventDefault()
-                  _vm.follow(_vm.following)
+                  _vm.follow(_vm.user_id)
                 }
               }
             },
@@ -45011,14 +45009,7 @@ var render = function() {
               _vm._v(" "),
               _c("span", [_vm._v("Follow this person!")])
             ]
-          ),
-      _vm._v(
-        "\n    follower: " +
-          _vm._s(_vm.follower) +
-          "\n    following: " +
-          _vm._s(_vm.following) +
-          "\n"
-      )
+          )
     ],
     1
   )
@@ -45035,6 +45026,302 @@ if (false) {
 
 /***/ }),
 /* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(54)
+/* template */
+var __vue_template__ = __webpack_require__(55)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Followers.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7c12dd24", Component.options)
+  } else {
+    hotAPI.reload("data-v-7c12dd24", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['user'],
+
+    data: function data() {
+        return {
+            followers: [],
+            followersInfo: [],
+            count: 0
+        };
+    },
+
+    mounted: function mounted() {
+        this.getFollowers();
+    },
+
+
+    methods: {
+        getFollowers: function getFollowers() {
+            var self = this;
+            var followers = [];
+            axios.get('/api/user/' + self.user + '/followers/').then(function (response) {
+                followers = response.data.data;
+                for (var i = 0; i < followers.length; i++) {
+                    axios.get('/api/users/' + followers[i].user_id).then(function (response) {
+                        self.followersInfo.push(response.data.data);
+                        self.count++;
+                    }).catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to load followers.'
+                        });
+                    });
+                }
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to load followers.'
+                });
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    [
+      _c("notifications"),
+      _vm._v("\n    (" + _vm._s(_vm.count) + ")\n    "),
+      _vm.followersInfo.length === 0
+        ? _c("div", [_vm._v("\n        No followers!\n    ")])
+        : _vm._l(_vm.followersInfo, function(follower, index) {
+            return _c("div", { key: index }, [
+              _c("a", { attrs: { href: "/user/" + follower.id } }, [
+                _vm._v(" " + _vm._s(follower.name) + " ")
+              ])
+            ])
+          })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7c12dd24", module.exports)
+  }
+}
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(57)
+/* template */
+var __vue_template__ = __webpack_require__(58)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Following.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e3d9fc2c", Component.options)
+  } else {
+    hotAPI.reload("data-v-e3d9fc2c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['user'],
+
+    data: function data() {
+        return {
+            following: [],
+            followingInfo: [],
+            count: 0
+        };
+    },
+
+    mounted: function mounted() {
+        this.getFollowing();
+    },
+
+
+    methods: {
+        getFollowing: function getFollowing() {
+            var self = this;
+            var following = [];
+            axios.get('/api/user/' + self.user + '/following/').then(function (response) {
+                following = response.data.data;
+                for (var i = 0; i < following.length; i++) {
+                    axios.get('/api/users/' + following[i].following_id).then(function (response) {
+                        self.followingInfo.push(response.data.data);
+                        self.count++;
+                    }).catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to load following.'
+                        });
+                    });
+                }
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to load following.'
+                });
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    [
+      _c("notifications"),
+      _vm._v("\n    (" + _vm._s(_vm.count) + ")\n    "),
+      _vm.followingInfo.length === 0
+        ? _c("div", [_vm._v("\n        No following!\n    ")])
+        : _vm._l(_vm.followingInfo, function(following, index) {
+            return _c("div", { key: index }, [
+              _c("a", { attrs: { href: "/user/" + following.id } }, [
+                _vm._v(" " + _vm._s(following.name) + " ")
+              ])
+            ])
+          })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e3d9fc2c", module.exports)
+  }
+}
+
+/***/ }),
+/* 59 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

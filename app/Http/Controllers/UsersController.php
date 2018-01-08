@@ -43,6 +43,13 @@ class UsersController extends Controller
         return view('users.my_profile', compact('myProfile'));
     }
 
+    public function following()
+    {
+        $following = Auth::user()->follows;
+
+        return view('users.following', compact('following'));
+    }
+
     public function followUser(User $user)
     {
         Auth::user()->follows()->attach($user->id);

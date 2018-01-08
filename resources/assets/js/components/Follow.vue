@@ -1,20 +1,18 @@
 <template>
     <span>
         <notifications></notifications>
-        <a href="#" v-if="isFollowed" @click.prevent="unfollow(following)">
+        <a href="#" v-if="isFollowed" @click.prevent="unfollow(user_id)">
             <i class="fa fa-heart"></i> <span>Followed!</span>
         </a>
-        <a href="#" v-else @click.prevent="follow(following)">
+        <a href="#" v-else @click.prevent="follow(user_id)">
             <i class="fa fa-heart-o"></i> <span>Follow this person!</span>
         </a>
-        follower: {{ follower }}
-        following: {{ following }}
     </span>
 </template>
 
 <script>
     export default {
-        props: ['follower', 'following'],
+        props: ['user_id', 'following_id'],
 
         data: function() {
             return {
@@ -28,15 +26,14 @@
 
         computed: {
             hasFollowed() {
-                return this.following;
+                return this.following_id;
             },
         },
 
         methods: {
-            follow(following) {
+            follow(user_id) {
                 let self = this;
-                console.log('/follow/'+following);
-                axios.post('/follow/'+following)
+                axios.post('/follow/'+user_id)
                     .then(function (response) { 
                         self.isFollowed = true;
                         self.$notify({
@@ -53,10 +50,9 @@
                         });
                     });
             },
-            unfollow(following) {
+            unfollow(user_id) {
                 let self = this;
-                console.log('/unfollow/'+following);
-                axios.post('/unfollow/'+following)
+                axios.post('/unfollow/'+user_id)
                     .then(function (response) {
                         self.isFollowed = false;
                         self.$notify({
