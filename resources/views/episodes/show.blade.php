@@ -6,6 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="page-header">
                 <h3>{{ $episode->name }}</h3>
+                <h5><i class="fa fa-star"></i> {{ $episode->average() }}</h5>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">

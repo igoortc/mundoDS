@@ -10,7 +10,7 @@
                         <img src={{ $show->poster }}>
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9 showInfo">
-                        <p>{{ $show->name }}</p>
+                        <p>{{ $show->name }} XX {{ $show->average() }} </p>
                         <div class="showDetail">
                             <span>{{ $show->seasons }} temporadas | </span>
                             @if ($show->netflix != '')

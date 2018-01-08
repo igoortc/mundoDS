@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Favorite;
+use App\Watch;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Show extends Model
@@ -28,8 +30,8 @@ class Show extends Model
                             ->first();
     }
 
-    // public function episodes()
+    // public function tvShowEpisodes()
     // {
-    //     return $this->hasMany(Episode::class, 'episodes', 'id', 'show_id')->withTimeStamps();
+    //     $this->hasMany('Episode', 'show_id', 'id');
     // }
 }

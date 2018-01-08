@@ -28,8 +28,8 @@ class Episode extends Model
     public function average() {
         $average = Watch::where('episode_id', $this->id)
                         ->avg('rating');
-        
-        return $average;
+        $avg = number_format($average, 2, '.', ',');
+        return $avg;
 
     }
 
