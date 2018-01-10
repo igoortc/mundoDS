@@ -21,7 +21,7 @@
                     <thead class="thead-inverse">
                         <tr>
                             <th>#</th>
-                            <th>TitleZ</th>
+                            <th>Title</th>
                             <th>Date aired</th>
                             <th>Actions</th>
                         </tr>

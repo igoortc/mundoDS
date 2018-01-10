@@ -29,6 +29,10 @@
                         @endif
                     </div>
                 </div>
+                <comment 
+                    :commenturl={{ $episode->id }}
+                    :user={{ Auth::user()->id }}
+                ></comment>
             </div>
          </div>
     </div>

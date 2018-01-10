@@ -15,18 +15,18 @@
                             <span>{{ $show->getAverage($show->id) }} <i class="fa fa-star"></i> | {{ $show->seasons }} temporadas | </span>
                             @if ($show->netflix != '')
                             <a target="_blank" href={{ $show->netflix }}>
-                                <img alt="Netflix" src="https://assets.cdn.moviepilot.de/files/moviepilot/logos/netflix-archive.png/fill/16/16/netflix-archive.png">
+                                <img alt="Netflix" src="/images/netflix.png">
                             </a>
                             @else
-                            <img class="unavailable" alt="Netflix" src="https://assets.cdn.moviepilot.de/files/moviepilot/logos/netflix-archive.png/fill/16/16/netflix-archive.png">
+                            <img class="unavailable" alt="Netflix" src="/images/netflix.png">
                             @endif
                             &nbsp;
                             @if ($show->imdb != '')
                             <a target="_blank" href={{ $show->imdb }}>
-                                <img alt="IMDb" src="https://250.took.nl/img/icon_imdb.png">
+                                <img alt="IMDb" src="/images/imdb.png">
                             </a>
                             @else
-                            <img class="unavailable" alt="IMDb" src="https://250.took.nl/img/icon_imdb.png">
+                            <img class="unavailable" alt="IMDb" src="/images/imdb.png">
                             @endif
                         </div>
                         <p>{{ $show->synopsis }}</p>

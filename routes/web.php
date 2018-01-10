@@ -38,3 +38,9 @@ Route::post('unfollow/{user}', 'UsersController@unfollowUser');
 Route::get('average/{show}', 'ShowsController@average');
 
 Route::get('avgEpisode/{episode}', 'EpisodesController@average');
+
+Route::get('comments/{episode}', 'CommentController@index');
+
+Route::post('comments', 'CommentController@store');
+
+Route::post('comments/{commentId}/{type}', 'CommentController@update');

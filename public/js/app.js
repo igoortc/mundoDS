@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,7 +70,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(7);
 var isBuffer = __webpack_require__(22);
 
 /*global toString:true*/
@@ -11350,10 +11350,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(8);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(8);
   }
   return adapter;
 }
@@ -11424,557 +11424,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(25);
-var buildURL = __webpack_require__(27);
-var parseHeaders = __webpack_require__(28);
-var isURLSameOrigin = __webpack_require__(29);
-var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(30);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(31);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
-        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-        if (config.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(26);
-
-/**
- * Create an Error with the specified message, config, error code, request and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, request, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, request, response);
-};
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(12);
-module.exports = __webpack_require__(59);
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_notification__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_notification___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_notification__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_star__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_star___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_star__);
-
-__webpack_require__(13);
-
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_notification___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('VueStar', __WEBPACK_IMPORTED_MODULE_2_vue_star___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('favorite', __webpack_require__(41));
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('episodes', __webpack_require__(44));
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('watched', __webpack_require__(47));
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('follow', __webpack_require__(50));
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('followers', __webpack_require__(53));
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('following', __webpack_require__(56));
-
-var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-    el: '#app'
-});
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-window._ = __webpack_require__(14);
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-window.$ = window.jQuery = __webpack_require__(16);
-
-__webpack_require__(17);
-
-/**
- * Vue is a modern JavaScript library for building interactive web interfaces
- * using reactive data binding and reusable components. Vue's API is clean
- * and simple, leaving you to focus on building your next great project.
- */
-
-window.Vue = __webpack_require__(3);
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-window.axios = __webpack_require__(20);
-
-window.axios.defaults.headers.common = {
-  'X-Requested-With': 'XMLHttpRequest'
-};
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from "laravel-echo"
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
-
-/***/ }),
-/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -29066,6 +28519,558 @@ window.axios.defaults.headers.common = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(15)(module)))
 
 /***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(25);
+var buildURL = __webpack_require__(27);
+var parseHeaders = __webpack_require__(28);
+var isURLSameOrigin = __webpack_require__(29);
+var createError = __webpack_require__(9);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(30);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("development" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(31);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(26);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(13);
+module.exports = __webpack_require__(65);
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_resource__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_notification__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_notification___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_notification__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_star__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_star___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_star__);
+
+__webpack_require__(14);
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_0_vue_resource__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_notification___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('VueStar', __WEBPACK_IMPORTED_MODULE_3_vue_star___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('paginate', __webpack_require__(43));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('favorite', __webpack_require__(44));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episodes', __webpack_require__(47));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('watched', __webpack_require__(50));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('follow', __webpack_require__(53));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('followers', __webpack_require__(56));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('following', __webpack_require__(59));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('comment', __webpack_require__(62));
+
+var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
+    el: '#app'
+});
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+window._ = __webpack_require__(5);
+
+/**
+ * We'll load jQuery and the Bootstrap jQuery plugin which provides support
+ * for JavaScript based Bootstrap features such as modals and tabs. This
+ * code may be modified to fit the specific needs of your application.
+ */
+
+window.$ = window.jQuery = __webpack_require__(16);
+
+__webpack_require__(17);
+
+/**
+ * Vue is a modern JavaScript library for building interactive web interfaces
+ * using reactive data binding and reusable components. Vue's API is clean
+ * and simple, leaving you to focus on building your next great project.
+ */
+
+window.Vue = __webpack_require__(3);
+
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
+
+window.axios = __webpack_require__(20);
+
+window.axios.defaults.headers.common = {
+  'X-Requested-With': 'XMLHttpRequest'
+};
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
+// import Echo from "laravel-echo"
+
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: 'your-pusher-key'
+// });
+
+/***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
@@ -41986,7 +41991,7 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(6)))
 
 /***/ }),
 /* 20 */
@@ -42002,7 +42007,7 @@ module.exports = __webpack_require__(21);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(7);
 var Axios = __webpack_require__(23);
 var defaults = __webpack_require__(4);
 
@@ -42037,9 +42042,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(10);
+axios.Cancel = __webpack_require__(11);
 axios.CancelToken = __webpack_require__(37);
-axios.isCancel = __webpack_require__(9);
+axios.isCancel = __webpack_require__(10);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -42192,7 +42197,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -42627,7 +42632,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(34);
-var isCancel = __webpack_require__(9);
+var isCancel = __webpack_require__(10);
 var defaults = __webpack_require__(4);
 var isAbsoluteURL = __webpack_require__(35);
 var combineURLs = __webpack_require__(36);
@@ -42787,7 +42792,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(10);
+var Cancel = __webpack_require__(11);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -42880,6 +42885,1590 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Url */
+/* unused harmony export Http */
+/* unused harmony export Resource */
+/*!
+ * vue-resource v1.3.5
+ * https://github.com/pagekit/vue-resource
+ * Released under the MIT License.
+ */
+
+/**
+ * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
+ */
+
+var RESOLVED = 0;
+var REJECTED = 1;
+var PENDING  = 2;
+
+function Promise$1(executor) {
+
+    this.state = PENDING;
+    this.value = undefined;
+    this.deferred = [];
+
+    var promise = this;
+
+    try {
+        executor(function (x) {
+            promise.resolve(x);
+        }, function (r) {
+            promise.reject(r);
+        });
+    } catch (e) {
+        promise.reject(e);
+    }
+}
+
+Promise$1.reject = function (r) {
+    return new Promise$1(function (resolve, reject) {
+        reject(r);
+    });
+};
+
+Promise$1.resolve = function (x) {
+    return new Promise$1(function (resolve, reject) {
+        resolve(x);
+    });
+};
+
+Promise$1.all = function all(iterable) {
+    return new Promise$1(function (resolve, reject) {
+        var count = 0, result = [];
+
+        if (iterable.length === 0) {
+            resolve(result);
+        }
+
+        function resolver(i) {
+            return function (x) {
+                result[i] = x;
+                count += 1;
+
+                if (count === iterable.length) {
+                    resolve(result);
+                }
+            };
+        }
+
+        for (var i = 0; i < iterable.length; i += 1) {
+            Promise$1.resolve(iterable[i]).then(resolver(i), reject);
+        }
+    });
+};
+
+Promise$1.race = function race(iterable) {
+    return new Promise$1(function (resolve, reject) {
+        for (var i = 0; i < iterable.length; i += 1) {
+            Promise$1.resolve(iterable[i]).then(resolve, reject);
+        }
+    });
+};
+
+var p$1 = Promise$1.prototype;
+
+p$1.resolve = function resolve(x) {
+    var promise = this;
+
+    if (promise.state === PENDING) {
+        if (x === promise) {
+            throw new TypeError('Promise settled with itself.');
+        }
+
+        var called = false;
+
+        try {
+            var then = x && x['then'];
+
+            if (x !== null && typeof x === 'object' && typeof then === 'function') {
+                then.call(x, function (x) {
+                    if (!called) {
+                        promise.resolve(x);
+                    }
+                    called = true;
+
+                }, function (r) {
+                    if (!called) {
+                        promise.reject(r);
+                    }
+                    called = true;
+                });
+                return;
+            }
+        } catch (e) {
+            if (!called) {
+                promise.reject(e);
+            }
+            return;
+        }
+
+        promise.state = RESOLVED;
+        promise.value = x;
+        promise.notify();
+    }
+};
+
+p$1.reject = function reject(reason) {
+    var promise = this;
+
+    if (promise.state === PENDING) {
+        if (reason === promise) {
+            throw new TypeError('Promise settled with itself.');
+        }
+
+        promise.state = REJECTED;
+        promise.value = reason;
+        promise.notify();
+    }
+};
+
+p$1.notify = function notify() {
+    var promise = this;
+
+    nextTick(function () {
+        if (promise.state !== PENDING) {
+            while (promise.deferred.length) {
+                var deferred = promise.deferred.shift(),
+                    onResolved = deferred[0],
+                    onRejected = deferred[1],
+                    resolve = deferred[2],
+                    reject = deferred[3];
+
+                try {
+                    if (promise.state === RESOLVED) {
+                        if (typeof onResolved === 'function') {
+                            resolve(onResolved.call(undefined, promise.value));
+                        } else {
+                            resolve(promise.value);
+                        }
+                    } else if (promise.state === REJECTED) {
+                        if (typeof onRejected === 'function') {
+                            resolve(onRejected.call(undefined, promise.value));
+                        } else {
+                            reject(promise.value);
+                        }
+                    }
+                } catch (e) {
+                    reject(e);
+                }
+            }
+        }
+    });
+};
+
+p$1.then = function then(onResolved, onRejected) {
+    var promise = this;
+
+    return new Promise$1(function (resolve, reject) {
+        promise.deferred.push([onResolved, onRejected, resolve, reject]);
+        promise.notify();
+    });
+};
+
+p$1.catch = function (onRejected) {
+    return this.then(undefined, onRejected);
+};
+
+/**
+ * Promise adapter.
+ */
+
+if (typeof Promise === 'undefined') {
+    window.Promise = Promise$1;
+}
+
+function PromiseObj(executor, context) {
+
+    if (executor instanceof Promise) {
+        this.promise = executor;
+    } else {
+        this.promise = new Promise(executor.bind(context));
+    }
+
+    this.context = context;
+}
+
+PromiseObj.all = function (iterable, context) {
+    return new PromiseObj(Promise.all(iterable), context);
+};
+
+PromiseObj.resolve = function (value, context) {
+    return new PromiseObj(Promise.resolve(value), context);
+};
+
+PromiseObj.reject = function (reason, context) {
+    return new PromiseObj(Promise.reject(reason), context);
+};
+
+PromiseObj.race = function (iterable, context) {
+    return new PromiseObj(Promise.race(iterable), context);
+};
+
+var p = PromiseObj.prototype;
+
+p.bind = function (context) {
+    this.context = context;
+    return this;
+};
+
+p.then = function (fulfilled, rejected) {
+
+    if (fulfilled && fulfilled.bind && this.context) {
+        fulfilled = fulfilled.bind(this.context);
+    }
+
+    if (rejected && rejected.bind && this.context) {
+        rejected = rejected.bind(this.context);
+    }
+
+    return new PromiseObj(this.promise.then(fulfilled, rejected), this.context);
+};
+
+p.catch = function (rejected) {
+
+    if (rejected && rejected.bind && this.context) {
+        rejected = rejected.bind(this.context);
+    }
+
+    return new PromiseObj(this.promise.catch(rejected), this.context);
+};
+
+p.finally = function (callback) {
+
+    return this.then(function (value) {
+            callback.call(this);
+            return value;
+        }, function (reason) {
+            callback.call(this);
+            return Promise.reject(reason);
+        }
+    );
+};
+
+/**
+ * Utility functions.
+ */
+
+var ref = {};
+var hasOwnProperty = ref.hasOwnProperty;
+
+var ref$1 = [];
+var slice = ref$1.slice;
+var debug = false;
+var ntick;
+
+var inBrowser = typeof window !== 'undefined';
+
+function Util (ref) {
+    var config = ref.config;
+    var nextTick = ref.nextTick;
+
+    ntick = nextTick;
+    debug = config.debug || !config.silent;
+}
+
+function warn(msg) {
+    if (typeof console !== 'undefined' && debug) {
+        console.warn('[VueResource warn]: ' + msg);
+    }
+}
+
+function error(msg) {
+    if (typeof console !== 'undefined') {
+        console.error(msg);
+    }
+}
+
+function nextTick(cb, ctx) {
+    return ntick(cb, ctx);
+}
+
+function trim(str) {
+    return str ? str.replace(/^\s*|\s*$/g, '') : '';
+}
+
+function trimEnd(str, chars) {
+
+    if (str && chars === undefined) {
+        return str.replace(/\s+$/, '');
+    }
+
+    if (!str || !chars) {
+        return str;
+    }
+
+    return str.replace(new RegExp(("[" + chars + "]+$")), '');
+}
+
+function toLower(str) {
+    return str ? str.toLowerCase() : '';
+}
+
+function toUpper(str) {
+    return str ? str.toUpperCase() : '';
+}
+
+var isArray = Array.isArray;
+
+function isString(val) {
+    return typeof val === 'string';
+}
+
+
+
+function isFunction(val) {
+    return typeof val === 'function';
+}
+
+function isObject(obj) {
+    return obj !== null && typeof obj === 'object';
+}
+
+function isPlainObject(obj) {
+    return isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
+}
+
+function isBlob(obj) {
+    return typeof Blob !== 'undefined' && obj instanceof Blob;
+}
+
+function isFormData(obj) {
+    return typeof FormData !== 'undefined' && obj instanceof FormData;
+}
+
+function when(value, fulfilled, rejected) {
+
+    var promise = PromiseObj.resolve(value);
+
+    if (arguments.length < 2) {
+        return promise;
+    }
+
+    return promise.then(fulfilled, rejected);
+}
+
+function options(fn, obj, opts) {
+
+    opts = opts || {};
+
+    if (isFunction(opts)) {
+        opts = opts.call(obj);
+    }
+
+    return merge(fn.bind({$vm: obj, $options: opts}), fn, {$options: opts});
+}
+
+function each(obj, iterator) {
+
+    var i, key;
+
+    if (isArray(obj)) {
+        for (i = 0; i < obj.length; i++) {
+            iterator.call(obj[i], obj[i], i);
+        }
+    } else if (isObject(obj)) {
+        for (key in obj) {
+            if (hasOwnProperty.call(obj, key)) {
+                iterator.call(obj[key], obj[key], key);
+            }
+        }
+    }
+
+    return obj;
+}
+
+var assign = Object.assign || _assign;
+
+function merge(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+        _merge(target, source, true);
+    });
+
+    return target;
+}
+
+function defaults(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+
+        for (var key in source) {
+            if (target[key] === undefined) {
+                target[key] = source[key];
+            }
+        }
+
+    });
+
+    return target;
+}
+
+function _assign(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+        _merge(target, source);
+    });
+
+    return target;
+}
+
+function _merge(target, source, deep) {
+    for (var key in source) {
+        if (deep && (isPlainObject(source[key]) || isArray(source[key]))) {
+            if (isPlainObject(source[key]) && !isPlainObject(target[key])) {
+                target[key] = {};
+            }
+            if (isArray(source[key]) && !isArray(target[key])) {
+                target[key] = [];
+            }
+            _merge(target[key], source[key], deep);
+        } else if (source[key] !== undefined) {
+            target[key] = source[key];
+        }
+    }
+}
+
+/**
+ * Root Prefix Transform.
+ */
+
+function root (options$$1, next) {
+
+    var url = next(options$$1);
+
+    if (isString(options$$1.root) && !/^(https?:)?\//.test(url)) {
+        url = trimEnd(options$$1.root, '/') + '/' + url;
+    }
+
+    return url;
+}
+
+/**
+ * Query Parameter Transform.
+ */
+
+function query (options$$1, next) {
+
+    var urlParams = Object.keys(Url.options.params), query = {}, url = next(options$$1);
+
+    each(options$$1.params, function (value, key) {
+        if (urlParams.indexOf(key) === -1) {
+            query[key] = value;
+        }
+    });
+
+    query = Url.params(query);
+
+    if (query) {
+        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
+    }
+
+    return url;
+}
+
+/**
+ * URL Template v2.0.6 (https://github.com/bramstein/url-template)
+ */
+
+function expand(url, params, variables) {
+
+    var tmpl = parse(url), expanded = tmpl.expand(params);
+
+    if (variables) {
+        variables.push.apply(variables, tmpl.vars);
+    }
+
+    return expanded;
+}
+
+function parse(template) {
+
+    var operators = ['+', '#', '.', '/', ';', '?', '&'], variables = [];
+
+    return {
+        vars: variables,
+        expand: function expand(context) {
+            return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
+                if (expression) {
+
+                    var operator = null, values = [];
+
+                    if (operators.indexOf(expression.charAt(0)) !== -1) {
+                        operator = expression.charAt(0);
+                        expression = expression.substr(1);
+                    }
+
+                    expression.split(/,/g).forEach(function (variable) {
+                        var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
+                        values.push.apply(values, getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+                        variables.push(tmp[1]);
+                    });
+
+                    if (operator && operator !== '+') {
+
+                        var separator = ',';
+
+                        if (operator === '?') {
+                            separator = '&';
+                        } else if (operator !== '#') {
+                            separator = operator;
+                        }
+
+                        return (values.length !== 0 ? operator : '') + values.join(separator);
+                    } else {
+                        return values.join(',');
+                    }
+
+                } else {
+                    return encodeReserved(literal);
+                }
+            });
+        }
+    };
+}
+
+function getValues(context, operator, key, modifier) {
+
+    var value = context[key], result = [];
+
+    if (isDefined(value) && value !== '') {
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+            value = value.toString();
+
+            if (modifier && modifier !== '*') {
+                value = value.substring(0, parseInt(modifier, 10));
+            }
+
+            result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
+        } else {
+            if (modifier === '*') {
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
+                    });
+                } else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            result.push(encodeValue(operator, value[k], k));
+                        }
+                    });
+                }
+            } else {
+                var tmp = [];
+
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        tmp.push(encodeValue(operator, value));
+                    });
+                } else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            tmp.push(encodeURIComponent(k));
+                            tmp.push(encodeValue(operator, value[k].toString()));
+                        }
+                    });
+                }
+
+                if (isKeyOperator(operator)) {
+                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
+                } else if (tmp.length !== 0) {
+                    result.push(tmp.join(','));
+                }
+            }
+        }
+    } else {
+        if (operator === ';') {
+            result.push(encodeURIComponent(key));
+        } else if (value === '' && (operator === '&' || operator === '?')) {
+            result.push(encodeURIComponent(key) + '=');
+        } else if (value === '') {
+            result.push('');
+        }
+    }
+
+    return result;
+}
+
+function isDefined(value) {
+    return value !== undefined && value !== null;
+}
+
+function isKeyOperator(operator) {
+    return operator === ';' || operator === '&' || operator === '?';
+}
+
+function encodeValue(operator, value, key) {
+
+    value = (operator === '+' || operator === '#') ? encodeReserved(value) : encodeURIComponent(value);
+
+    if (key) {
+        return encodeURIComponent(key) + '=' + value;
+    } else {
+        return value;
+    }
+}
+
+function encodeReserved(str) {
+    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
+        if (!/%[0-9A-Fa-f]/.test(part)) {
+            part = encodeURI(part);
+        }
+        return part;
+    }).join('');
+}
+
+/**
+ * URL Template (RFC 6570) Transform.
+ */
+
+function template (options) {
+
+    var variables = [], url = expand(options.url, options.params, variables);
+
+    variables.forEach(function (key) {
+        delete options.params[key];
+    });
+
+    return url;
+}
+
+/**
+ * Service for URL templating.
+ */
+
+function Url(url, params) {
+
+    var self = this || {}, options$$1 = url, transform;
+
+    if (isString(url)) {
+        options$$1 = {url: url, params: params};
+    }
+
+    options$$1 = merge({}, Url.options, self.$options, options$$1);
+
+    Url.transforms.forEach(function (handler) {
+
+        if (isString(handler)) {
+            handler = Url.transform[handler];
+        }
+
+        if (isFunction(handler)) {
+            transform = factory(handler, transform, self.$vm);
+        }
+
+    });
+
+    return transform(options$$1);
+}
+
+/**
+ * Url options.
+ */
+
+Url.options = {
+    url: '',
+    root: null,
+    params: {}
+};
+
+/**
+ * Url transforms.
+ */
+
+Url.transform = {template: template, query: query, root: root};
+Url.transforms = ['template', 'query', 'root'];
+
+/**
+ * Encodes a Url parameter string.
+ *
+ * @param {Object} obj
+ */
+
+Url.params = function (obj) {
+
+    var params = [], escape = encodeURIComponent;
+
+    params.add = function (key, value) {
+
+        if (isFunction(value)) {
+            value = value();
+        }
+
+        if (value === null) {
+            value = '';
+        }
+
+        this.push(escape(key) + '=' + escape(value));
+    };
+
+    serialize(params, obj);
+
+    return params.join('&').replace(/%20/g, '+');
+};
+
+/**
+ * Parse a URL and return its components.
+ *
+ * @param {String} url
+ */
+
+Url.parse = function (url) {
+
+    var el = document.createElement('a');
+
+    if (document.documentMode) {
+        el.href = url;
+        url = el.href;
+    }
+
+    el.href = url;
+
+    return {
+        href: el.href,
+        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
+        port: el.port,
+        host: el.host,
+        hostname: el.hostname,
+        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
+        search: el.search ? el.search.replace(/^\?/, '') : '',
+        hash: el.hash ? el.hash.replace(/^#/, '') : ''
+    };
+};
+
+function factory(handler, next, vm) {
+    return function (options$$1) {
+        return handler.call(vm, options$$1, next);
+    };
+}
+
+function serialize(params, obj, scope) {
+
+    var array = isArray(obj), plain = isPlainObject(obj), hash;
+
+    each(obj, function (value, key) {
+
+        hash = isObject(value) || isArray(value);
+
+        if (scope) {
+            key = scope + '[' + (plain || hash ? key : '') + ']';
+        }
+
+        if (!scope && array) {
+            params.add(value.name, value.value);
+        } else if (hash) {
+            serialize(params, value, key);
+        } else {
+            params.add(key, value);
+        }
+    });
+}
+
+/**
+ * XDomain client (Internet Explorer).
+ */
+
+function xdrClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var xdr = new XDomainRequest(), handler = function (ref) {
+            var type = ref.type;
+
+
+            var status = 0;
+
+            if (type === 'load') {
+                status = 200;
+            } else if (type === 'error') {
+                status = 500;
+            }
+
+            resolve(request.respondWith(xdr.responseText, {status: status}));
+        };
+
+        request.abort = function () { return xdr.abort(); };
+
+        xdr.open(request.method, request.getUrl());
+
+        if (request.timeout) {
+            xdr.timeout = request.timeout;
+        }
+
+        xdr.onload = handler;
+        xdr.onabort = handler;
+        xdr.onerror = handler;
+        xdr.ontimeout = handler;
+        xdr.onprogress = function () {};
+        xdr.send(request.getBody());
+    });
+}
+
+/**
+ * CORS Interceptor.
+ */
+
+var SUPPORTS_CORS = inBrowser && 'withCredentials' in new XMLHttpRequest();
+
+function cors (request, next) {
+
+    if (inBrowser) {
+
+        var orgUrl = Url.parse(location.href);
+        var reqUrl = Url.parse(request.getUrl());
+
+        if (reqUrl.protocol !== orgUrl.protocol || reqUrl.host !== orgUrl.host) {
+
+            request.crossOrigin = true;
+            request.emulateHTTP = false;
+
+            if (!SUPPORTS_CORS) {
+                request.client = xdrClient;
+            }
+        }
+    }
+
+    next();
+}
+
+/**
+ * Form data Interceptor.
+ */
+
+function form (request, next) {
+
+    if (isFormData(request.body)) {
+
+        request.headers.delete('Content-Type');
+
+    } else if (isObject(request.body) && request.emulateJSON) {
+
+        request.body = Url.params(request.body);
+        request.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    }
+
+    next();
+}
+
+/**
+ * JSON Interceptor.
+ */
+
+function json (request, next) {
+
+    var type = request.headers.get('Content-Type') || '';
+
+    if (isObject(request.body) && type.indexOf('application/json') === 0) {
+        request.body = JSON.stringify(request.body);
+    }
+
+    next(function (response) {
+
+        return response.bodyText ? when(response.text(), function (text) {
+
+            type = response.headers.get('Content-Type') || '';
+
+            if (type.indexOf('application/json') === 0 || isJson(text)) {
+
+                try {
+                    response.body = JSON.parse(text);
+                } catch (e) {
+                    response.body = null;
+                }
+
+            } else {
+                response.body = text;
+            }
+
+            return response;
+
+        }) : response;
+
+    });
+}
+
+function isJson(str) {
+
+    var start = str.match(/^\s*(\[|\{)/);
+    var end = {'[': /]\s*$/, '{': /}\s*$/};
+
+    return start && end[start[1]].test(str);
+}
+
+/**
+ * JSONP client (Browser).
+ */
+
+function jsonpClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var name = request.jsonp || 'callback', callback = request.jsonpCallback || '_jsonp' + Math.random().toString(36).substr(2), body = null, handler, script;
+
+        handler = function (ref) {
+            var type = ref.type;
+
+
+            var status = 0;
+
+            if (type === 'load' && body !== null) {
+                status = 200;
+            } else if (type === 'error') {
+                status = 500;
+            }
+
+            if (status && window[callback]) {
+                delete window[callback];
+                document.body.removeChild(script);
+            }
+
+            resolve(request.respondWith(body, {status: status}));
+        };
+
+        window[callback] = function (result) {
+            body = JSON.stringify(result);
+        };
+
+        request.abort = function () {
+            handler({type: 'abort'});
+        };
+
+        request.params[name] = callback;
+
+        if (request.timeout) {
+            setTimeout(request.abort, request.timeout);
+        }
+
+        script = document.createElement('script');
+        script.src = request.getUrl();
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = handler;
+        script.onerror = handler;
+
+        document.body.appendChild(script);
+    });
+}
+
+/**
+ * JSONP Interceptor.
+ */
+
+function jsonp (request, next) {
+
+    if (request.method == 'JSONP') {
+        request.client = jsonpClient;
+    }
+
+    next();
+}
+
+/**
+ * Before Interceptor.
+ */
+
+function before (request, next) {
+
+    if (isFunction(request.before)) {
+        request.before.call(this, request);
+    }
+
+    next();
+}
+
+/**
+ * HTTP method override Interceptor.
+ */
+
+function method (request, next) {
+
+    if (request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(request.method)) {
+        request.headers.set('X-HTTP-Method-Override', request.method);
+        request.method = 'POST';
+    }
+
+    next();
+}
+
+/**
+ * Header Interceptor.
+ */
+
+function header (request, next) {
+
+    var headers = assign({}, Http.headers.common,
+        !request.crossOrigin ? Http.headers.custom : {},
+        Http.headers[toLower(request.method)]
+    );
+
+    each(headers, function (value, name) {
+        if (!request.headers.has(name)) {
+            request.headers.set(name, value);
+        }
+    });
+
+    next();
+}
+
+/**
+ * XMLHttp client (Browser).
+ */
+
+function xhrClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var xhr = new XMLHttpRequest(), handler = function (event) {
+
+            var response = request.respondWith(
+                'response' in xhr ? xhr.response : xhr.responseText, {
+                    status: xhr.status === 1223 ? 204 : xhr.status, // IE9 status bug
+                    statusText: xhr.status === 1223 ? 'No Content' : trim(xhr.statusText)
+                }
+            );
+
+            each(trim(xhr.getAllResponseHeaders()).split('\n'), function (row) {
+                response.headers.append(row.slice(0, row.indexOf(':')), row.slice(row.indexOf(':') + 1));
+            });
+
+            resolve(response);
+        };
+
+        request.abort = function () { return xhr.abort(); };
+
+        if (request.progress) {
+            if (request.method === 'GET') {
+                xhr.addEventListener('progress', request.progress);
+            } else if (/^(POST|PUT)$/i.test(request.method)) {
+                xhr.upload.addEventListener('progress', request.progress);
+            }
+        }
+
+        xhr.open(request.method, request.getUrl(), true);
+
+        if (request.timeout) {
+            xhr.timeout = request.timeout;
+        }
+
+        if (request.responseType && 'responseType' in xhr) {
+            xhr.responseType = request.responseType;
+        }
+
+        if (request.withCredentials || request.credentials) {
+            xhr.withCredentials = true;
+        }
+
+        if (!request.crossOrigin) {
+            request.headers.set('X-Requested-With', 'XMLHttpRequest');
+        }
+
+        request.headers.forEach(function (value, name) {
+            xhr.setRequestHeader(name, value);
+        });
+
+        xhr.onload = handler;
+        xhr.onabort = handler;
+        xhr.onerror = handler;
+        xhr.ontimeout = handler;
+        xhr.send(request.getBody());
+    });
+}
+
+/**
+ * Http client (Node).
+ */
+
+function nodeClient (request) {
+
+    var client = __webpack_require__(40);
+
+    return new PromiseObj(function (resolve) {
+
+        var url = request.getUrl();
+        var body = request.getBody();
+        var method = request.method;
+        var headers = {}, handler;
+
+        request.headers.forEach(function (value, name) {
+            headers[name] = value;
+        });
+
+        client(url, {body: body, method: method, headers: headers}).then(handler = function (resp) {
+
+            var response = request.respondWith(resp.body, {
+                    status: resp.statusCode,
+                    statusText: trim(resp.statusMessage)
+                }
+            );
+
+            each(resp.headers, function (value, name) {
+                response.headers.set(name, value);
+            });
+
+            resolve(response);
+
+        }, function (error$$1) { return handler(error$$1.response); });
+    });
+}
+
+/**
+ * Base client.
+ */
+
+function Client (context) {
+
+    var reqHandlers = [sendRequest], resHandlers = [], handler;
+
+    if (!isObject(context)) {
+        context = null;
+    }
+
+    function Client(request) {
+        return new PromiseObj(function (resolve, reject) {
+
+            function exec() {
+
+                handler = reqHandlers.pop();
+
+                if (isFunction(handler)) {
+                    handler.call(context, request, next);
+                } else {
+                    warn(("Invalid interceptor of type " + (typeof handler) + ", must be a function"));
+                    next();
+                }
+            }
+
+            function next(response) {
+
+                if (isFunction(response)) {
+
+                    resHandlers.unshift(response);
+
+                } else if (isObject(response)) {
+
+                    resHandlers.forEach(function (handler) {
+                        response = when(response, function (response) {
+                            return handler.call(context, response) || response;
+                        }, reject);
+                    });
+
+                    when(response, resolve, reject);
+
+                    return;
+                }
+
+                exec();
+            }
+
+            exec();
+
+        }, context);
+    }
+
+    Client.use = function (handler) {
+        reqHandlers.push(handler);
+    };
+
+    return Client;
+}
+
+function sendRequest(request, resolve) {
+
+    var client = request.client || (inBrowser ? xhrClient : nodeClient);
+
+    resolve(client(request));
+}
+
+/**
+ * HTTP Headers.
+ */
+
+var Headers = function Headers(headers) {
+    var this$1 = this;
+
+
+    this.map = {};
+
+    each(headers, function (value, name) { return this$1.append(name, value); });
+};
+
+Headers.prototype.has = function has (name) {
+    return getName(this.map, name) !== null;
+};
+
+Headers.prototype.get = function get (name) {
+
+    var list = this.map[getName(this.map, name)];
+
+    return list ? list.join() : null;
+};
+
+Headers.prototype.getAll = function getAll (name) {
+    return this.map[getName(this.map, name)] || [];
+};
+
+Headers.prototype.set = function set (name, value) {
+    this.map[normalizeName(getName(this.map, name) || name)] = [trim(value)];
+};
+
+Headers.prototype.append = function append (name, value){
+
+    var list = this.map[getName(this.map, name)];
+
+    if (list) {
+        list.push(trim(value));
+    } else {
+        this.set(name, value);
+    }
+};
+
+Headers.prototype.delete = function delete$1 (name){
+    delete this.map[getName(this.map, name)];
+};
+
+Headers.prototype.deleteAll = function deleteAll (){
+    this.map = {};
+};
+
+Headers.prototype.forEach = function forEach (callback, thisArg) {
+        var this$1 = this;
+
+    each(this.map, function (list, name) {
+        each(list, function (value) { return callback.call(thisArg, value, name, this$1); });
+    });
+};
+
+function getName(map, name) {
+    return Object.keys(map).reduce(function (prev, curr) {
+        return toLower(name) === toLower(curr) ? curr : prev;
+    }, null);
+}
+
+function normalizeName(name) {
+
+    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+        throw new TypeError('Invalid character in header field name');
+    }
+
+    return trim(name);
+}
+
+/**
+ * HTTP Response.
+ */
+
+var Response = function Response(body, ref) {
+    var url = ref.url;
+    var headers = ref.headers;
+    var status = ref.status;
+    var statusText = ref.statusText;
+
+
+    this.url = url;
+    this.ok = status >= 200 && status < 300;
+    this.status = status || 0;
+    this.statusText = statusText || '';
+    this.headers = new Headers(headers);
+    this.body = body;
+
+    if (isString(body)) {
+
+        this.bodyText = body;
+
+    } else if (isBlob(body)) {
+
+        this.bodyBlob = body;
+
+        if (isBlobText(body)) {
+            this.bodyText = blobText(body);
+        }
+    }
+};
+
+Response.prototype.blob = function blob () {
+    return when(this.bodyBlob);
+};
+
+Response.prototype.text = function text () {
+    return when(this.bodyText);
+};
+
+Response.prototype.json = function json () {
+    return when(this.text(), function (text) { return JSON.parse(text); });
+};
+
+Object.defineProperty(Response.prototype, 'data', {
+
+    get: function get() {
+        return this.body;
+    },
+
+    set: function set(body) {
+        this.body = body;
+    }
+
+});
+
+function blobText(body) {
+    return new PromiseObj(function (resolve) {
+
+        var reader = new FileReader();
+
+        reader.readAsText(body);
+        reader.onload = function () {
+            resolve(reader.result);
+        };
+
+    });
+}
+
+function isBlobText(body) {
+    return body.type.indexOf('text') === 0 || body.type.indexOf('json') !== -1;
+}
+
+/**
+ * HTTP Request.
+ */
+
+var Request = function Request(options$$1) {
+
+    this.body = null;
+    this.params = {};
+
+    assign(this, options$$1, {
+        method: toUpper(options$$1.method || 'GET')
+    });
+
+    if (!(this.headers instanceof Headers)) {
+        this.headers = new Headers(this.headers);
+    }
+};
+
+Request.prototype.getUrl = function getUrl (){
+    return Url(this);
+};
+
+Request.prototype.getBody = function getBody (){
+    return this.body;
+};
+
+Request.prototype.respondWith = function respondWith (body, options$$1) {
+    return new Response(body, assign(options$$1 || {}, {url: this.getUrl()}));
+};
+
+/**
+ * Service for sending network requests.
+ */
+
+var COMMON_HEADERS = {'Accept': 'application/json, text/plain, */*'};
+var JSON_CONTENT_TYPE = {'Content-Type': 'application/json;charset=utf-8'};
+
+function Http(options$$1) {
+
+    var self = this || {}, client = Client(self.$vm);
+
+    defaults(options$$1 || {}, self.$options, Http.options);
+
+    Http.interceptors.forEach(function (handler) {
+
+        if (isString(handler)) {
+            handler = Http.interceptor[handler];
+        }
+
+        if (isFunction(handler)) {
+            client.use(handler);
+        }
+
+    });
+
+    return client(new Request(options$$1)).then(function (response) {
+
+        return response.ok ? response : PromiseObj.reject(response);
+
+    }, function (response) {
+
+        if (response instanceof Error) {
+            error(response);
+        }
+
+        return PromiseObj.reject(response);
+    });
+}
+
+Http.options = {};
+
+Http.headers = {
+    put: JSON_CONTENT_TYPE,
+    post: JSON_CONTENT_TYPE,
+    patch: JSON_CONTENT_TYPE,
+    delete: JSON_CONTENT_TYPE,
+    common: COMMON_HEADERS,
+    custom: {}
+};
+
+Http.interceptor = {before: before, method: method, jsonp: jsonp, json: json, form: form, header: header, cors: cors};
+Http.interceptors = ['before', 'method', 'jsonp', 'json', 'form', 'header', 'cors'];
+
+['get', 'delete', 'head', 'jsonp'].forEach(function (method$$1) {
+
+    Http[method$$1] = function (url, options$$1) {
+        return this(assign(options$$1 || {}, {url: url, method: method$$1}));
+    };
+
+});
+
+['post', 'put', 'patch'].forEach(function (method$$1) {
+
+    Http[method$$1] = function (url, body, options$$1) {
+        return this(assign(options$$1 || {}, {url: url, method: method$$1, body: body}));
+    };
+
+});
+
+/**
+ * Service for interacting with RESTful services.
+ */
+
+function Resource(url, params, actions, options$$1) {
+
+    var self = this || {}, resource = {};
+
+    actions = assign({},
+        Resource.actions,
+        actions
+    );
+
+    each(actions, function (action, name) {
+
+        action = merge({url: url, params: assign({}, params)}, options$$1, action);
+
+        resource[name] = function () {
+            return (self.$http || Http)(opts(action, arguments));
+        };
+    });
+
+    return resource;
+}
+
+function opts(action, args) {
+
+    var options$$1 = assign({}, action), params = {}, body;
+
+    switch (args.length) {
+
+        case 2:
+
+            params = args[0];
+            body = args[1];
+
+            break;
+
+        case 1:
+
+            if (/^(POST|PUT|PATCH)$/i.test(options$$1.method)) {
+                body = args[0];
+            } else {
+                params = args[0];
+            }
+
+            break;
+
+        case 0:
+
+            break;
+
+        default:
+
+            throw 'Expected up to 2 arguments [params, body], got ' + args.length + ' arguments';
+    }
+
+    options$$1.body = body;
+    options$$1.params = assign({}, options$$1.params, params);
+
+    return options$$1;
+}
+
+Resource.actions = {
+
+    get: {method: 'GET'},
+    save: {method: 'POST'},
+    query: {method: 'GET'},
+    update: {method: 'PUT'},
+    remove: {method: 'DELETE'},
+    delete: {method: 'DELETE'}
+
+};
+
+/**
+ * Install plugin.
+ */
+
+function plugin(Vue) {
+
+    if (plugin.installed) {
+        return;
+    }
+
+    Util(Vue);
+
+    Vue.url = Url;
+    Vue.http = Http;
+    Vue.resource = Resource;
+    Vue.Promise = PromiseObj;
+
+    Object.defineProperties(Vue.prototype, {
+
+        $url: {
+            get: function get() {
+                return options(Vue.url, this, this.$options.url);
+            }
+        },
+
+        $http: {
+            get: function get() {
+                return options(Vue.http, this, this.$options.http);
+            }
+        },
+
+        $resource: {
+            get: function get() {
+                return Vue.resource.bind(this);
+            }
+        },
+
+        $promise: {
+            get: function get() {
+                var this$1 = this;
+
+                return function (executor) { return new Vue.Promise(executor, this$1); };
+            }
+        }
+
+    });
+}
+
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(plugin);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (plugin);
+
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -44015,22 +45604,28 @@ module.exports = function listToStyles (parentId, list) {
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(A,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.VueStar=t():A.VueStar=t()}(this,function(){return function(A){function t(r){if(e[r])return e[r].exports;var n=e[r]={exports:{},id:r,loaded:!1};return A[r].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var e={};return t.m=A,t.c=e,t.p="",t(0)}([function(A,t,e){"use strict";function r(A){return A&&A.__esModule?A:{default:A}}var n=e(5),a=r(n);A.exports=a.default},function(A,t){"use strict";function e(A){return r.test(A)||n.test(A)}Object.defineProperty(t,"__esModule",{value:!0}),t.isColors=e;var r=/^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/,n=/^[rR][gG][Bb][Aa]?[\(]([\s]*(2[0-4][0-9]|25[0-5]|[01]?[0-9][0-9]?),){2}[\s]*(2[0-4][0-9]|25[0-5]|[01]?[0-9][0-9]?),?[\s]*(0\.\d{1,2}|1|0)?[\)]{1}$/g},function(A,t,e){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=e(1);t.default={name:"VueStar",props:{animate:String,color:String},methods:{toggle:function(){this.active=!this.active,this.toggleAnimate=!this.toggleAnimate,this.toggleColor=!this.toggleColor}},data:function(){return{active:!1,toggleAnimate:!1,toggleColor:!1}},computed:{AnimateClass:function(){return this.toggleAnimate?this.animate:""},ColorValue:function(){return this.toggleColor?this.color:""}},mounted:function(){this.color&&((0,r.isColors)(this.color)||console.error("this color must be hexcolor or rgbcolor  ---VueStar"))}}},function(A,t,e){t=A.exports=e(4)(),t.push([A.id,'.VueStar{position:absolute}.VueStar__ground{width:100px;height:100px;position:relative;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}.VueStar__icon{z-index:888}.VueStar__decoration{width:100px;height:100px;position:absolute;left:0;top:0;bottom:0;right:0;background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABqUAAABkCAYAAAAPKjqIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA25pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDE0IDc5LjE1Njc5NywgMjAxNC8wOC8yMC0wOTo1MzowMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1ZmMyNTFlNy02ZmI3LTg3NDMtYWFkNy1kZWQ2ZWY1NzIzYWUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDIyMEQ0QjBFNTE2MTFFNkFGREZCRkYzMDQ2QkI0RDciIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDIyMEQ0QUZFNTE2MTFFNkFGREZCRkYzMDQ2QkI0RDciIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MUU1NkMyNUZFNTAzMTFFNkI1RjJFOTE0NTRGREQ2MDgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MUU1NkMyNjBFNTAzMTFFNkI1RjJFOTE0NTRGREQ2MDgiLz4gPC9yZGY6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") no-repeat;background-position:0 0;-webkit-transition:background-position 1s steps(25);transition:background-position 1s steps(25);-webkit-transition-duration:0s;transition-duration:0s}.VueStar__decoration--active{-webkit-transition-duration:1s;transition-duration:1s;background-position:-2500px 0}',""])},function(A,t){A.exports=function(){var A=[];return A.toString=function(){for(var A=[],t=0;t<this.length;t++){var e=this[t];e[2]?A.push("@media "+e[2]+"{"+e[1]+"}"):A.push(e[1])}return A.join("")},A.i=function(t,e){"string"==typeof t&&(t=[[null,t,""]]);for(var r={},n=0;n<this.length;n++){var a=this[n][0];"number"==typeof a&&(r[a]=!0)}for(n=0;n<t.length;n++){var i=t[n];"number"==typeof i[0]&&r[i[0]]||(e&&!i[2]?i[2]=e:e&&(i[2]="("+i[2]+") and ("+e+")"),A.push(i))}},A}},function(A,t,e){e(8);var r=e(6)(e(2),e(7),null,null);A.exports=r.exports},function(A,t){A.exports=function(A,t,e,r){var n,a=A=A||{},i=typeof A.default;"object"!==i&&"function"!==i||(n=A,a=A.default);var o="function"==typeof a?a.options:a;if(t&&(o.render=t.render,
 o.staticRenderFns=t.staticRenderFns),e&&(o._scopeId=e),r){var s=o.computed||(o.computed={});Object.keys(r).forEach(function(A){var t=r[A];s[A]=function(){return t}})}return{esModule:n,exports:a,options:o}}},function(A,t){A.exports={render:function(){var A=this,t=A.$createElement,e=A._self._c||t;return e("div",{staticClass:"VueStar"},[e("div",{staticClass:"VueStar__ground"},[e("div",{staticClass:"VueStar__icon",class:A.AnimateClass,style:{color:A.ColorValue},on:{click:A.toggle}},[A._t("icon")],2),A._v(" "),e("div",{staticClass:"VueStar__decoration",class:{"VueStar__decoration--active":A.active}})])])},staticRenderFns:[]}},function(A,t,e){var r=e(3);"string"==typeof r&&(r=[[A.id,r,""]]),r.locals&&(A.exports=r.locals);e(9)("320fad4a",r,!0)},function(A,t,e){function r(A){for(var t=0;t<A.length;t++){var e=A[t],r=p[e.id];if(r){r.refs++;for(var n=0;n<r.parts.length;n++)r.parts[n](e.parts[n]);for(;n<e.parts.length;n++)r.parts.push(i(e.parts[n]));r.parts.length>e.parts.length&&(r.parts.length=e.parts.length)}else{for(var a=[],n=0;n<e.parts.length;n++)a.push(i(e.parts[n]));p[e.id]={id:e.id,refs:1,parts:a}}}}function n(A,t){for(var e=[],r={},n=0;n<t.length;n++){var a=t[n],i=a[0],o=a[1],s=a[2],f=a[3],p={css:o,media:s,sourceMap:f};r[i]?(p.id=A+":"+r[i].parts.length,r[i].parts.push(p)):(p.id=A+":0",e.push(r[i]={id:i,parts:[p]}))}return e}function a(){var A=document.createElement("style");return A.type="text/css",u.appendChild(A),A}function i(A){var t,e,r=document.querySelector('style[data-vue-ssr-id~="'+A.id+'"]'),n=null!=r;if(n&&v)return c;if(b){var i=d++;r=l||(l=a()),t=o.bind(null,r,i,!1),e=o.bind(null,r,i,!0)}else r=r||a(),t=s.bind(null,r),e=function(){r.parentNode.removeChild(r)};return n||t(A),function(r){if(r){if(r.css===A.css&&r.media===A.media&&r.sourceMap===A.sourceMap)return;t(A=r)}else e()}}function o(A,t,e,r){var n=e?"":r.css;if(A.styleSheet)A.styleSheet.cssText=m(t,n);else{var a=document.createTextNode(n),i=A.childNodes;i[t]&&A.removeChild(i[t]),i.length?A.insertBefore(a,i[t]):A.appendChild(a)}}function s(A,t){var e=t.css,r=t.media,n=t.sourceMap;if(r&&A.setAttribute("media",r),n&&(e+="\n/*# sourceURL="+n.sources[0]+" */",e+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(n))))+" */"),A.styleSheet)A.styleSheet.cssText=e;else{for(;A.firstChild;)A.removeChild(A.firstChild);A.appendChild(document.createTextNode(e))}}var f="undefined"!=typeof document,n=e(10),p={},u=f&&(document.head||document.getElementsByTagName("head")[0]),l=null,d=0,v=!1,c=function(){},b="undefined"!=typeof navigator&&/msie [6-9]\b/.test(navigator.userAgent.toLowerCase());A.exports=function(A,t,e){v=e;var a=n(A,t);return r(a),function(t){for(var e=[],i=0;i<a.length;i++){var o=a[i],s=p[o.id];s.refs--,e.push(s)}t?(a=n(A,t),r(a)):a=[];for(var i=0;i<e.length;i++){var s=e[i];if(0===s.refs){for(var f=0;f<s.parts.length;f++)s.parts[f]();delete p[s.id]}}}};var m=function(){var A=[];return function(t,e){return A[t]=e,A.filter(Boolean).join("\n")}}()},function(A,t){A.exports=function(A,t){for(var e=[],r={},n=0;n<t.length;n++){var a=t[n],i=a[0],o=a[1],s=a[2],f=a[3],p={id:A+":"+n,css:o,media:s,sourceMap:f};r[i]?r[i].parts.push(p):e.push(r[i]={id:i,parts:[p]})}return e}}])});
 
 /***/ }),
-/* 41 */
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.VuejsPaginate=t():e.VuejsPaginate=t()}(this,function(){return function(e){function t(s){if(n[s])return n[s].exports;var a=n[s]={exports:{},id:s,loaded:!1};return e[s].call(a.exports,a,a.exports,t),a.loaded=!0,a.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function s(e){return e&&e.__esModule?e:{default:e}}var a=n(1),i=s(a);e.exports=i.default},function(e,t,n){n(2);var s=n(6)(n(7),n(8),"data-v-82963a40",null);e.exports=s.exports},function(e,t,n){var s=n(3);"string"==typeof s&&(s=[[e.id,s,""]]);n(5)(s,{});s.locals&&(e.exports=s.locals)},function(e,t,n){t=e.exports=n(4)(),t.push([e.id,"a[data-v-82963a40]{cursor:pointer}",""])},function(e,t){e.exports=function(){var e=[];return e.toString=function(){for(var e=[],t=0;t<this.length;t++){var n=this[t];n[2]?e.push("@media "+n[2]+"{"+n[1]+"}"):e.push(n[1])}return e.join("")},e.i=function(t,n){"string"==typeof t&&(t=[[null,t,""]]);for(var s={},a=0;a<this.length;a++){var i=this[a][0];"number"==typeof i&&(s[i]=!0)}for(a=0;a<t.length;a++){var r=t[a];"number"==typeof r[0]&&s[r[0]]||(n&&!r[2]?r[2]=n:n&&(r[2]="("+r[2]+") and ("+n+")"),e.push(r))}},e}},function(e,t,n){function s(e,t){for(var n=0;n<e.length;n++){var s=e[n],a=d[s.id];if(a){a.refs++;for(var i=0;i<a.parts.length;i++)a.parts[i](s.parts[i]);for(;i<s.parts.length;i++)a.parts.push(o(s.parts[i],t))}else{for(var r=[],i=0;i<s.parts.length;i++)r.push(o(s.parts[i],t));d[s.id]={id:s.id,refs:1,parts:r}}}}function a(e){for(var t=[],n={},s=0;s<e.length;s++){var a=e[s],i=a[0],r=a[1],l=a[2],o=a[3],c={css:r,media:l,sourceMap:o};n[i]?n[i].parts.push(c):t.push(n[i]={id:i,parts:[c]})}return t}function i(e,t){var n=g(),s=C[C.length-1];if("top"===e.insertAt)s?s.nextSibling?n.insertBefore(t,s.nextSibling):n.appendChild(t):n.insertBefore(t,n.firstChild),C.push(t);else{if("bottom"!==e.insertAt)throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");n.appendChild(t)}}function r(e){e.parentNode.removeChild(e);var t=C.indexOf(e);t>=0&&C.splice(t,1)}function l(e){var t=document.createElement("style");return t.type="text/css",i(e,t),t}function o(e,t){var n,s,a;if(t.singleton){var i=v++;n=h||(h=l(t)),s=c.bind(null,n,i,!1),a=c.bind(null,n,i,!0)}else n=l(t),s=u.bind(null,n),a=function(){r(n)};return s(e),function(t){if(t){if(t.css===e.css&&t.media===e.media&&t.sourceMap===e.sourceMap)return;s(e=t)}else a()}}function c(e,t,n,s){var a=n?"":s.css;if(e.styleSheet)e.styleSheet.cssText=x(t,a);else{var i=document.createTextNode(a),r=e.childNodes;r[t]&&e.removeChild(r[t]),r.length?e.insertBefore(i,r[t]):e.appendChild(i)}}function u(e,t){var n=t.css,s=t.media,a=t.sourceMap;if(s&&e.setAttribute("media",s),a&&(n+="\n/*# sourceURL="+a.sources[0]+" */",n+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(a))))+" */"),e.styleSheet)e.styleSheet.cssText=n;else{for(;e.firstChild;)e.removeChild(e.firstChild);e.appendChild(document.createTextNode(n))}}var d={},p=function(e){var t;return function(){return"undefined"==typeof t&&(t=e.apply(this,arguments)),t}},f=p(function(){return/msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase())}),g=p(function(){return document.head||document.getElementsByTagName("head")[0]}),h=null,v=0,C=[];e.exports=function(e,t){t=t||{},"undefined"==typeof t.singleton&&(t.singleton=f()),"undefined"==typeof t.insertAt&&(t.insertAt="bottom");var n=a(e);return s(n,t),function(e){for(var i=[],r=0;r<n.length;r++){var l=n[r],o=d[l.id];o.refs--,i.push(o)}if(e){var c=a(e);s(c,t)}for(var r=0;r<i.length;r++){var o=i[r];if(0===o.refs){for(var u=0;u<o.parts.length;u++)o.parts[u]();delete d[o.id]}}}};var x=function(){var e=[];return function(t,n){return e[t]=n,e.filter(Boolean).join("\n")}}()},function(e,t){e.exports=function(e,t,n,s){var a,i=e=e||{},r=typeof e.default;"object"!==r&&"function"!==r||(a=e,i=e.default);var l="function"==typeof i?i.options:i;if(t&&(l.render=t.render,l.staticRenderFns=t.staticRenderFns),n&&(l._scopeId=n),s){var o=l.computed||(l.computed={});Object.keys(s).forEach(function(e){var t=s[e];o[e]=function(){return t}})}return{esModule:a,exports:i,options:l}}},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={props:{pageCount:{type:Number,required:!0},initialPage:{type:Number,default:0},forcePage:{type:Number},clickHandler:{type:Function,default:function(){}},pageRange:{type:Number,default:3},marginPages:{type:Number,default:1},prevText:{type:String,default:"Prev"},nextText:{type:String,default:"Next"},containerClass:{type:String},pageClass:{type:String},pageLinkClass:{type:String},prevClass:{type:String},prevLinkClass:{type:String},nextClass:{type:String},nextLinkClass:{type:String},activeClass:{type:String,default:"active"},disabledClass:{type:String,default:"disabled"},noLiSurround:{type:Boolean,default:!1},firstLastButton:{type:Boolean,default:!1},firstButtonText:{type:String,default:"First"},lastButtonText:{type:String,default:"Last"}},data:function(){return{selected:this.initialPage}},beforeUpdate:function(){void 0!==this.forcePage&&this.forcePage!==this.selected&&(this.selected=this.forcePage)},computed:{pages:function(){var e=this,t={};if(this.pageCount<=this.pageRange)for(var n=0;n<this.pageCount;n++){var s={index:n,content:n+1,selected:n===this.selected};t[n]=s}else{var a=this.pageRange/2,i=this.pageRange-a;this.selected<a?(a=this.selected,i=this.pageRange-a):this.selected>this.pageCount-this.pageRange/2&&(i=this.pageCount-this.selected,a=this.pageRange-i);for(var r=function(n){var s={index:n,content:n+1,selected:n===e.selected};t[n]=s},l=function(e){var n={content:"...",disabled:!0};t[e]=n},o=0;o<this.marginPages;o++)r(o);var c=0;this.selected-this.pageRange>0&&(c=this.selected-this.pageRange);var u=this.pageCount;this.selected+this.pageRange<this.pageCount&&(u=this.selected+this.pageRange);for(var d=c;d<=u&&d<=this.pageCount-1;d++)r(d);c>this.marginPages&&l(c-1),u+1<this.pageCount-this.marginPages&&l(u+1);for(var p=this.pageCount-1;p>=this.pageCount-this.marginPages;p--)r(p)}return t}},methods:{handlePageSelected:function(e){this.selected!==e&&(this.selected=e,this.clickHandler(this.selected+1))},prevPage:function(){this.selected<=0||(this.selected--,this.clickHandler(this.selected+1))},nextPage:function(){this.selected>=this.pageCount-1||(this.selected++,this.clickHandler(this.selected+1))},firstPageSelected:function(){return 0===this.selected},lastPageSelected:function(){return this.selected===this.pageCount-1||0===this.pageCount},selectFirstPage:function(){this.selected=0,this.clickHandler(this.selected)},selectLastPage:function(){this.selected=this.pageCount-1,this.clickHandler(this.selected)}}}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,n=e._self._c||t;return e.noLiSurround?n("div",{class:e.containerClass},[e.firstLastButton?n("a",{class:[e.pageLinkClass,e.firstPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},on:{click:function(t){e.selectFirstPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectFirstPage():null}}},[e._v(e._s(e.firstButtonText))]):e._e(),e._v(" "),n("a",{class:[e.prevLinkClass,e.firstPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},on:{click:function(t){e.prevPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.prevPage():null}}},[e._t("prevContent",[e._v(e._s(e.prevText))])],2),e._v(" "),e._l(e.pages,function(t){return[t.disabled?n("a",{class:[e.pageLinkClass,t.selected?e.activeClass:"",t.disabled?e.disabledClass:""],attrs:{tabindex:"0"}},[e._v(e._s(t.content))]):n("a",{class:[e.pageLinkClass,t.selected?e.activeClass:"",t.disabled?e.disabledClass:""],attrs:{tabindex:"0"},on:{click:function(n){e.handlePageSelected(t.index)},keyup:function(n){return"button"in n||!e._k(n.keyCode,"enter",13)?void e.handlePageSelected(t.index):null}}},[e._v(e._s(t.content))])]}),e._v(" "),n("a",{class:[e.nextLinkClass,e.lastPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},on:{click:function(t){e.nextPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.nextPage():null}}},[e._t("nextContent",[e._v(e._s(e.nextText))])],2),e._v(" "),e.firstLastButton?n("a",{class:[e.pageLinkClass,e.lastPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},on:{click:function(t){e.selectLastPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectLastPage():null}}},[e._v(e._s(e.lastButtonText))]):e._e()],2):n("ul",{class:e.containerClass},[e.firstLastButton?n("li",{class:[e.pageClass,e.firstPageSelected()?e.disabledClass:""]},[n("a",{class:e.pageLinkClass,on:{click:function(t){e.selectFirstPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectFirstPage():null}}},[e._v(e._s(e.firstButtonText))])]):e._e(),e._v(" "),n("li",{class:[e.prevClass,e.firstPageSelected()?e.disabledClass:""]},[n("a",{class:e.prevLinkClass,attrs:{tabindex:"0"},on:{click:function(t){e.prevPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.prevPage():null}}},[e._t("prevContent",[e._v(e._s(e.prevText))])],2)]),e._v(" "),e._l(e.pages,function(t){return n("li",{class:[e.pageClass,t.selected?e.activeClass:"",t.disabled?e.disabledClass:""]},[t.disabled?n("a",{class:e.pageLinkClass,attrs:{tabindex:"0"}},[e._v(e._s(t.content))]):n("a",{class:e.pageLinkClass,attrs:{tabindex:"0"},on:{click:function(n){e.handlePageSelected(t.index)},keyup:function(n){return"button"in n||!e._k(n.keyCode,"enter",13)?void e.handlePageSelected(t.index):null}}},[e._v(e._s(t.content))])])}),e._v(" "),n("li",{class:[e.nextClass,e.lastPageSelected()?e.disabledClass:""]},[n("a",{class:e.nextLinkClass,attrs:{tabindex:"0"},on:{click:function(t){e.nextPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.nextPage():null}}},[e._t("nextContent",[e._v(e._s(e.nextText))])],2)]),e._v(" "),e.firstLastButton?n("li",{class:[e.pageClass,e.lastPageSelected()?e.disabledClass:""]},[n("a",{class:e.pageLinkClass,on:{click:function(t){e.selectLastPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectLastPage():null}}},[e._v(e._s(e.lastButtonText))])]):e._e()],2)},staticRenderFns:[]}}])});
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(42)
+var __vue_script__ = __webpack_require__(45)
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(46)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -44069,7 +45664,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44154,7 +45749,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -44217,15 +45812,15 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(45)
+var __vue_script__ = __webpack_require__(48)
 /* template */
-var __vue_template__ = __webpack_require__(46)
+var __vue_template__ = __webpack_require__(49)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -44264,7 +45859,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44410,7 +46005,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -44553,15 +46148,15 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(48)
+var __vue_script__ = __webpack_require__(51)
 /* template */
-var __vue_template__ = __webpack_require__(49)
+var __vue_template__ = __webpack_require__(52)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -44600,7 +46195,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44759,7 +46354,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 49 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -44863,15 +46458,15 @@ if (false) {
 }
 
 /***/ }),
-/* 50 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(51)
+var __vue_script__ = __webpack_require__(54)
 /* template */
-var __vue_template__ = __webpack_require__(52)
+var __vue_template__ = __webpack_require__(55)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -44910,7 +46505,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 51 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44987,7 +46582,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 52 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -45049,15 +46644,15 @@ if (false) {
 }
 
 /***/ }),
-/* 53 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(54)
+var __vue_script__ = __webpack_require__(57)
 /* template */
-var __vue_template__ = __webpack_require__(55)
+var __vue_template__ = __webpack_require__(58)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -45096,7 +46691,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 54 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -45161,7 +46756,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 55 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -45197,15 +46792,15 @@ if (false) {
 }
 
 /***/ }),
-/* 56 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(57)
+var __vue_script__ = __webpack_require__(60)
 /* template */
-var __vue_template__ = __webpack_require__(58)
+var __vue_template__ = __webpack_require__(61)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -45244,7 +46839,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 57 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -45309,7 +46904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 58 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -45345,7 +46940,1083 @@ if (false) {
 }
 
 /***/ }),
-/* 59 */
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(63)
+/* template */
+var __vue_template__ = __webpack_require__(64)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Comments.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-19fc3d2b", Component.options)
+  } else {
+    hotAPI.reload("data-v-19fc3d2b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var _ = __webpack_require__(5);
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['commenturl', 'user'],
+    data: function data() {
+        var _ref;
+
+        return _ref = {
+            commented: {
+                id: '',
+                comment: '',
+                votes: 0,
+                spam: 0,
+                reply_id: 0,
+                episode_id: 0,
+                users_id: '',
+                date: ''
+            },
+            replied: {
+                id: '',
+                comment: '',
+                votes: 0,
+                spam: 0,
+                reply_id: 0,
+                episode_id: 0,
+                users_id: '',
+                date: ''
+            },
+            comments: [],
+            commentreplies: []
+        }, _defineProperty(_ref, 'comments', 0), _defineProperty(_ref, 'commentBoxs', []), _defineProperty(_ref, 'message', null), _defineProperty(_ref, 'reply', null), _defineProperty(_ref, 'replyCommentBoxs', []), _defineProperty(_ref, 'commentsData', []), _defineProperty(_ref, 'viewcomment', []), _defineProperty(_ref, 'show', []), _defineProperty(_ref, 'spamCommentsReply', []), _defineProperty(_ref, 'spamComments', []), _defineProperty(_ref, 'errorComment', null), _defineProperty(_ref, 'errorReply', null), _ref;
+    },
+
+    http: {
+        headers: {
+            'X-CSRF-TOKEN': window.csrf
+        }
+    },
+    created: function created() {
+        this.fetchComments();
+    },
+    methods: {
+        fetchComments: function fetchComments() {
+            self = this;
+            axios.get('/comments/' + self.commenturl).then(function (res) {
+                self.commentsData = _.orderBy(res.data, ['date'], ['desc']);
+                self.comments = 1;
+            });
+        },
+        showComments: function showComments(index) {
+            if (!this.viewcomment[index]) {
+                Vue.set(this.show, index, "hide");
+                Vue.set(this.viewcomment, index, 1);
+            } else {
+                Vue.set(this.show, index, "view");
+                Vue.set(this.viewcomment, index, 0);
+            }
+        },
+        openComment: function openComment(index) {
+            if (this.user) {
+                if (this.commentBoxs[index]) {
+                    Vue.set(this.commentBoxs, index, 0);
+                } else {
+                    Vue.set(this.commentBoxs, index, 1);
+                }
+            }
+        },
+        replyCommentBox: function replyCommentBox(index) {
+            if (this.user) {
+                if (this.replyCommentBoxs[index]) {
+                    Vue.set(this.replyCommentBoxs, index, 0);
+                } else {
+                    Vue.set(this.replyCommentBoxs, index, 1);
+                }
+            }
+        },
+        saveComment: function saveComment() {
+            if (this.message != null && this.message != ' ' && this.message != '') {
+                this.errorComment = null;
+                this.commented.episode_id = this.commenturl;
+                this.commented.comment = this.message;
+                this.commented.users_id = this.user;
+                var _self = this;
+                axios.post('/comments', _self.commented).then(function (response) {
+                    _self.$notify({
+                        type: 'success',
+                        title: "<i class='fa fa-smile-o'></i> Yay! You're talking about the show!",
+                        text: 'You commented the episode!'
+                    });
+                    axios.get('/comments/' + _self.commenturl).then(function (res) {
+                        _self.commentsData = _.orderBy(res.data, ['date'], ['desc']);
+                        _self.comments = 1;
+                    });
+                }).catch(function (error) {
+                    _self.$notify({
+                        type: 'error',
+                        title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                        text: 'Try reloading the page or contact the support! Failed to comment.'
+                    });
+                });
+            } else {
+                self.$notify({
+                    type: 'error',
+                    title: "<i class='fa fa-frown-o'></i> You haven't written anything!",
+                    text: 'Write something and submit again.'
+                });
+            }
+        },
+        replyComment: function replyComment(commentId, index) {
+            console.log('oq cje');
+            console.log(commentId);
+            if (this.reply != null && this.reply != ' ' && this.reply != '') {
+                this.errorReply = null;
+                this.replied.comment = this.reply;
+                this.replied.users_id = this.user;
+                this.replied.reply_id = commentId;
+                this.replied.episode_id = this.commenturl;
+                var _self2 = this;
+                console.log('nooooowww');
+                console.log(_self2.replied);
+                axios.post('/comments', _self2.replied).then(function (response) {
+                    if (!this.commentsData[index].reply) {
+                        this.commentsData[index].replies.push({ "commentid": res.data.commentId, "name": this.user, "comment": this.message, "votes": 0 });
+                        this.commentsData[index].reply = 1;
+                        Vue.set(this.replyCommentBoxs, index, 0);
+                        Vue.set(this.commentBoxs, index, 0);
+                    } else {
+                        this.commentsData[index].replies.push({ "commentid": res.data.commentId, "name": this.user, "comment": this.message, "votes": 0 });
+                        Vue.set(this.replyCommentBoxs, index, 0);
+                        Vue.set(this.commentBoxs, index, 0);
+                    }
+                    this.message = null;
+                    _self2.$notify({
+                        type: 'success',
+                        title: "<i class='fa fa-smile-o'></i> Yay! You're interacting with other fans!",
+                        text: 'You replied to the comment!'
+                    });
+                    axios.get('/comments/' + _self2.commenturl).then(function (res) {
+                        _self2.commentsData = _.orderBy(res.data, ['date'], ['desc']);
+                        _self2.comments = 1;
+                    });
+                }).catch(function (error) {
+                    _self2.$notify({
+                        type: 'error',
+                        title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                        text: 'Try reloading the page or contact the support! Failed to comment.'
+                    });
+                });
+            } else {
+                self.$notify({
+                    type: 'error',
+                    title: "<i class='fa fa-frown-o'></i> You haven't written anything!",
+                    text: 'Write something and submit again.'
+                });
+            }
+        },
+        voteComment: function voteComment(commentId, commentType, index, index2, voteType) {
+            var _this = this;
+
+            if (this.user) {
+                axios.post('/comments/' + commentId + '/vote', {
+                    users_id: this.user.id,
+                    vote: voteType
+                }).then(function (res) {
+                    if (res.data) {
+                        if (commentType == 'directcomment') {
+                            if (voteType == 'up') {
+                                _this.commentsData[index].votes++;
+                            } else if (voteType == 'down') {
+                                _this.commentsData[index].votes--;
+                            }
+                        } else if (commentType == 'replycomment') {
+                            if (voteType == 'up') {
+                                _this.commentsData[index].replies[index2].votes++;
+                            } else if (voteType == 'down') {
+                                _this.commentsData[index].replies[index2].votes--;
+                            }
+                        }
+                    }
+                });
+            }
+        },
+        spamComment: function spamComment(commentId, commentType, index, index2) {
+            var _this2 = this;
+
+            if (this.user) {
+                axios.post('/comments/' + commentId + '/spam', {
+                    users_id: this.user.id
+                }).then(function (res) {
+                    if (commentType == 'directcomment') {
+                        Vue.set(_this2.spamComments, index, 1);
+                        Vue.set(_this2.viewcomment, index, 1);
+                    } else if (commentType == 'replycomment') {
+                        Vue.set(_this2.spamCommentsReply, index2, 1);
+                    }
+                });
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "comments-app" },
+    [
+      _c("h1", [_vm._v("Comments")]),
+      _vm._v(" "),
+      _vm.user
+        ? _c("div", { staticClass: "comment-form" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("form", { staticClass: "form", attrs: { name: "form" } }, [
+              _c("div", { staticClass: "form-row" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.message,
+                      expression: "message"
+                    }
+                  ],
+                  staticClass: "input",
+                  attrs: { placeholder: "Add comment...", required: "" },
+                  domProps: { value: _vm.message },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.message = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errorComment
+                  ? _c(
+                      "span",
+                      { staticClass: "input", staticStyle: { color: "red" } },
+                      [_vm._v(_vm._s(_vm.errorComment))]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-row" }, [
+                _c("input", {
+                  staticClass: "input",
+                  attrs: { placeholder: "Email", type: "text", disabled: "" },
+                  domProps: { value: _vm.user }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-row" }, [
+                _c("input", {
+                  staticClass: "btn btn-success",
+                  attrs: { type: "button", value: "Add Comment" },
+                  on: { click: _vm.saveComment }
+                })
+              ])
+            ])
+          ])
+        : _c("div", { staticClass: "comment-form" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2)
+          ]),
+      _vm._v(" "),
+      _vm._l(_vm.commentsData, function(comment, index) {
+        return _vm.comments
+          ? _c("div", { key: index, staticClass: "comments" }, [
+              !_vm.spamComments[index] || !comment.spam
+                ? _c("div", { staticClass: "comment" }, [
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "comment-box" }, [
+                      _c("div", { staticClass: "comment-text" }, [
+                        _vm._v(_vm._s(comment.comment))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "comment-footer" }, [
+                        _c("div", { staticClass: "comment-info" }, [
+                          _c("span", { staticClass: "comment-author" }, [
+                            _c("em", [_vm._v(_vm._s(comment.name))])
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "comment-date" }, [
+                            _vm._v(_vm._s(comment.date))
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "comment-actions" }, [
+                          _c("ul", { staticClass: "list" }, [
+                            _c("li", [
+                              _vm._v("Votes: " + _vm._s(comment.votes))
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v(" | "),
+                              !comment.votedByUser
+                                ? _c(
+                                    "a",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          _vm.voteComment(
+                                            comment.commentid,
+                                            "directcomment",
+                                            index,
+                                            0,
+                                            "up"
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Up Votes")]
+                                  )
+                                : _vm._e()
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v(" | "),
+                              !comment.votedByUser
+                                ? _c(
+                                    "a",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          _vm.voteComment(
+                                            comment.commentid,
+                                            "directcomment",
+                                            index,
+                                            0,
+                                            "down"
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Down Votes")]
+                                  )
+                                : _vm._e()
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v(" | "),
+                              _c(
+                                "a",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      _vm.spamComment(
+                                        comment.commentId,
+                                        "directcomment",
+                                        index,
+                                        0
+                                      )
+                                    }
+                                  }
+                                },
+                                [_vm._v("Spam")]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v(" | "),
+                              _c(
+                                "a",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      _vm.openComment(index)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Reply")]
+                              )
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.commentBoxs[index]
+                      ? _c("div", { staticClass: "comment-form comment-v" }, [
+                          _vm._m(4, true),
+                          _vm._v(" "),
+                          _c(
+                            "form",
+                            { staticClass: "form", attrs: { name: "form" } },
+                            [
+                              _c("div", { staticClass: "form-row" }, [
+                                _c("textarea", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.reply,
+                                      expression: "reply"
+                                    }
+                                  ],
+                                  staticClass: "input",
+                                  attrs: {
+                                    placeholder: "Add a reply...",
+                                    required: ""
+                                  },
+                                  domProps: { value: _vm.reply },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.reply = $event.target.value
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm.errorReply
+                                  ? _c(
+                                      "span",
+                                      {
+                                        staticClass: "input",
+                                        staticStyle: { color: "red" }
+                                      },
+                                      [_vm._v(_vm._s(_vm.errorReply))]
+                                    )
+                                  : _vm._e()
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-row" }, [
+                                _c("input", {
+                                  staticClass: "btn btn-success",
+                                  attrs: { type: "button", value: "Add reply" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.replyComment(comment.commentid, index)
+                                    }
+                                  }
+                                })
+                              ])
+                            ]
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    comment.replies
+                      ? _c(
+                          "div",
+                          _vm._l(comment.replies, function(replies, index2) {
+                            return _c(
+                              "div",
+                              { key: index2, staticClass: "comments" },
+                              [
+                                !_vm.spamCommentsReply[index2] || !replies.spam
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "comment reply" },
+                                      [
+                                        _vm._m(5, true),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "comment-box",
+                                            staticStyle: { background: "grey" }
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "comment-text",
+                                                staticStyle: { color: "white" }
+                                              },
+                                              [_vm._v(_vm._s(replies.comment))]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "comment-footer" },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass: "comment-info"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "comment-author"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(replies.name)
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "comment-date"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(replies.date)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "comment-actions"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "ul",
+                                                      { staticClass: "list" },
+                                                      [
+                                                        _c("li", [
+                                                          _vm._v(
+                                                            "Total votes: " +
+                                                              _vm._s(
+                                                                replies.votes
+                                                              )
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("li", [
+                                                          _vm._v(" | "),
+                                                          !replies.votedByUser
+                                                            ? _c(
+                                                                "a",
+                                                                {
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.voteComment(
+                                                                        replies.commentid,
+                                                                        "replycomment",
+                                                                        index,
+                                                                        index2,
+                                                                        "up"
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "Up Votes"
+                                                                  )
+                                                                ]
+                                                              )
+                                                            : _vm._e()
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("li", [
+                                                          _vm._v(" | "),
+                                                          !replies.votedByUser
+                                                            ? _c(
+                                                                "a",
+                                                                {
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.voteComment(
+                                                                        comment.commentid,
+                                                                        "replycomment",
+                                                                        index,
+                                                                        index2,
+                                                                        "down"
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "Down Votes"
+                                                                  )
+                                                                ]
+                                                              )
+                                                            : _vm._e()
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("li", [
+                                                          _vm._v(" | "),
+                                                          _c(
+                                                            "a",
+                                                            {
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.spamComment(
+                                                                    replies.commentid,
+                                                                    "replycomment",
+                                                                    index,
+                                                                    index2
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [_vm._v("Spam")]
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("li", [
+                                                          _vm._v(" | "),
+                                                          _c(
+                                                            "a",
+                                                            {
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.replyCommentBox(
+                                                                    index2
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [_vm._v("Reply")]
+                                                          )
+                                                        ])
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _vm.replyCommentBoxs[index2]
+                                          ? _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "comment-form reply"
+                                              },
+                                              [
+                                                _vm._m(6, true),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "form",
+                                                  {
+                                                    staticClass: "form",
+                                                    attrs: { name: "form" }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "form-row"
+                                                      },
+                                                      [
+                                                        _c("textarea", {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value:
+                                                                _vm.message,
+                                                              expression:
+                                                                "message"
+                                                            }
+                                                          ],
+                                                          staticClass: "input",
+                                                          attrs: {
+                                                            placeholder:
+                                                              "Add comment...",
+                                                            required: ""
+                                                          },
+                                                          domProps: {
+                                                            value: _vm.message
+                                                          },
+                                                          on: {
+                                                            input: function(
+                                                              $event
+                                                            ) {
+                                                              if (
+                                                                $event.target
+                                                                  .composing
+                                                              ) {
+                                                                return
+                                                              }
+                                                              _vm.message =
+                                                                $event.target.value
+                                                            }
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _vm.errorReply
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "input",
+                                                                staticStyle: {
+                                                                  color: "red"
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    _vm.errorReply
+                                                                  )
+                                                                )
+                                                              ]
+                                                            )
+                                                          : _vm._e()
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "form-row"
+                                                      },
+                                                      [
+                                                        _c("input", {
+                                                          staticClass: "input",
+                                                          attrs: {
+                                                            placeholder:
+                                                              "Email",
+                                                            type: "text"
+                                                          },
+                                                          domProps: {
+                                                            value: _vm.user
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "form-row"
+                                                      },
+                                                      [
+                                                        _c("input", {
+                                                          staticClass:
+                                                            "btn btn-success",
+                                                          attrs: {
+                                                            type: "button",
+                                                            value: "Add Reply"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.replyComment(
+                                                                comment.commentid,
+                                                                index
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ]
+                            )
+                          })
+                        )
+                      : _vm._e()
+                  ])
+                : _vm._e()
+            ])
+          : _vm._e()
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "comment-avatar" }, [
+      _c("img", {
+        attrs: {
+          src:
+            "http://phpstack-21306-71265-194078.cloudwaysapps.com/lc/public/storage/commentbox.png"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "comment-avatar" }, [
+      _c("img", {
+        attrs: {
+          src:
+            "http://phpstack-21306-71265-194078.cloudwaysapps.com/lc/public/storage/commentbox.png"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("form", { staticClass: "form", attrs: { name: "form" } }, [
+      _c("div", { staticClass: "form-row" }, [
+        _c("a", { attrs: { href: "login" } }, [
+          _c("textarea", {
+            staticClass: "input",
+            attrs: { placeholder: "Add comment...", required: "" }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "comment-avatar" }, [
+      _c("img", {
+        attrs: {
+          src:
+            "http://phpstack-21306-71265-194078.cloudwaysapps.com/lc/public/storage/commentbox.png"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "comment-avatar" }, [
+      _c("img", {
+        attrs: {
+          src:
+            "http://phpstack-21306-71265-194078.cloudwaysapps.com/lc/public/storage/commentbox.png"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "comment-avatar" }, [
+      _c("img", {
+        attrs: {
+          src:
+            "http://phpstack-21306-71265-194078.cloudwaysapps.com/lc/public/storage/commentbox.png"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "comment-avatar" }, [
+      _c("img", {
+        attrs: {
+          src:
+            "http://phpstack-21306-71265-194078.cloudwaysapps.com/lc/public/storage/commentbox.png"
+        }
+      })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-19fc3d2b", module.exports)
+  }
+}
+
+/***/ }),
+/* 65 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

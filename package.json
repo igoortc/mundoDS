@@ -24,6 +24,7 @@
     "bootstrap-vue": "^1.4.0",
     "vue-notification": "^1.3.4",
     "vue-star": "0.0.4",
+    "vuejs-paginate": "^1.6.0",
     "webpack-dev-server": "^1.14.1"
   },
   "name": "mundoDS",
