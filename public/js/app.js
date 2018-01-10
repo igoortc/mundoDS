@@ -45915,6 +45915,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['show', 'user'],
@@ -45929,7 +45931,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 synopsis: '',
                 date: ''
             },
-            average: '',
+            average: [],
             episodes: [],
             showSeasons: '',
             activeSeason: 'T1'
@@ -45938,32 +45940,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         this.getEpisodes();
         this.getSeasons();
-        // this.getAverage();
     },
     created: function created() {
         this.startSeason();
     },
 
     methods: {
-        // getAverage () {
-        //     let self = this;
-        //     console.log('/avgEpisode/' + this.episode.id)
-        //     axios.get('/avgEpisode/' + this.episode.id)
-        //         .then(function (response) {
-        //             self.average = response.data.data
-        //         })
-        //         .catch(function (error) {
-        //             self.$notify({
-        //                 type: 'error',
-        //                 title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-        //                 text: 'Try reloading the page or contact the support! Failed to load the episodes. '
-        //             });
-        //         });
-        // },
         getEpisodes: function getEpisodes() {
             var self = this;
             axios.get('/api/shows/' + this.show + '/episodes').then(function (response) {
                 self.episodes = response.data.data;
+                for (var i = 0; i < self.episodes.length; i++) {
+                    axios.get('/avgEpisode/' + self.episodes[i].id).then(function (response) {
+                        self.average.push(response.data);
+                    }).catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to load the episodes. '
+                        });
+                    });
+                }
             }).catch(function (error) {
                 self.$notify({
                     type: 'error',
@@ -45971,7 +45968,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     text: 'Try reloading the page or contact the support! Failed to load the episodes. '
                 });
             });
-            console.log(self.episodes);
         },
         getSeasons: function getSeasons() {
             var self = this;
@@ -46000,6 +45996,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return true;
                 }
             }
+        },
+        getAverage: function getAverage(episode, index) {
+            console.log('yayyy');
+            console.log(episode);
+            var self = this;
+            console.log('/avgEpisode/' + episode);
+            axios.get('/avgEpisode/' + episode).then(function (response) {
+                self.average[index] = response.data.data;
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to load the episodes. '
+                });
+            });
         }
     }
 });
@@ -46066,13 +46077,7 @@ var render = function() {
                       _vm._l(_vm.episodes, function(episode, index) {
                         return episode.season === season
                           ? _c("tr", { key: index }, [
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(episode.number) +
-                                    " avg " +
-                                    _vm._s(_vm.average)
-                                )
-                              ]),
+                              _c("td", [_vm._v(_vm._s(episode.number))]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -46089,6 +46094,8 @@ var render = function() {
                                   [_vm._v(_vm._s(episode.name))]
                                 )
                               ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(_vm.average[index]))]),
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(episode.date_aired))]),
                               _vm._v(" "),
@@ -46129,7 +46136,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("TitleZ")]),
+        _c("th", [_vm._v("Title")]),
+        _vm._v(" "),
+        _c("th", [_c("i", { staticClass: "fa fa-star" })]),
         _vm._v(" "),
         _c("th", [_vm._v("Date aired")]),
         _vm._v(" "),

@@ -22,6 +22,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th><i class="fa fa-star"></i></th>
                             <th>Date aired</th>
                             <th>Actions</th>
                         </tr>
@@ -31,8 +32,9 @@
                             v-for="(episode, index) in episodes" 
                             :key="index"
                             v-if="episode.season===season">
-                                <td>{{ episode.number }} avg {{ average }}</td>
+                                <td>{{ episode.number }}</td>
                                 <td><a :href="'/show/' + episode.show_id + '/episode/' + episode.id">{{ episode.name }}</a></td>
+                                <td>{{ average[index] }}</td>
                                 <td>{{ episode.date_aired }}</td>
                                 <td>
                                     <watched
@@ -63,7 +65,7 @@
                     synopsis: '',
                     date: '',
                 },
-                average: '',
+                average: [],
                 episodes: [],
                 showSeasons: '',
                 activeSeason: 'T1',
@@ -72,33 +74,30 @@
         mounted() {
             this.getEpisodes();
             this.getSeasons();
-            // this.getAverage();
         },
         created() {
           this.startSeason();  
         },
         methods: {
-            // getAverage () {
-            //     let self = this;
-            //     console.log('/avgEpisode/' + this.episode.id)
-            //     axios.get('/avgEpisode/' + this.episode.id)
-            //         .then(function (response) {
-            //             self.average = response.data.data
-            //         })
-            //         .catch(function (error) {
-            //             self.$notify({
-            //                 type: 'error',
-            //                 title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-            //                 text: 'Try reloading the page or contact the support! Failed to load the episodes. '
-            //             });
-            //         });
-            // },
             getEpisodes()
             {
                 let self = this;
                 axios.get('/api/shows/'+ this.show + '/episodes')
                     .then(function (response) {
-                        self.episodes = response.data.data;
+                        self.episodes = response.data.data
+                        for (let i = 0; i< self.episodes.length; i++) {
+                            axios.get('/avgEpisode/' + self.episodes[i].id)
+                                .then(function (response) {
+                                    self.average.push(response.data)
+                                })
+                                .catch(function (error) {
+                                    self.$notify({
+                                        type: 'error',
+                                        title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                                        text: 'Try reloading the page or contact the support! Failed to load the episodes. '
+                                    });
+                                });
+                        }
                     })
                     .catch(function (error) {
                         self.$notify({
@@ -107,7 +106,6 @@
                             text: 'Try reloading the page or contact the support! Failed to load the episodes. '
                         });
                     });
-                console.log(self.episodes);
             },
             getSeasons () {
                 let self = this;
@@ -138,6 +136,23 @@
                         return true;
                     }
                 }
+            },
+            getAverage (episode, index) {
+                console.log('yayyy')
+                console.log(episode)
+                let self = this
+                console.log('/avgEpisode/' + episode)
+                axios.get('/avgEpisode/' + episode)
+                    .then(function (response) {
+                        self.average[index] = response.data.data
+                    })
+                    .catch(function (error) {
+                        self.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to load the episodes. '
+                        });
+                    });
             }
         }
     }
