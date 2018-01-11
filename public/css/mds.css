@@ -1,4 +1,4 @@
-.poster img {
+.poster img, .profile img {
     width: 120px;
     float: left;
     margin-right: 25px;
@@ -229,13 +229,13 @@
 }
 
 .comment .comment-text{
-  color: #555f77;
+  color: #000000;
   font-size: 15px;
   margin-bottom: 25px;
 }
 
 .comment .comment-footer{
-  color: #acb4c2;
+  color: #000;
   font-size: 13px;
 }
 
@@ -246,7 +246,7 @@
 }
 
 .comment .comment-footer a{
-  color: #acb4c2;
+  color: #555f77;
   text-decoration: none;
 
   -webkit-transition: 350ms color;

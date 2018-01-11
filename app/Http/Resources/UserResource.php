@@ -18,6 +18,10 @@ class UserResource extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'photo' => $this->photo,
+            'age' => $this->age,
+            'city' => $this->city,
+            'bio' => $this->bio,
             'date' => $this->created_at->diffForHumans()
         ];
     }

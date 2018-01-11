@@ -60,6 +60,62 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('photo') ? ' has-error' : '' }}">
+                            <label for="phot" class="col-md-4 control-label">Photo</label>
+
+                            <div class="col-md-6">
+                                <input id="photo" type="text" class="form-control" name="photo" value="{{ old('photo') }}" required autofocus>
+
+                                @if ($errors->has('photo'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('photo') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('age') ? ' has-error' : '' }}">
+                            <label for="age" class="col-md-4 control-label">Age</label>
+
+                            <div class="col-md-6">
+                                <input id="age" type="text" class="form-control" name="age" value="{{ old('age') }}" required autofocus>
+
+                                @if ($errors->has('age'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('age') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                            <label for="city" class="col-md-4 control-label">City</label>
+
+                            <div class="col-md-6">
+                                <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}" required autofocus>
+
+                                @if ($errors->has('city'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('city') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('bio') ? ' has-error' : '' }}">
+                            <label for="bio" class="col-md-4 control-label">Bio</label>
+
+                            <div class="col-md-6">
+                                <input id="bio" type="text" class="form-control" name="bio" value="{{ old('bio') }}" required autofocus>
+
+                                @if ($errors->has('bio'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('bio') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

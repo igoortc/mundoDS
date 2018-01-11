@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <comment 
-                    :commenturl={{ $episode->id }}
-                    :user={{ Auth::user()->id }}
+                    :commenturl="{{ $episode->id }}"
+                    :user="{{ Auth::user() }}"
                 ></comment>
             </div>
          </div>

@@ -14,13 +14,22 @@
                     {{ $user->name }}
                 </div>
                 <div class="panel-body">
-                    {{ $user->email }}
-                        @if (Auth::user()->id != $user->id)
-                        <follow
-                            :user_id={{ $user->id }}
-                            :following_id={{ $user->followed() ? 'true' : 'false' }}
-                        ></follow>
-                        @endif
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-md-3 col-3 profile">
+                            <img src={{ $user-> photo }}>
+                        </div>
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9">
+                            <p>{{ $user-> age }}</p>
+                            <p>{{ $user-> city }}</p>
+                            <p>{{ $user-> bio }}</p>
+                        </div>
+                    </div>
+                    @if (Auth::user()->id != $user->id)
+                    <follow
+                        :user_id={{ $user->id }}
+                        :following_id={{ $user->followed() ? 'true' : 'false' }}
+                    ></follow>
+                    @endif
                     <div class="row">
                         <div class="col-md-6">Followers
                             <followers :user={{ $user->id }}>

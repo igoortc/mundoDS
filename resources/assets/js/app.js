@@ -4,7 +4,9 @@ import VueResource from 'vue-resource';
 import Vue           from 'vue';
 import Notifications from 'vue-notification';
 import VueStar from 'vue-star';
+import VuePaginate from 'vue-paginate';
 
+Vue.use(VuePaginate);
 Vue.use(VueResource);
 Vue.use(Notifications);
 Vue.component('VueStar', VueStar);
