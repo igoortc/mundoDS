@@ -92,8 +92,8 @@
                             <label for="city" class="col-md-4 control-label">City</label>
 
                             <div class="col-md-6">
-                                <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}" required autofocus>
-
+                                <!-- <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}" required autofocus> -->
+                                <input type="text" name="city" placeholder="City" class="form-control" value="{{ old('city') }}" id="city" required autofocus>
                                 @if ($errors->has('city'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('city') }}</strong>
@@ -129,4 +129,15 @@
         </div>
     </div>
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe1exctmeJjIb4guyT6newSpyJ7kA3aLc&language=en&libraries=places"></script>
+<script type="text/javascript">
+    function initialize() {
+        var options = {
+            types: ['(cities)']
+        };
+        var input = document.getElementById('city');
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 @endsection
