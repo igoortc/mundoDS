@@ -1,13 +1,13 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="page-header">
-                <h3>All Shows</h3>
+                <h3>Search results for <em>{{ $search }}</em></h3>
+                <h3>Shows</h3>
             </div>
-            @forelse ($shows as $show)
+            @forelse ($searchShows as $show)
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
@@ -55,10 +55,34 @@
                     </div>
                 </div>
             @empty
-                <p>No show created.</p>
+                <p>No shows found.</p>
             @endforelse
-
-           {{ $shows->links() }}
+            <div class="page-header">
+                <h3>Users</h3>
+            </div>
+            @forelse ($searchUsers as $user)
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 poster">
+                                <img src={{ $user->photo }}>
+                            </div>
+                            <div class="col-md-9 showInfo">
+                                <a href="{{ url('user') }}/{{ $user->id }}"><p>{{ $user->name }}</p></a>
+                                <p>{{ $user->bio }}</p>
+                                @if (Auth::user()->id != $user->id)
+                                    <follow
+                                        :user_id={{ $user->id }}
+                                        :following_id={{ $user->followed() ? 'true' : 'false' }}
+                                    ></follow>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <p>No users found.</p>
+            @endforelse
         </div>
     </div>
 </div>

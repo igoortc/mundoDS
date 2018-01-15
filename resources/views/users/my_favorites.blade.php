@@ -11,6 +11,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <a href="{{ url('/show/' . $myFavorite->id) }}"> {{ $myFavorite->name }} </a>
+                        {{ $myFavorite->poster }}
                     </div>
 
                     <div class="panel-body">

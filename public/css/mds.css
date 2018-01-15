@@ -297,3 +297,66 @@ ul li {
 .comment-actions ul li {
   cursor: pointer;
 }
+
+h4 {
+  font-weight: bold;
+}
+
+.favoritesSlider {
+  overflow: scroll;
+  height: 160px;
+  padding: 0 8px;
+}
+
+.favoritesSlider div {
+  display: inline-block;
+  margin: 10px;
+}
+
+.favoritesSlider div img {
+  width: 100px;
+  height: 150px;
+  border-radius: 5px;
+}
+
+.friendship {
+  max-height: 115px;
+  overflow: auto;
+}
+
+.friendship div {
+  display: inline-block;
+  margin: 7px;
+}
+
+.friendship div img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.friendships {
+  margin-top: 25px;
+}
+
+.friendships div h4 {
+  display: inline-block;
+  margin: 11px 0;
+}
+
+@media (max-width: 760px) {
+  .following {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 485px) {
+  .favoritesSlider div img {
+    width: 65px;
+    height: 98px;
+  }
+
+  .favoritesSlider div {
+      margin: 5px;
+  }
+}

@@ -13,7 +13,9 @@
 
 Auth::routes();
 
-Route::get('/', 'ShowsController@index');
+Route::get('/', 'DashboardController@index')->middleware('auth');
+
+Route::get('search/{search}', 'DashboardController@search');
 
 Route::post('favorite/{show}', 'ShowsController@favoriteShow');
 Route::post('unfavorite/{show}', 'ShowsController@unFavoriteShow');
@@ -44,3 +46,5 @@ Route::get('comments/{episode}', 'CommentController@index');
 Route::post('comments', 'CommentController@store');
 
 Route::post('comments/{commentId}/{type}', 'CommentController@update');
+
+Route::get('dashFavorites/{user}', 'UsersController@dashFavorites');

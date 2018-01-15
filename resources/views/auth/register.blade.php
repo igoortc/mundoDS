@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@include('scripts.maps')
 
 @section('content')
 <div class="container">
@@ -61,11 +62,11 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('photo') ? ' has-error' : '' }}">
-                            <label for="phot" class="col-md-4 control-label">Photo</label>
+                            <label for="photo" class="col-md-4 control-label">Photo</label>
 
                             <div class="col-md-6">
-                                <input id="photo" type="text" class="form-control" name="photo" value="{{ old('photo') }}" required autofocus>
-
+                                <input id="photo" type="hidden" ref="photo" class="form-control" name="photo" value="{{ old('photo') }}">
+                                <image-upload></image-upload>
                                 @if ($errors->has('photo'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('photo') }}</strong>
@@ -92,8 +93,7 @@
                             <label for="city" class="col-md-4 control-label">City</label>
 
                             <div class="col-md-6">
-                                <!-- <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}" required autofocus> -->
-                                <input type="text" name="city" placeholder="City" class="form-control" value="{{ old('city') }}" id="city" required autofocus>
+                                <input type="text" name="city" class="form-control" value="{{ old('city') }}" id="city" required autofocus>
                                 @if ($errors->has('city'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('city') }}</strong>
@@ -106,7 +106,7 @@
                             <label for="bio" class="col-md-4 control-label">Bio</label>
 
                             <div class="col-md-6">
-                                <input id="bio" type="text" class="form-control" name="bio" value="{{ old('bio') }}" required autofocus>
+                                <textarea id="bio" class="form-control" name="bio" value="{{ old('bio') }}" required autofocus></textarea>
 
                                 @if ($errors->has('bio'))
                                     <span class="help-block">
@@ -129,15 +129,4 @@
         </div>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe1exctmeJjIb4guyT6newSpyJ7kA3aLc&language=en&libraries=places"></script>
-<script type="text/javascript">
-    function initialize() {
-        var options = {
-            types: ['(cities)']
-        };
-        var input = document.getElementById('city');
-        var autocomplete = new google.maps.places.Autocomplete(input, options);
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
-</script>
 @endsection

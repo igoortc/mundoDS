@@ -30,6 +30,13 @@ class UsersController extends Controller
         return view('users.my_favorites', compact('myFavorites'));
     }
 
+    public function dashFavorites($id)
+    {
+        $myFavorites = User::find($id)->favorites;
+
+        return $myFavorites;
+    }
+
     public function myWatched()
     {
         $myWatched = Auth::user()->watches;

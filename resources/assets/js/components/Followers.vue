@@ -5,8 +5,10 @@
         <div v-if="followersInfo.length === 0">
             No followers!
         </div>
-        <div v-else v-for="(follower, index) in followersInfo" :key="index">
-            <a :href="'/user/' + follower.id"> {{ follower.name }} </a>
+        <div v-else v-for="(follower, index) in followersInfo" :key="index" class="friendship">
+            <div>
+                <a :href="'/user/' + follower.id"> <img :src="follower.photo"/> </a>
+            </div>
         </div>
     </span>
 </template>
