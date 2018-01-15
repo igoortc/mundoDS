@@ -28,4 +28,50 @@ class EpisodeController extends Controller
     {
         return new EpisodeResource($episode);
     }
+
+    public function store(Request $request)
+    {
+        $episode = $this->validate($request, [
+            'name' => 'required|min:3|max:100',
+            'show_id' => 'required',
+            'season' => 'required|numeric',
+            'number' => 'required|numeric',
+            'synopsis' => 'nullable',
+            'date_aired' => 'required',
+            'image' => 'nullable|url'
+        ]);
+
+        $episode = Episode::create($episode);
+
+        return new EpisodeResource($episode);
+    }
+
+    public function update(Request $request, $show, $episode)
+    {
+        $episode = Episode::find($episode);
+        $episode = $this->validate($request, [
+            'name' => 'required|min:3|max:100',
+            'show_id' => 'required',
+            'season' => 'required|numeric',
+            'number' => 'required|numeric',
+            'synopsis' => 'nullable',
+            'date_aired' => 'required',
+            'image' => 'nullable|url'
+        ]);
+        $episode->save();
+        
+        return response()->json([
+            'message' => 'Episode updated successfully!'
+        ], 200);
+    }
+
+    public function destroy($id)
+    {
+        $episode = Episode::find($id);
+        $episode->delete();
+
+        return response()->json([
+            'message' => 'Episode destroyed successfully!'
+        ], 200);
+    }
 }

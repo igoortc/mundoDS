@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('age');
             $table->string('city');
             $table->string('bio');
+            $table->integer('admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

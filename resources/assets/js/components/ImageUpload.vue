@@ -42,7 +42,6 @@
                     })
                     self.uploading = false
                     self.uploaded = true
-                    console.log(res.data)
                     $('#photo').val(res.data.secure_url)
                 })
             }

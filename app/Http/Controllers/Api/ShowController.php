@@ -39,4 +39,33 @@ class ShowController extends Controller
 
         return new ShowResource($show);
     }
+
+    public function destroy($id)
+    {
+        $show = Show::find($id);
+        $show->delete();
+
+        return response()->json([
+            'message' => 'User destroyed successfully!'
+        ], 200);
+    }
+
+    public function update(Request $request, $show)
+    {
+        $show = Show::find($show);
+        $show = $this->validate($request, [
+            'name' => 'required|min:3|max:100',
+            'poster' => 'required|url',
+            'synopsis' => 'required|min:10',
+            'seasons' => 'required|numeric',
+            'status' => 'required',
+            'netflix' => 'nullable|url',
+            'imdb' => 'nullable|url'
+        ]);
+        $show->save();
+        
+        return response()->json([
+            'message' => 'Show updated successfully!'
+        ], 200);
+    }
 }

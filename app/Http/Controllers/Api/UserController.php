@@ -21,4 +21,31 @@ class UserController extends Controller
     {
         return new UserResource($user);
     }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User destroyed successfully!'
+        ], 200);
+    }
+
+    public function update(Request $request, $user)
+    {
+        $user = User::find($user);
+        $user = $this->validate($request, [
+            'name' => 'required|min:3|max:100',
+            'password' => 'required',
+            'photo' => 'required',
+            'city' => 'required',
+            'bio' => 'required'
+        ]);
+        $user->save();
+        
+        return response()->json([
+            'message' => 'User updated successfully!'
+        ], 200);
+    }
 }

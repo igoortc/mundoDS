@@ -1,9 +1,13 @@
 <template>
     <div class="row">
-        <div class="favoritesSlider">
+        <div class="favoritesSlider" v-if="shows.length">
             <div v-for="show in shows">
                 <a :href="'/show/' + show.id" ><img :src="show.poster" /></a>
             </div>
+        </div>
+        <div v-else class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <p>You have no favorite shows!</p>
+            <p>Start <a href="/all_shows">browsing</a>!</p>
         </div>
     </div>
 </template>

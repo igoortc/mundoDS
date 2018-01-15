@@ -82,10 +82,15 @@
     padding: 0 !important;
 }
 
-.VueStar {
-    position: absolute;
-    bottom: -55px;
-    left: -28px;
+.np-l {
+  padding-left: 0 !important;
+}
+.np-r {
+  padding-right: 0 !important;
+}
+
+.modal-title {
+  display: inline-block;
 }
 
 /* COMMENTS SECTION */

@@ -11,7 +11,7 @@ class ShowsController extends Controller
 {
     public function index()
     {
-        $shows = Show::paginate(3);
+        $shows = Show::paginate(10);
 
         return view('shows.index', compact('shows'));
     }

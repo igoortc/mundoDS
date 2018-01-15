@@ -11,6 +11,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->admin == 1) {
+            return view('dashboard.admin');
+        }
         return view('dashboard.home');
     }
 
