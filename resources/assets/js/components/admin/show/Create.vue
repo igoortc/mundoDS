@@ -1,9 +1,8 @@
 <template>
     <div class="modal-content">
-        <notifications></notifications>
         <div class="modal-header">
             <h5 class="modal-title">Create new show</h5>
-            <button type="button" ref="close" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -15,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label for="poster" class="col-form-label">Poster:</label>
-                    <input id="photo" type="hidden" ref="photo" class="form-control" name="photo" value="" v-model="show.poster">
+                    <input id="poster" type="hidden" ref="poster" class="form-control" name="poster">
                     <image-upload></image-upload>
                 </div>
                 <div class="form-group">
@@ -70,14 +69,13 @@ export default {
                 netflix: '',
                 imdb: '',
                 date: '',
-            },
+            }
         }
     },
     methods: {
         newShow() {
-            this.show.poster = this.$refs.photo.value
+            this.show.poster = this.$refs.poster.value
             let self = this;
-            console.log(self.show)
             axios.post('/api/shows/', self.show)
                 .then(function (response) {
                     self.$notify({
@@ -85,7 +83,7 @@ export default {
                         title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
                         text: 'The show was included in the database!'
                     });
-                    this.$refs.close.click
+                    $('.close').click()
                 })
                 .catch(function (error) {
                     self.$notify({

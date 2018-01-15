@@ -43,6 +43,7 @@
                     self.uploading = false
                     self.uploaded = true
                     $('#photo').val(res.data.secure_url)
+                    $('#poster').val(res.data.secure_url)
                 })
             }
         }

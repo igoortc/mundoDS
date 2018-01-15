@@ -55095,6 +55095,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.uploading = false;
                 self.uploaded = true;
                 $('#photo').val(res.data.secure_url);
+                $('#poster').val(res.data.secure_url);
             });
         }
     }
@@ -55541,7 +55542,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -55561,16 +55561,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         newShow: function newShow() {
-            this.show.poster = this.$refs.photo.value;
+            this.show.poster = this.$refs.poster.value;
             var self = this;
-            console.log(self.show);
             axios.post('/api/shows/', self.show).then(function (response) {
                 self.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
                     text: 'The show was included in the database!'
                 });
-                this.$refs.close.click;
+                $('.close').click();
             }).catch(function (error) {
                 self.$notify({
                     type: 'error',
@@ -55590,70 +55589,104 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "modal-content" },
-    [
-      _c("notifications"),
-      _vm._v(" "),
-      _c("div", { staticClass: "modal-header" }, [
-        _c("h5", { staticClass: "modal-title" }, [_vm._v("Create new show")]),
+  return _c("div", { staticClass: "modal-content" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal-body" }, [
+      _c("form", [
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "label",
+            { staticClass: "col-form-label", attrs: { for: "name" } },
+            [_vm._v("Name:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.show.name,
+                expression: "show.name"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", id: "name", required: "" },
+            domProps: { value: _vm.show.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.show, "name", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c(
-          "button",
-          {
-            ref: "close",
-            staticClass: "close",
-            attrs: {
-              type: "button",
-              "data-dismiss": "modal",
-              "aria-label": "Close"
-            }
-          },
-          [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "modal-body" }, [
-        _c("form", [
-          _c("div", { staticClass: "form-group" }, [
+          "div",
+          { staticClass: "form-group" },
+          [
             _c(
               "label",
-              { staticClass: "col-form-label", attrs: { for: "name" } },
-              [_vm._v("Name:")]
+              { staticClass: "col-form-label", attrs: { for: "poster" } },
+              [_vm._v("Poster:")]
             ),
             _vm._v(" "),
             _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.show.name,
-                  expression: "show.name"
-                }
-              ],
+              ref: "poster",
               staticClass: "form-control",
-              attrs: { type: "text", id: "name", required: "" },
-              domProps: { value: _vm.show.name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.show, "name", $event.target.value)
-                }
-              }
-            })
-          ]),
+              attrs: { id: "poster", type: "hidden", name: "poster" }
+            }),
+            _vm._v(" "),
+            _c("image-upload")
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "label",
+            { staticClass: "col-form-label", attrs: { for: "synopsis" } },
+            [_vm._v("Synopsis:")]
+          ),
           _vm._v(" "),
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.show.synopsis,
+                expression: "show.synopsis"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { id: "synopsis", required: "" },
+            domProps: { value: _vm.show.synopsis },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.show, "synopsis", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
           _c(
             "div",
-            { staticClass: "form-group" },
+            {
+              staticClass:
+                "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
+            },
             [
               _c(
                 "label",
-                { staticClass: "col-form-label", attrs: { for: "poster" } },
-                [_vm._v("Poster:")]
+                { staticClass: "col-form-label", attrs: { for: "seasons" } },
+                [_vm._v("Seasons:")]
               ),
               _vm._v(" "),
               _c("input", {
@@ -55661,264 +55694,205 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.show.poster,
-                    expression: "show.poster"
+                    value: _vm.show.seasons,
+                    expression: "show.seasons"
                   }
                 ],
-                ref: "photo",
                 staticClass: "form-control",
-                attrs: {
-                  id: "photo",
-                  type: "hidden",
-                  name: "photo",
-                  value: ""
-                },
-                domProps: { value: _vm.show.poster },
+                attrs: { type: "number", id: "seasons", required: "" },
+                domProps: { value: _vm.show.seasons },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.show, "poster", $event.target.value)
+                    _vm.$set(_vm.show, "seasons", $event.target.value)
                   }
                 }
-              }),
-              _vm._v(" "),
-              _c("image-upload")
-            ],
-            1
+              })
+            ]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "label",
-              { staticClass: "col-form-label", attrs: { for: "synopsis" } },
-              [_vm._v("Synopsis:")]
-            ),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
+          _c(
+            "div",
+            {
+              staticClass:
+                "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
+            },
+            [
+              _c(
+                "label",
+                { staticClass: "col-form-label", attrs: { for: "status" } },
+                [_vm._v("Status:")]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.show.synopsis,
-                  expression: "show.synopsis"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { id: "synopsis", required: "" },
-              domProps: { value: _vm.show.synopsis },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.show, "synopsis", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-row" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
-              },
-              [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "seasons" } },
-                  [_vm._v("Seasons:")]
-                ),
-                _vm._v(" "),
-                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.show.seasons,
-                      expression: "show.seasons"
+                      value: _vm.show.status,
+                      expression: "show.status"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "number", id: "seasons", required: "" },
-                  domProps: { value: _vm.show.seasons },
+                  attrs: { id: "status", required: "" },
                   on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.show, "seasons", $event.target.value)
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.show,
+                        "status",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
                     }
                   }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
-              },
-              [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "status" } },
-                  [_vm._v("Status:")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "select",
+                },
+                [
+                  _c("option", { attrs: { selected: "" } }, [
+                    _vm._v("Choose...")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "E" } }, [_vm._v("On air")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "F" } }, [_vm._v("Finished")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "W" } }, [
+                    _vm._v("To be released")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "B" } }, [_vm._v("Binge")])
+                ]
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
+            },
+            [
+              _c(
+                "label",
+                { staticClass: "col-form-label", attrs: { for: "seasons" } },
+                [_vm._v("Netflix:")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
                   {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.show.status,
-                        expression: "show.status"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "status", required: "" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.show,
-                          "status",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Choose...")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "E" } }, [_vm._v("On air")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "F" } }, [
-                      _vm._v("Finished")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "W" } }, [
-                      _vm._v("To be released")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "B" } }, [_vm._v("Binge")])
-                  ]
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-row" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
-              },
-              [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "seasons" } },
-                  [_vm._v("Netflix:")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.show.netflix,
-                      expression: "show.netflix"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "netflix" },
-                  domProps: { value: _vm.show.netflix },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.show, "netflix", $event.target.value)
-                    }
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.show.netflix,
+                    expression: "show.netflix"
                   }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
-              },
-              [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "status" } },
-                  [_vm._v("IMDb:")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.show.imdb,
-                      expression: "show.imdb"
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", id: "netflix" },
+                domProps: { value: _vm.show.netflix },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "imdb" },
-                  domProps: { value: _vm.show.imdb },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.show, "imdb", $event.target.value)
-                    }
+                    _vm.$set(_vm.show, "netflix", $event.target.value)
                   }
-                })
-              ]
-            )
-          ]),
+                }
+              })
+            ]
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group text-right" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-primary",
-                attrs: { type: "button" },
-                on: { click: _vm.newShow }
-              },
-              [_vm._v("Create new show!")]
-            )
-          ])
+          _c(
+            "div",
+            {
+              staticClass:
+                "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
+            },
+            [
+              _c(
+                "label",
+                { staticClass: "col-form-label", attrs: { for: "status" } },
+                [_vm._v("IMDb:")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.show.imdb,
+                    expression: "show.imdb"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", id: "imdb" },
+                domProps: { value: _vm.show.imdb },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.show, "imdb", $event.target.value)
+                  }
+                }
+              })
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group text-right" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { type: "button" },
+              on: { click: _vm.newShow }
+            },
+            [_vm._v("Create new show!")]
+          )
         ])
       ])
-    ],
-    1
-  )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Create new show")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
