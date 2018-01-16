@@ -28981,7 +28981,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(83);
+module.exports = __webpack_require__(85);
 
 
 /***/ }),
@@ -29019,12 +29019,12 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('image-upload', __webpack_
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('dash-favorites', __webpack_require__(68));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('search', __webpack_require__(71));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-create', __webpack_require__(74));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-edit', __webpack_require__(77));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-delete', __webpack_require__(78));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-create', __webpack_require__(79));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-edit', __webpack_require__(80));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-delete', __webpack_require__(81));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('user-delete', __webpack_require__(82));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-manage', __webpack_require__(77));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-create', __webpack_require__(80));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-edit', __webpack_require__(81));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-delete', __webpack_require__(82));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('user-manage', __webpack_require__(83));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('content-manage', __webpack_require__(84));
 
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     el: '#app'
@@ -55906,11 +55906,12 @@ if (false) {
 /* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(78)
 /* template */
-var __vue_template__ = null
+var __vue_template__ = __webpack_require__(79)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55927,43 +55928,739 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/admin/show/Edit.vue"
+Component.options.__file = "resources/assets/js/components/admin/show/Manage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2d0f4590", Component.options)
+  } else {
+    hotAPI.reload("data-v-2d0f4590", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
 
 module.exports = Component.exports
 
 
 /***/ }),
 /* 78 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = null
-/* template */
-var __vue_template__ = null
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/admin/show/Delete.vue"
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-module.exports = Component.exports
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['show_id'],
+    data: function data() {
+        return {
+            show: []
+        };
+    },
+    mounted: function mounted() {
+        this.getShows();
+    },
 
+    methods: {
+        getShows: function getShows() {
+            var self = this;
+            axios.get('/api/shows/' + self.show_id).then(function (response) {
+                self.show = response.data.data;
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Failed to load show. '
+                });
+            });
+        },
+        editShow: function editShow() {
+            this.show.poster = this.$refs.poster.value;
+            var self = this;
+            console.log(self.show);
+            axios.put('/api/shows/' + self.show_id, self.show).then(function (response) {
+                self.$notify({
+                    type: 'success',
+                    title: '<i class="fa fa-heart"></i> Yay! The show was updated!',
+                    text: 'The changes were updated in the database!'
+                });
+                $('.close').click();
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to update show.'
+                });
+            });
+        },
+        deleteShow: function deleteShow() {
+            var self = this;
+            axios.delete('/api/shows/' + self.show_id).then(function (response) {
+                self.$notify({
+                    type: 'warn',
+                    title: '<i class="fa fa-ban"></i> Wow! You really deleted it!',
+                    text: 'You deleted the show!'
+                });
+                window.location.href = "/all_shows";
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to delete show.'
+                });
+            });
+        }
+    }
+});
 
 /***/ }),
 /* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "editShow",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "editShow",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h3", { staticClass: "modal-title" }, [
+                  _c("strong", [_vm._v('Edit "' + _vm._s(_vm.show.name) + '"')])
+                ]),
+                _vm._v(" "),
+                _vm._m(1)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "col-form-label", attrs: { for: "name" } },
+                      [_vm._v("Name:")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.show.name,
+                          expression: "show.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", id: "name", required: "" },
+                      domProps: { value: _vm.show.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.show, "name", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 np"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "poster" }
+                          },
+                          [_vm._v("Poster:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.show.poster,
+                              expression: "show.poster"
+                            }
+                          ],
+                          ref: "poster",
+                          staticClass: "form-control",
+                          attrs: {
+                            id: "poster",
+                            type: "hidden",
+                            name: "poster"
+                          },
+                          domProps: { value: _vm.show.poster },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.show, "poster", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("image-upload")
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 np text-right"
+                      },
+                      [
+                        _c("img", {
+                          attrs: { src: _vm.show.poster, width: "50px" }
+                        })
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-form-label",
+                        attrs: { for: "synopsis" }
+                      },
+                      [_vm._v("Synopsis:")]
+                    ),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.show.synopsis,
+                          expression: "show.synopsis"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "synopsis", required: "" },
+                      domProps: { value: _vm.show.synopsis },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.show, "synopsis", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "seasons" }
+                          },
+                          [_vm._v("Seasons:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.show.seasons,
+                              expression: "show.seasons"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "seasons",
+                            required: ""
+                          },
+                          domProps: { value: _vm.show.seasons },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.show, "seasons", $event.target.value)
+                            }
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "status" }
+                          },
+                          [_vm._v("Status:")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.show.status,
+                                expression: "show.status"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "status", required: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.show,
+                                  "status",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { selected: "" } }, [
+                              _vm._v("Choose...")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "E" } }, [
+                              _vm._v("On air")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "F" } }, [
+                              _vm._v("Finished")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "W" } }, [
+                              _vm._v("To be released")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "B" } }, [
+                              _vm._v("Binge")
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "seasons" }
+                          },
+                          [_vm._v("Netflix:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.show.netflix,
+                              expression: "show.netflix"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", id: "netflix" },
+                          domProps: { value: _vm.show.netflix },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.show, "netflix", $event.target.value)
+                            }
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "status" }
+                          },
+                          [_vm._v("IMDb:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.show.imdb,
+                              expression: "show.imdb"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", id: "imdb" },
+                          domProps: { value: _vm.show.imdb },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.show, "imdb", $event.target.value)
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group text-right" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.editShow }
+                      },
+                      [_vm._v("Edit show!")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "deleteShow",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "deleteShow",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _c("strong", [
+                    _vm._v('Delete "' + _vm._s(_vm.show.name) + '"?')
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(2)
+              ]),
+              _vm._v(" "),
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("form", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: { click: _vm.deleteShow }
+                    },
+                    [_vm._v("Yes!")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("No")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("fieldset", [
+      _c("legend", [
+        _c("i", { staticClass: "fa fa-user-secret" }),
+        _vm._v(" Admin actions")
+      ]),
+      _vm._v(" "),
+      _c("ul", [
+        _c("li", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#editShow"
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-pencil-square-o" }),
+              _vm._v(" Edit show")
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#deleteShow"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-trash" }), _vm._v(" Delete show")]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("p", [_vm._v("Are you sure you want to delete this show?")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2d0f4590", module.exports)
+  }
+}
+
+/***/ }),
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(0)
@@ -55993,7 +56690,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(0)
@@ -56023,7 +56720,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(0)
@@ -56053,7 +56750,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(0)
@@ -56077,13 +56774,43 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/admin/user/Delete.vue"
+Component.options.__file = "resources/assets/js/components/admin/user/Manage.vue"
 
 module.exports = Component.exports
 
 
 /***/ }),
-/* 83 */
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/content/Manage.vue"
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 85 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

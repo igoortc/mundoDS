@@ -349,6 +349,21 @@ h4 {
   margin: 11px 0;
 }
 
+fieldset {
+  border: 1px solid #DDD;
+  padding: 0px 0px 5px 15px;
+  margin: 0 0 20px 0;
+  width: 265px;
+}
+
+legend {
+  font-size: 1.2em;
+  font-weight: bold;
+  width: auto;
+  border-bottom: 0;
+  margin-bottom: 8px;
+}
+
 @media (max-width: 760px) {
   .following {
     margin-top: 30px;

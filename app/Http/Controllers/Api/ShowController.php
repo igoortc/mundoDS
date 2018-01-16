@@ -46,22 +46,21 @@ class ShowController extends Controller
         $show->delete();
 
         return response()->json([
-            'message' => 'User destroyed successfully!'
+            'message' => 'Show destroyed successfully!'
         ], 200);
     }
 
     public function update(Request $request, $show)
     {
         $show = Show::find($show);
-        $show = $this->validate($request, [
-            'name' => 'required|min:3|max:100',
-            'poster' => 'required|url',
-            'synopsis' => 'required|min:10',
-            'seasons' => 'required|numeric',
-            'status' => 'required',
-            'netflix' => 'nullable|url',
-            'imdb' => 'nullable|url'
-        ]);
+        $show->name = request('name');
+        $show->poster = request('poster');
+        $show->synopsis = request('synopsis');
+        $show->seasons = request('seasons');
+        $show->status = request('status');
+        $show->netflix = request('netflix');
+        $show->imdb = request('imdb');
+
         $show->save();
         
         return response()->json([

@@ -11,6 +11,9 @@
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9 showInfo">
                         <p>{{ $show->name }}</p>
+                        @if (Auth::user()->admin)
+                            <show-manage :show_id={{ $show->id }}></show-manage>
+                        @endif
                         <div class="showDetail">
                             <span>{{ $show->getAverage($show->id) }} <i class="fa fa-star"></i> | {{ $show->seasons }} temporadas | </span>
                             @if ($show->netflix != '')
