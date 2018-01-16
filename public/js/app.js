@@ -28981,7 +28981,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(85);
+module.exports = __webpack_require__(86);
 
 
 /***/ }),
@@ -29021,10 +29021,9 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('search', __webpack_requir
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-create', __webpack_require__(74));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-manage', __webpack_require__(77));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-create', __webpack_require__(80));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-edit', __webpack_require__(81));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-delete', __webpack_require__(82));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('user-manage', __webpack_require__(83));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('content-manage', __webpack_require__(84));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-manage', __webpack_require__(81));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('user-manage', __webpack_require__(84));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('content-manage', __webpack_require__(85));
 
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     el: '#app'
@@ -54238,8 +54237,6 @@ var _ = __webpack_require__(5);
             self = this;
             axios.get('/comments/' + self.commenturl).then(function (res) {
                 self.commentsData = _.orderBy(res.data, ['date'], ['desc']);
-                console.log('cheguei');
-                console.log(self.commentsData);
                 self.comments = 1;
             });
         },
@@ -54312,8 +54309,6 @@ var _ = __webpack_require__(5);
         },
         voteComment: function voteComment(commentId, commentType, index, index2, voteType) {
             if (this.user) {
-                console.log('cheguei');
-                console.log(commentId, commentType, index, index2, voteType);
                 var _self2 = this;
                 this.$http.post('http://localhost:8000/comments/' + commentId + '/vote', {
                     users_id: _self2.user.id,
@@ -54345,8 +54340,6 @@ var _ = __webpack_require__(5);
             var _this2 = this;
 
             if (this.user) {
-                console.log('CHEGUEI?');
-                console.log('http://localhost:8000/comments/' + commentId + '/spam');
                 this.$http.post('http://localhost:8000/comments/' + commentId + '/spam', {
                     users_id: this.user.id
                 }).then(function (res) {
@@ -55096,6 +55089,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.uploaded = true;
                 $('#photo').val(res.data.secure_url);
                 $('#poster').val(res.data.secure_url);
+                $('#image').val(res.data.secure_url);
             });
         }
     }
@@ -56693,11 +56687,12 @@ module.exports = Component.exports
 /* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(82)
 /* template */
-var __vue_template__ = null
+var __vue_template__ = __webpack_require__(83)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56714,43 +56709,659 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/admin/episode/Edit.vue"
+Component.options.__file = "resources/assets/js/components/admin/episode/Manage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c17c2620", Component.options)
+  } else {
+    hotAPI.reload("data-v-c17c2620", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
 
 module.exports = Component.exports
 
 
 /***/ }),
 /* 82 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = null
-/* template */
-var __vue_template__ = null
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/admin/episode/Delete.vue"
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-module.exports = Component.exports
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['episode_id', 'show_id'],
+    data: function data() {
+        return {
+            episode: []
+        };
+    },
+    mounted: function mounted() {
+        this.getEpisode();
+    },
 
+    methods: {
+        getEpisode: function getEpisode() {
+            var self = this;
+            axios.get('/api/shows/' + self.show_id + '/episodes/' + self.episode_id).then(function (response) {
+                self.episode = response.data.data;
+                console.log(self.episode);
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Failed to load episode. '
+                });
+            });
+        },
+        editEpisode: function editEpisode() {
+            this.episode.image = this.$refs.image.value;
+            var self = this;
+            console.log(self.episode);
+            axios.put('/api/shows/' + self.show_id + '/episodes/' + self.episode_id, self.episode).then(function (response) {
+                self.$notify({
+                    type: 'success',
+                    title: '<i class="fa fa-heart"></i> Yay! The episode was updated!',
+                    text: 'The changes were updated in the database!'
+                });
+                $('.close').click();
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to update episode.'
+                });
+            });
+        },
+        deleteEpisode: function deleteEpisode() {
+            var self = this;
+            axios.delete('/api/shows/' + self.show_id + '/episodes/' + self.episode_id).then(function (response) {
+                self.$notify({
+                    type: 'warn',
+                    title: '<i class="fa fa-ban"></i> Wow! You really deleted it!',
+                    text: 'You deleted the episode!'
+                });
+                window.location.href = "/show/" + self.show_id;
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to delete episode.'
+                });
+            });
+        }
+    }
+});
 
 /***/ }),
 /* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "editEpisode",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "editEpisode",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h3", { staticClass: "modal-title" }, [
+                  _c("strong", [
+                    _vm._v('Edit "' + _vm._s(_vm.episode.name) + '"')
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(1)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "col-form-label", attrs: { for: "name" } },
+                      [_vm._v("Name:")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.episode.name,
+                          expression: "episode.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", id: "name", required: "" },
+                      domProps: { value: _vm.episode.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.episode, "name", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 np"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "image" }
+                          },
+                          [_vm._v("Image:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.episode.image,
+                              expression: "episode.image"
+                            }
+                          ],
+                          ref: "image",
+                          staticClass: "form-control",
+                          attrs: { id: "image", type: "hidden", name: "image" },
+                          domProps: { value: _vm.episode.image },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.episode,
+                                "image",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("image-upload")
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 np text-right"
+                      },
+                      [
+                        _c("img", {
+                          attrs: { src: _vm.episode.image, width: "50px" }
+                        })
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-form-label",
+                        attrs: { for: "synopsis" }
+                      },
+                      [_vm._v("Synopsis:")]
+                    ),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.episode.synopsis,
+                          expression: "episode.synopsis"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "synopsis", required: "" },
+                      domProps: { value: _vm.episode.synopsis },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.episode, "synopsis", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "seasons" }
+                          },
+                          [_vm._v("Season:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.episode.season,
+                              expression: "episode.season"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "seasons",
+                            required: ""
+                          },
+                          domProps: { value: _vm.episode.season },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.episode,
+                                "season",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "status" }
+                          },
+                          [_vm._v("Number:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.episode.number,
+                              expression: "episode.number"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number", id: "number", required: "" },
+                          domProps: { value: _vm.episode.number },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.episode,
+                                "number",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-form-label",
+                        attrs: { for: "date_aired" }
+                      },
+                      [_vm._v("Date aired:")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.episode.date_aired,
+                          expression: "episode.date_aired"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", id: "date_aired" },
+                      domProps: { value: _vm.episode.date_aired },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.episode,
+                            "date_aired",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group text-right" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.editEpisode }
+                      },
+                      [_vm._v("Edit episode!")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "deleteEpisode",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "deleteEpisode",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _c("strong", [
+                    _vm._v('Delete "' + _vm._s(_vm.episode.name) + '"?')
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(2)
+              ]),
+              _vm._v(" "),
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("form", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: { click: _vm.deleteEpisode }
+                    },
+                    [_vm._v("Yes!")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("No")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("fieldset", [
+      _c("legend", [
+        _c("i", { staticClass: "fa fa-user-secret" }),
+        _vm._v(" Admin actions")
+      ]),
+      _vm._v(" "),
+      _c("ul", [
+        _c("li", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#editEpisode"
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-pencil-square-o" }),
+              _vm._v(" Edit episode")
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#deleteEpisode"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-trash" }), _vm._v(" Delete episode")]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("p", [_vm._v("Are you sure you want to delete this episode?")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c17c2620", module.exports)
+  }
+}
+
+/***/ }),
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(0)
@@ -56780,7 +57391,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(0)
@@ -56810,7 +57421,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

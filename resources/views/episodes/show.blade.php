@@ -8,6 +8,9 @@
                 <h3>{{ $episode->name }}</h3>
                 <h5><i class="fa fa-star"></i> {{ $episode->average() }}</h5>
             </div>
+            @if (Auth::user()->admin)
+                <episode-manage :episode_id={{ $episode->id }} :show_id={{ $episode->show_id }}></episode-manage>
+            @endif
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><a href="{{ url('/show/' . $episode->show_id) }}">{{ $episode->getShow($episode->show_id) }}</a> - S{{ $episode->season }} x E{{ $episode->number }}</h4>

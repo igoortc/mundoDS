@@ -49,15 +49,14 @@ class EpisodeController extends Controller
     public function update(Request $request, $show, $episode)
     {
         $episode = Episode::find($episode);
-        $episode = $this->validate($request, [
-            'name' => 'required|min:3|max:100',
-            'show_id' => 'required',
-            'season' => 'required|numeric',
-            'number' => 'required|numeric',
-            'synopsis' => 'nullable',
-            'date_aired' => 'required',
-            'image' => 'nullable|url'
-        ]);
+        $episode->name = request('name');
+        // $episode->show_id = request('show_id');
+        $episode->season = request('season');
+        $episode->number = request('number');
+        $episode->synopsis = request('synopsis');
+        $episode->date_aired = request('date_aired');
+        $episode->image = request('image');
+
         $episode->save();
         
         return response()->json([
@@ -65,7 +64,7 @@ class EpisodeController extends Controller
         ], 200);
     }
 
-    public function destroy($id)
+    public function destroy($show, $id)
     {
         $episode = Episode::find($id);
         $episode->delete();

@@ -22,8 +22,7 @@ Vue.component('search', require('./components/dashboard/Search.vue'));
 Vue.component('show-create', require('./components/admin/show/Create.vue'));
 Vue.component('show-manage', require('./components/admin/show/Manage.vue'));
 Vue.component('episode-create', require('./components/admin/episode/Create.vue'));
-Vue.component('episode-edit', require('./components/admin/episode/Edit.vue'));
-Vue.component('episode-delete', require('./components/admin/episode/Delete.vue'));
+Vue.component('episode-manage', require('./components/admin/episode/Manage.vue'));
 Vue.component('user-manage', require('./components/admin/user/Manage.vue'));
 Vue.component('content-manage', require('./components/admin/content/Manage.vue'));
 

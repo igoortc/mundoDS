@@ -176,8 +176,6 @@ export default {
             self = this;
             axios.get('/comments/' + self.commenturl).then(res => {
                 self.commentsData = _.orderBy(res.data, ['date'], ['desc']);
-                console.log('cheguei');
-                console.log(self.commentsData);
                 self.comments = 1;
             });
         },
@@ -249,8 +247,6 @@ export default {
         },
         voteComment(commentId, commentType, index, index2, voteType) {
             if (this.user) {
-                console.log('cheguei');
-                console.log(commentId, commentType, index, index2, voteType);
                 let self = this;
                 this.$http.post('http://localhost:8000/comments/' + commentId + '/vote', {
                     users_id: self.user.id,
@@ -281,8 +277,6 @@ export default {
         },
         spamComment(commentId, commentType, index, index2) {
             if (this.user) {
-                console.log('CHEGUEI?');
-                console.log('http://localhost:8000/comments/' + commentId + '/spam');
                 this.$http.post('http://localhost:8000/comments/' + commentId + '/spam', {
                     users_id: this.user.id,
                 }).then(res => {

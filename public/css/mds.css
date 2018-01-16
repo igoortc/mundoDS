@@ -353,7 +353,7 @@ fieldset {
   border: 1px solid #DDD;
   padding: 0px 0px 5px 15px;
   margin: 0 0 20px 0;
-  width: 265px;
+  width: auto;
 }
 
 legend {
