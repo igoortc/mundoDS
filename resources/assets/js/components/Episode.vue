@@ -138,10 +138,7 @@
                 }
             },
             getAverage (episode, index) {
-                console.log('yayyy')
-                console.log(episode)
                 let self = this
-                console.log('/avgEpisode/' + episode)
                 axios.get('/avgEpisode/' + episode)
                     .then(function (response) {
                         self.average[index] = response.data.data

@@ -28981,7 +28981,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(86);
+module.exports = __webpack_require__(90);
 
 
 /***/ }),
@@ -29021,9 +29021,9 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('search', __webpack_requir
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-create', __webpack_require__(74));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('show-manage', __webpack_require__(77));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-create', __webpack_require__(80));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-manage', __webpack_require__(81));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('user-manage', __webpack_require__(84));
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('content-manage', __webpack_require__(85));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episode-manage', __webpack_require__(83));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('user-manage', __webpack_require__(86));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('content-manage', __webpack_require__(89));
 
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     el: '#app'
@@ -52781,9 +52781,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
         },
-        handleClick: function handleClick() {
-            console.log('h');
-        },
         unFavorite: function unFavorite(show) {
             var self = this;
             axios.post('/unfavorite/' + show).then(function (response) {
@@ -53054,10 +53051,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         getAverage: function getAverage(episode, index) {
-            console.log('yayyy');
-            console.log(episode);
             var self = this;
-            console.log('/avgEpisode/' + episode);
             axios.get('/avgEpisode/' + episode).then(function (response) {
                 self.average[index] = response.data.data;
             }).catch(function (error) {
@@ -54295,8 +54289,6 @@ var _ = __webpack_require__(5);
                     users_id: _self.user.id,
                     reply_id: commentId
                 }).then(function (res) {
-                    console.log('aaa' + index);
-                    console.log(_self.commentsData[index].replies);
                     _self.commentsData[index].replies.push({ "commentid": res.data.commentId, "name": _self.user.name, "comment": _self.message, "votes": 0 });
                     _self.commentsData[index].reply = 1;
                     Vue.set(_self.replyCommentBoxs, index, 0);
@@ -54316,15 +54308,9 @@ var _ = __webpack_require__(5);
                 }).then(function (res) {
                     if (commentType == 'directcomment') {
                         if (voteType == 'up') {
-                            console.log('up ' + index);
-                            console.log(_self2.commentsData[index]);
                             _self2.commentsData[index].votes++;
-                            console.log(_self2.commentsData[index]);
                         } else if (voteType == 'down') {
-                            console.log('down ' + index);
-                            console.log(_self2.commentsData[index]);
                             _self2.commentsData[index].votes--;
-                            console.log(_self2.commentsData[index]);
                         }
                     } else if (commentType == 'replycomment') {
                         if (voteType == 'up') {
@@ -56045,6 +56031,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['show_id'],
@@ -56073,7 +56073,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editShow: function editShow() {
             this.show.poster = this.$refs.poster.value;
             var self = this;
-            console.log(self.show);
             axios.put('/api/shows/' + self.show_id, self.show).then(function (response) {
                 self.$notify({
                     type: 'success',
@@ -56500,6 +56499,48 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
+          id: "addNewEpisode",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addNewEpisode",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-content" },
+              [
+                _c("div", { staticClass: "modal-header" }, [
+                  _c("h3", { staticClass: "modal-title" }, [
+                    _c("strong", [
+                      _vm._v(
+                        'Add new episode to "' + _vm._s(_vm.show.name) + '"'
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(2)
+                ]),
+                _vm._v(" "),
+                _c("episode-create", { attrs: { show_id: _vm.show.id } })
+              ],
+              1
+            )
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
           id: "deleteShow",
           tabindex: "-1",
           role: "dialog",
@@ -56520,10 +56561,10 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(3)
               ]),
               _vm._v(" "),
-              _vm._m(3),
+              _vm._m(4),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c("form", [
@@ -56588,6 +56629,24 @@ var staticRenderFns = [
           _c(
             "button",
             {
+              staticClass: "btn btn-primary",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addNewEpisode"
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-plus-square" }),
+              _vm._v(" Add new episode")
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "button",
+            {
               staticClass: "btn btn-danger",
               attrs: {
                 type: "button",
@@ -56600,6 +56659,23 @@ var staticRenderFns = [
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   },
   function() {
     var _vm = this
@@ -56657,11 +56733,12 @@ if (false) {
 /* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(81)
 /* template */
-var __vue_template__ = null
+var __vue_template__ = __webpack_require__(82)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56680,19 +56757,339 @@ var Component = normalizeComponent(
 )
 Component.options.__file = "resources/assets/js/components/admin/episode/Create.vue"
 
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5c334d07", Component.options)
+  } else {
+    hotAPI.reload("data-v-5c334d07", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
 module.exports = Component.exports
 
 
 /***/ }),
 /* 81 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['show_id'],
+
+    data: function data() {
+        return {
+            episode: {
+                id: '',
+                name: '',
+                show_id: '',
+                season: '',
+                number: '',
+                synopsis: '',
+                date_aired: '',
+                image: ''
+            }
+        };
+    },
+    methods: {
+        newEpisode: function newEpisode() {
+            this.episode.image = this.$refs.image.value;
+            this.episode.show_id = this.show_id;
+            this.episode.id = this.show_id + this.episode.season + this.episode.number;
+            var self = this;
+            axios.post('/api/shows/' + self.show_id + '/episodes', self.episode).then(function (response) {
+                self.$notify({
+                    type: 'success',
+                    title: '<i class="fa fa-heart"></i> Yay! A new episode was created!',
+                    text: 'The episode was included in the database!'
+                });
+                $('.close').click();
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to create new episode.'
+                });
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "modal-body" }, [
+    _c("form", [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { staticClass: "col-form-label", attrs: { for: "name" } }, [
+          _vm._v("Name:")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.episode.name,
+              expression: "episode.name"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", id: "name", required: "" },
+          domProps: { value: _vm.episode.name },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.episode, "name", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c(
+            "label",
+            { staticClass: "col-form-label", attrs: { for: "image" } },
+            [_vm._v("Image:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            ref: "image",
+            staticClass: "form-control",
+            attrs: { id: "image", type: "hidden", name: "image" }
+          }),
+          _vm._v(" "),
+          _c("image-upload")
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "label",
+          { staticClass: "col-form-label", attrs: { for: "synopsis" } },
+          [_vm._v("Synopsis:")]
+        ),
+        _vm._v(" "),
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.episode.synopsis,
+              expression: "episode.synopsis"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { id: "synopsis", required: "" },
+          domProps: { value: _vm.episode.synopsis },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.episode, "synopsis", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-row" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-l"
+          },
+          [
+            _c(
+              "label",
+              { staticClass: "col-form-label", attrs: { for: "seasons" } },
+              [_vm._v("Season:")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.episode.season,
+                  expression: "episode.season"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "number", id: "seasons", required: "" },
+              domProps: { value: _vm.episode.season },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.episode, "season", $event.target.value)
+                }
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r"
+          },
+          [
+            _c(
+              "label",
+              { staticClass: "col-form-label", attrs: { for: "status" } },
+              [_vm._v("Number:")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.episode.number,
+                  expression: "episode.number"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "number", id: "number", required: "" },
+              domProps: { value: _vm.episode.number },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.episode, "number", $event.target.value)
+                }
+              }
+            })
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "label",
+          { staticClass: "col-form-label", attrs: { for: "date_aired" } },
+          [_vm._v("Date aired:")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.episode.date_aired,
+              expression: "episode.date_aired"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", id: "date_aired" },
+          domProps: { value: _vm.episode.date_aired },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.episode, "date_aired", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group text-right" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button" },
+            on: { click: _vm.newEpisode }
+          },
+          [_vm._v("Create new episode!")]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5c334d07", module.exports)
+  }
+}
+
+/***/ }),
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(82)
+var __vue_script__ = __webpack_require__(84)
 /* template */
-var __vue_template__ = __webpack_require__(83)
+var __vue_template__ = __webpack_require__(85)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56731,7 +57128,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56837,7 +57234,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var self = this;
             axios.get('/api/shows/' + self.show_id + '/episodes/' + self.episode_id).then(function (response) {
                 self.episode = response.data.data;
-                console.log(self.episode);
             }).catch(function (error) {
                 self.$notify({
                     type: 'error',
@@ -56849,7 +57245,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editEpisode: function editEpisode() {
             this.episode.image = this.$refs.image.value;
             var self = this;
-            console.log(self.episode);
             axios.put('/api/shows/' + self.show_id + '/episodes/' + self.episode_id, self.episode).then(function (response) {
                 self.$notify({
                     type: 'success',
@@ -56886,7 +57281,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -57361,14 +57756,15 @@ if (false) {
 }
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(87)
 /* template */
-var __vue_template__ = null
+var __vue_template__ = __webpack_require__(88)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -57387,11 +57783,568 @@ var Component = normalizeComponent(
 )
 Component.options.__file = "resources/assets/js/components/admin/user/Manage.vue"
 
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1db74802", Component.options)
+  } else {
+    hotAPI.reload("data-v-1db74802", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
 module.exports = Component.exports
 
 
 /***/ }),
-/* 85 */
+/* 87 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['user_id'],
+    data: function data() {
+        return {
+            user: {
+                name: '',
+                password: '',
+                photo: '',
+                city: '',
+                bio: '',
+                admin: ''
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.getUser();
+    },
+
+    methods: {
+        getUser: function getUser() {
+            var self = this;
+            axios.get('/api/users/' + self.user_id).then(function (response) {
+                self.user = response.data.data;
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Failed to load user. '
+                });
+            });
+        },
+        removeAdmin: function removeAdmin() {
+            this.user.admin = 0;
+            var self = this;
+            console.log(self.user);
+            axios.put('/api/users/' + self.user.id, self.user).then(function (response) {
+                self.$notify({
+                    type: 'warn',
+                    title: '<i class="fa fa-heart"></i> Wow! You really removed the priviledges!',
+                    text: 'This user is not an admin anymore!'
+                });
+                $('.close').click();
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to remove admin priviledges.'
+                });
+            });
+        },
+        makeAdmin: function makeAdmin() {
+            this.user.admin = 1;
+            var self = this;
+            console.log(self.user);
+            axios.put('/api/users/' + self.user.id, self.user).then(function (response) {
+                self.$notify({
+                    type: 'success',
+                    title: '<i class="fa fa-heart"></i> Yay! The user is now an admin!',
+                    text: 'This user now has priviledges of admin!'
+                });
+                $('.close').click();
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to make user admin.'
+                });
+            });
+        },
+        deleteUser: function deleteUser() {
+            var self = this;
+            axios.delete('/api/users/' + self.user.id).then(function (response) {
+                self.$notify({
+                    type: 'warn',
+                    title: '<i class="fa fa-ban"></i> Wow! You really deleted the user!',
+                    text: 'You deleted the user!'
+                });
+                window.location.href = "/all_users";
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Try reloading the page or contact the support! Failed to delete user.'
+                });
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("fieldset", [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("ul", [
+        _vm.user.admin === 0 ? _c("li", [_vm._m(1)]) : _c("li", [_vm._m(2)]),
+        _vm._v(" "),
+        _vm._m(3)
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "makeAdmin",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "makeAdmin",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _c("strong", [
+                    _vm._v('Make "' + _vm._s(_vm.user.name) + '" admin?')
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(4)
+              ]),
+              _vm._v(" "),
+              _vm._m(5),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("form", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: { click: _vm.makeAdmin }
+                    },
+                    [_vm._v("Yes!")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("No")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "removeAdmin",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "removeAdmin",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _c("strong", [
+                    _vm._v(
+                      "Remove " +
+                        _vm._s(_vm.user.name) +
+                        "'s admin priviledges?"
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(6)
+              ]),
+              _vm._v(" "),
+              _vm._m(7),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("form", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: { click: _vm.removeAdmin }
+                    },
+                    [_vm._v("Yes!")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("No")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "deleteUser",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "deleteUser",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _c("strong", [
+                    _vm._v('Delete "' + _vm._s(_vm.user.name) + '"?')
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(8)
+              ]),
+              _vm._v(" "),
+              _vm._m(9),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("form", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: { click: _vm.deleteUser }
+                    },
+                    [_vm._v("Yes!")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("No")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("legend", [
+      _c("i", { staticClass: "fa fa-user-secret" }),
+      _vm._v(" Admin actions")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#makeAdmin"
+        }
+      },
+      [
+        _c("i", { staticClass: "fa fa-user-secret" }),
+        _vm._v(" Make admin\n                ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#removeAdmin"
+        }
+      },
+      [
+        _c("i", { staticClass: "fa fa-user" }),
+        _vm._v(" Remove admin priviledges\n                ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: {
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#deleteUser"
+          }
+        },
+        [
+          _c("i", { staticClass: "fa fa-trash" }),
+          _vm._v(" Delete user\n                ")
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("p", [_vm._v("Are you sure you want to make this user an admin?")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("p", [
+        _vm._v("Are you sure you want to remove this user's admin priviledges?")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("p", [_vm._v("Are you sure you want to delete this user?")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1db74802", module.exports)
+  }
+}
+
+/***/ }),
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(0)
@@ -57421,7 +58374,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 86 */
+/* 90 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

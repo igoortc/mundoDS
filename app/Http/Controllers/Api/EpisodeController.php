@@ -32,6 +32,7 @@ class EpisodeController extends Controller
     public function store(Request $request)
     {
         $episode = $this->validate($request, [
+            'id' => 'required|numeric',
             'name' => 'required|min:3|max:100',
             'show_id' => 'required',
             'season' => 'required|numeric',

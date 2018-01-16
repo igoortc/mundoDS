@@ -22,6 +22,7 @@ class UserResource extends Resource
             'age' => $this->age,
             'city' => $this->city,
             'bio' => $this->bio,
+            'admin' => $this->admin,
             'date' => $this->created_at->diffForHumans()
         ];
     }

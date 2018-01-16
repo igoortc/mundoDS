@@ -18,6 +18,7 @@ Route::get('/', 'DashboardController@index')->middleware('auth');
 Route::get('search/{search}', 'DashboardController@search');
 
 Route::get('all_shows', 'ShowsController@index')->middleware('auth');
+Route::get('all_users', 'UsersController@index')->middleware('auth');
 
 Route::post('favorite/{show}', 'ShowsController@favoriteShow');
 Route::post('unfavorite/{show}', 'ShowsController@unFavoriteShow');

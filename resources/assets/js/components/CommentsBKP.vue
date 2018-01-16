@@ -238,8 +238,6 @@ export default {
            }
        },
        replyComment(commentId, index) {
-        console.log('oq cje');
-        console.log(commentId);
            if (this.reply != null && this.reply != ' ' && this.reply != '') {
                 this.errorReply = null;
                 this.replied.comment = this.reply;
@@ -247,8 +245,6 @@ export default {
                 this.replied.reply_id = commentId;
                 this.replied.episode_id = this.commenturl;
                 let self = this;
-                console.log('nooooowww');
-                console.log(self.replied);
                 axios.post('/comments', self.replied)
                     .then(function (response) {
                         if (!this.commentsData[index].reply) {

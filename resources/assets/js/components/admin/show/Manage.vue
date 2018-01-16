@@ -4,6 +4,7 @@
             <legend><i class="fa fa-user-secret"></i> Admin actions</legend>
             <ul>
                 <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editShow"><i class="fa fa-pencil-square-o"></i> Edit show</button></li>
+                <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewEpisode"><i class="fa fa-plus-square"></i> Add new episode</button></li>
                 <li><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteShow"><i class="fa fa-trash"></i> Delete show</button></li>
             </ul>
         </fieldset>
@@ -70,6 +71,19 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="addNewEpisode" tabindex="-1" role="dialog" aria-labelledby="addNewEpisode" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title"><strong>Add new episode to "{{ show.name }}"</strong></h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <episode-create :show_id="show.id"></episode-create>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="deleteShow" tabindex="-1" role="dialog" aria-labelledby="deleteShow" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -123,7 +137,6 @@
             editShow() {
                 this.show.poster = this.$refs.poster.value
                 let self = this;
-                console.log(self.show)
                 axios.put('/api/shows/' + self.show_id, self.show)
                     .then(function (response) {
                         self.$notify({

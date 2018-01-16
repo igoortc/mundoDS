@@ -10,6 +10,7 @@ use App\Show;
 class Episode extends Model
 {
     protected $fillable = [
+        'id',
         'name',
         'show_id',
         'season',

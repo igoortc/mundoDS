@@ -99,7 +99,6 @@
                 axios.get('/api/shows/' + self.show_id + '/episodes/' + self.episode_id)
                     .then(function (response) {
                         self.episode = response.data.data
-                        console.log(self.episode)
                     })
                     .catch(function (error) {
                         self.$notify({
@@ -112,7 +111,6 @@
             editEpisode() {
                 this.episode.image = this.$refs.image.value
                 let self = this;
-                console.log(self.episode)
                 axios.put('/api/shows/' + self.show_id + '/episodes/' + self.episode_id, self.episode)
                     .then(function (response) {
                         self.$notify({

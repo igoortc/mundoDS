@@ -35,13 +35,12 @@ class UserController extends Controller
     public function update(Request $request, $user)
     {
         $user = User::find($user);
-        $user = $this->validate($request, [
-            'name' => 'required|min:3|max:100',
-            'password' => 'required',
-            'photo' => 'required',
-            'city' => 'required',
-            'bio' => 'required'
-        ]);
+
+        $user->name = request('name');
+        $user->photo = request('photo');
+        $user->city = request('city');
+        $user->bio = request('bio');
+        $user->admin = request('admin');
         $user->save();
         
         return response()->json([

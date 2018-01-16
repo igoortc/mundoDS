@@ -233,8 +233,6 @@ export default {
                     users_id: self.user.id,
                     reply_id: commentId
                 }).then(res => {
-                    console.log('aaa'+index)
-                    console.log(self.commentsData[index].replies)
                     self.commentsData[index].replies.push({ "commentid": res.data.commentId, "name": self.user.name, "comment": self.message, "votes": 0 });
                     self.commentsData[index].reply = 1;
                     Vue.set(self.replyCommentBoxs, index, 0);
@@ -254,15 +252,9 @@ export default {
                 }).then(res => {
                     if (commentType == 'directcomment') {
                         if (voteType == 'up') {
-                            console.log('up ' + index);
-                            console.log(self.commentsData[index]);
                             self.commentsData[index].votes++;
-                            console.log(self.commentsData[index]);
                         } else if (voteType == 'down') {
-                            console.log('down ' + index);
-                            console.log(self.commentsData[index]);
                             self.commentsData[index].votes--;
-                            console.log(self.commentsData[index]);
                         }
                     } else if (commentType == 'replycomment') {
                         if (voteType == 'up') {

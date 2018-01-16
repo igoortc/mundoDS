@@ -8,8 +8,10 @@
             <div class="page-header">
                 <h3>{{ $user->name }}</h3>
             </div>
+            @if (Auth::user()->admin)
+                <user-manage :user_id={{ $user->id }}></user-manage>
+            @endif
             <div class="panel panel-default">
-                
                 <div class="panel-heading">
                     {{ $user->name }}
                 </div>
