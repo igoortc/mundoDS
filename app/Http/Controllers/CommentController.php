@@ -9,6 +9,7 @@ use App\CommentVote;
 use App\CommentSpam;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -220,5 +221,37 @@ class CommentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getSpam()
+    {
+        $spams = Comment::where('spam', '1')
+                ->get();
+
+        return $spams;
+    }
+
+    public function notSpam($id)
+    {
+        $comment = Comment::find($id);
+        dd($comment);
+        $comment->spam = 0;
+
+        return response()->json([
+            'message' => 'Comment not spam successfully!'
+        ], 200);
+    }
+
+    public function destroySpam($id)
+    {
+        $commentSpam = CommentSpam::where('comment_id', $id);
+        $commentSpam->delete();
+
+        $comment = Comment::find($id);
+        $comment->delete();
+
+        return response()->json([
+            'message' => 'Spam destroyed successfully!'
+        ], 200);
     }
 }

@@ -51,3 +51,7 @@ Route::post('comments', 'CommentController@store');
 Route::post('comments/{commentId}/{type}', 'CommentController@update');
 
 Route::get('dashFavorites/{user}', 'UsersController@dashFavorites');
+
+Route::get('spam_comments', 'CommentController@getSpam');
+Route::put('not_spam/{comment}', 'CommentController@notSpam');
+Route::delete('destroy_spam/{comment}', 'CommentController@destroySpam');
