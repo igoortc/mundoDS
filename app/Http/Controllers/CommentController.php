@@ -231,15 +231,13 @@ class CommentController extends Controller
         return $spams;
     }
 
-    public function notSpam($id)
+    public function notSpam(Request $request, $id)
     {
         $comment = Comment::find($id);
-        dd($comment);
-        $comment->spam = 0;
+        $comment->spam = request('spam');
+        $comment->save();
 
-        return response()->json([
-            'message' => 'Comment not spam successfully!'
-        ], 200);
+        return back();
     }
 
     public function destroySpam($id)
@@ -250,8 +248,6 @@ class CommentController extends Controller
         $comment = Comment::find($id);
         $comment->delete();
 
-        return response()->json([
-            'message' => 'Spam destroyed successfully!'
-        ], 200);
+        return back();
     }
 }
