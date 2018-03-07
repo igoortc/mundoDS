@@ -20,7 +20,7 @@ class EpisodesTableSeeder extends Seeder
             'show_id' => 1,
             'season' => 1,
             'number' => 1,
-            'synopsis' => "After a chance encounter with childhood sweetheart Josh Chan, Rebecca Bunch uproots her life and moves across the country, hoping to find happiness in his arms. As Rebecca settles in, new coworker Paula begins meddling in her business.",
+            'synopsis' => "After a chance encounter with childhood sweetheart Josh, Rebecca Bunch uproots her life and moves across the country.",
             'date_aired' => '2018-01-02',
             'image' => 'http://res.cloudinary.com/ht0shxjqw/image/upload/c_scale,w_310/v1513046656/crazyex_gyuk0t.jpg',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
