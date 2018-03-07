@@ -50,7 +50,7 @@ class EpisodesTableSeeder extends Seeder
             'show_id' => 2,
             'season' => 1,
             'number' => 1,
-            'synopsis' => "Rory is accepted into the elite Chilton prep school. Bad news for Lorelai: she must make amends with her parents to borrow the money for Rory's tuition. The money is available--with strings attached.",
+            'synopsis' => "Rory is accepted into the Chilton prep school. Bad news for Lorelai: she must make amends with her parents to borrow money for Rory's tuition. The money is available--with strings attached.",
             'date_aired' => '2018-01-02',
             'image' => 'http://res.cloudinary.com/ht0shxjqw/image/upload/c_scale,w_310/v1513046644/gilmore_pbpdqp.png',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
