@@ -14,7 +14,6 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-    <link href="/css/mds.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -39,46 +38,42 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <i class="fa fa-film"></i> {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
+                            <li><a href="{{ url('/login') }}"><i class="fa fa-sign-in"></i> Login</a></li>
+                            <li><a href="{{ url('/register') }}"><i class="fa fa-smile-o"></i> Register</a></li>
                         @else
                             <li>
                                 <search></search>
                             </li>
+                            <li>
+                                <a href="{{ url('my_favorites') }}"><i class="fa fa-heart"></i> <span>My favorites</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ url('my_watched') }}"><i class="fa fa-tv"></i>  <span>Watched episodes</span></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-envelope-o"></i>  <span>Messages</span></a>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <i class="fa fa-user-circle"></i> <span>{{ Auth::user()->name }}</span>
                                 </a>
-
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ url('my_favorites') }}">My Favorites</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('my_watched') }}">My Watched</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('my_profile') }}">My Profile</a>
+                                        <a href="{{ url('my_profile') }}"><i class="fa fa-id-card"></i> My profile</a>
                                     </li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
+                                                        document.getElementById('logout-form').submit();">
+                                            <i class="fa fa-sign-out"></i> Logout
                                         </a>
 
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
@@ -87,6 +82,7 @@
                                     </li>
                                 </ul>
                             </li>
+                            
                         @endif
                     </ul>
                 </div>

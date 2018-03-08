@@ -54270,7 +54270,7 @@ var _ = __webpack_require__(5);
                 this.commented.page_id = this.commenturl;
                 this.commented.comment = this.message;
                 this.commented.users_id = this.user.id;
-                this.$http.post('http://localhost:8000/comments', this.commented).then(function (res) {
+                this.$http.post('/comments', this.commented).then(function (res) {
                     if (res.data.status) {
                         _this.commentsData.push({ "commentid": res.data.commentId, "name": _this.user.name, "comment": _this.message, "votes": 0, "reply": 0, "replies": [] });
                         _this.message = null;
@@ -54284,7 +54284,7 @@ var _ = __webpack_require__(5);
             if (this.message != null && this.message != ' ') {
                 this.errorReply = null;
                 var _self = this;
-                this.$http.post('http://localhost:8000/comments', {
+                this.$http.post('/comments', {
                     comment: _self.message,
                     users_id: _self.user.id,
                     reply_id: commentId
@@ -54302,7 +54302,7 @@ var _ = __webpack_require__(5);
         voteComment: function voteComment(commentId, commentType, index, index2, voteType) {
             if (this.user) {
                 var _self2 = this;
-                this.$http.post('http://localhost:8000/comments/' + commentId + '/vote', {
+                this.$http.post('/comments/' + commentId + '/vote', {
                     users_id: _self2.user.id,
                     vote: voteType
                 }).then(function (res) {
@@ -54326,7 +54326,7 @@ var _ = __webpack_require__(5);
             var _this2 = this;
 
             if (this.user) {
-                this.$http.post('http://localhost:8000/comments/' + commentId + '/spam', {
+                this.$http.post('/comments/' + commentId + '/spam', {
                     users_id: this.user.id
                 }).then(function (res) {
                     if (commentType == 'directcomment') {
@@ -54399,7 +54399,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "form-row" }, [
                 _c("input", {
-                  staticClass: "btn btn-success",
+                  staticClass: "btn btn-primary",
                   attrs: { type: "button", value: "Comment!" },
                   on: { click: _vm.saveComment }
                 })
@@ -54583,7 +54583,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("div", { staticClass: "form-row" }, [
                                 _c("input", {
-                                  staticClass: "btn btn-success",
+                                  staticClass: "btn btn-primary",
                                   attrs: { type: "button", value: "Reply!" },
                                   on: {
                                     click: function($event) {
@@ -54914,7 +54914,7 @@ var render = function() {
                                                       [
                                                         _c("input", {
                                                           staticClass:
-                                                            "btn btn-success",
+                                                            "btn btn-primary",
                                                           attrs: {
                                                             type: "button",
                                                             value: "Reply!"
@@ -55360,7 +55360,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "search" }, [
     _c("input", {
       directives: [
         {
@@ -55391,15 +55391,9 @@ var render = function() {
       }
     }),
     _vm._v(" "),
-    _c(
-      "a",
-      {
-        ref: "clickSearch",
-        staticClass: "btn btn-primary",
-        attrs: { type: "button", href: "/search/" + _vm.search }
-      },
-      [_vm._v("Search!")]
-    )
+    _c("a", { ref: "clickSearch", attrs: { href: "/search/" + _vm.search } }, [
+      _c("i", { staticClass: "fa fa-search" })
+    ])
   ])
 }
 var staticRenderFns = []
