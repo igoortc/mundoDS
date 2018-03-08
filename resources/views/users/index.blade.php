@@ -10,18 +10,15 @@
                 </div>
                 @forelse ($users as $user)
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a href="{{ url('user') }}/{{ $user->id }}">{{ $user->name }}</a>
-                        </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-md-3 col-3 profile">
                                     <img src={{ $user-> photo }}>
                                 </div>
                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9">
-                                    <p>{{ $user-> age }}</p>
-                                    <p>{{ $user-> city }}</p>
-                                    <p>{{ $user-> bio }}</p>
+                                    <p><i class="fa fa-calendar"></i> {{ $user-> age }}</p>
+                                    <p><i class="fa fa-globe"></i> {{ $user-> city }}</p>
+                                    <p><i class="fa fa-quote-left"></i> {{ $user-> bio }}</p>
                                 </div>
                             </div>
                             @if (Auth::user()->id != $user->id)
@@ -37,7 +34,7 @@
                 @endforelse
             @else
             <div class="panel-heading">
-                <i class="fa fa-hand-paper-o"></i> This page is only available for users of the <strong>SWorld</strong>!
+                <i class="fa fa-hand-paper-o"></i> This page is only available for users of the <strong>mundoDS</strong>!
             </div>
             @endif
          </div>

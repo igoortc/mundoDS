@@ -14,7 +14,7 @@
                 <span class="input" v-if="errorComment" style="color:red">{{errorComment}}</span>
             </div>
             <div class="form-row">
-                <input type="button" class="btn btn-success" @click="saveComment" value="Comment!">
+                <input type="button" class="btn btn-primary" @click="saveComment" value="Comment!">
             </div>
         </form>
     </div>
@@ -67,7 +67,7 @@
                         <span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
                     </div>
                     <div class="form-row">
-                        <input type="button" class="btn btn-success" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
+                        <input type="button" class="btn btn-primary" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
                     </div>
                 </form>
             </div>
@@ -121,7 +121,7 @@
                                     <span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
                                 </div>
                                 <div class="form-row">
-                                    <input type="button" class="btn btn-success" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
+                                    <input type="button" class="btn btn-primary" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
                                 </div>
                             </form>
                         </div>

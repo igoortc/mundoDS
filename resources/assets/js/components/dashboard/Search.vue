@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="search">
         <input type="text" v-model="search" v-on:keyup.enter="goTo" />
-        <a type="button" :href="'/search/' + search" class="btn btn-primary" ref="clickSearch">Search!</a>
+        <a :href="'/search/' + search" ref="clickSearch"><i class="fa fa-search"></i></a>
     </div>
 </template>
 
