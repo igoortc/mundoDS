@@ -87,6 +87,7 @@
 </template>
 
 <script>
+    import End from '../../end'
     export default {
         props: ['user_id'],
         data: function() {
@@ -107,7 +108,7 @@
         methods: {
             getUser() {
                 let self = this;
-                axios.get('/api/users/' + self.user_id)
+                axios.get(End.endpoint().api_default + '/api/users/' + self.user_id)
                     .then(function (response) {
                         self.user = response.data.data
                     })
@@ -123,7 +124,7 @@
                 this.user.admin = 0
                 let self = this
                 console.log(self.user)
-                axios.put('/api/users/' + self.user.id, self.user)
+                axios.put(End.endpoint().api_default + '/api/users/' + self.user.id, self.user)
                     .then(function (response) {
                         self.$notify({
                             type: 'warn',
@@ -144,7 +145,7 @@
                 this.user.admin = 1
                 let self = this
                 console.log(self.user)
-                axios.put('/api/users/' + self.user.id, self.user)
+                axios.put(End.endpoint().api_default + '/api/users/' + self.user.id, self.user)
                     .then(function (response) {
                         self.$notify({
                             type: 'success',
@@ -163,7 +164,7 @@
             },
             deleteUser() {
                 let self = this;
-                axios.delete('/api/users/' + self.user.id)
+                axios.delete(End.endpoint().api_default + '/api/users/' + self.user.id)
                     .then(function (response) {
                         self.$notify({
                             type: 'warn',

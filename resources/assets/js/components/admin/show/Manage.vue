@@ -109,6 +109,7 @@
 </template>
 
 <script>
+    import End from '../../end'
     export default {
         props: ['show_id'],
         data: function() {
@@ -122,7 +123,7 @@
         methods: {
             getShows() {
                 let self = this;
-                axios.get('/api/shows/' + self.show_id)
+                axios.get(End.endpoint().api_default + '/api/shows/' + self.show_id)
                     .then(function (response) {
                         self.show = response.data.data
                     })
@@ -137,7 +138,7 @@
             editShow() {
                 this.show.poster = this.$refs.poster.value
                 let self = this;
-                axios.put('/api/shows/' + self.show_id, self.show)
+                axios.put(End.endpoint().api_default + '/api/shows/' + self.show_id, self.show)
                     .then(function (response) {
                         self.$notify({
                             type: 'success',
@@ -156,7 +157,7 @@
             },
             deleteShow() {
                 let self = this;
-                axios.delete('/api/shows/' + self.show_id)
+                axios.delete(End.endpoint().api_default + '/api/shows/' + self.show_id)
                     .then(function (response) {
                         self.$notify({
                             type: 'warn',

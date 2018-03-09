@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import End from '../../end'
 export default {
     props: ['show_id'],
 
@@ -59,7 +60,7 @@ export default {
             this.episode.show_id = this.show_id
             this.episode.id = this.show_id + this.episode.season + this.episode.number
             let self = this
-            axios.post('/api/shows/' + self.show_id + '/episodes', self.episode)
+            axios.post(End.endpoint().api_default + '/api/shows/' + self.show_id + '/episodes', self.episode)
                 .then(function (response) {
                     self.$notify({
                         type: 'success',

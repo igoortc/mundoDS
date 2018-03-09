@@ -136,7 +136,8 @@
 </template>
 
 <script>
-var _ = require('lodash');
+import End from './end'
+var _ = require('lodash')
 export default {
     props: ['commenturl', 'user'],
     data() {
@@ -174,7 +175,7 @@ export default {
     methods: {
         fetchComments() {
             self = this;
-            axios.get('/comments/' + self.commenturl).then(res => {
+            axios.get(End.endpoint().api_default + '/comments/' + self.commenturl).then(res => {
                 self.commentsData = _.orderBy(res.data, ['date'], ['desc']);
                 self.comments = 1;
             });
