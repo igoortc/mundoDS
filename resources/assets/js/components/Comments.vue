@@ -14,7 +14,7 @@
                 <span class="input" v-if="errorComment" style="color:red">{{errorComment}}</span>
             </div>
             <div class="form-row">
-                <input type="button" class="btn btn-success" @click="saveComment" value="Comment!">
+                <input type="button" class="btn btn-primary" @click="saveComment" value="Comment!">
             </div>
         </form>
     </div>
@@ -67,7 +67,7 @@
                         <span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
                     </div>
                     <div class="form-row">
-                        <input type="button" class="btn btn-success" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
+                        <input type="button" class="btn btn-primary" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
                     </div>
                 </form>
             </div>
@@ -121,7 +121,7 @@
                                     <span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
                                 </div>
                                 <div class="form-row">
-                                    <input type="button" class="btn btn-success" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
+                                    <input type="button" class="btn btn-primary" v-on:click="replyComment(comment.commentid,index)" value="Reply!">
                                 </div>
                             </form>
                         </div>
@@ -214,7 +214,7 @@ export default {
                 this.commented.page_id = this.commenturl;
                 this.commented.comment = this.message;
                 this.commented.users_id = this.user.id;
-                this.$http.post('http://localhost:8000/comments', this.commented).then(res => {
+                this.$http.post('/comments', this.commented).then(res => {
                     if (res.data.status) {
                         this.commentsData.push({ "commentid": res.data.commentId, "name": this.user.name, "comment": this.message, "votes": 0, "reply": 0, "replies": [] });
                         this.message = null;
@@ -228,7 +228,7 @@ export default {
             if (this.message != null && this.message != ' ') {
                 this.errorReply = null;
                 let self = this;
-                this.$http.post('http://localhost:8000/comments', {
+                this.$http.post('/comments', {
                     comment: self.message,
                     users_id: self.user.id,
                     reply_id: commentId
@@ -246,7 +246,7 @@ export default {
         voteComment(commentId, commentType, index, index2, voteType) {
             if (this.user) {
                 let self = this;
-                this.$http.post('http://localhost:8000/comments/' + commentId + '/vote', {
+                this.$http.post('/comments/' + commentId + '/vote', {
                     users_id: self.user.id,
                     vote: voteType
                 }).then(res => {
@@ -269,7 +269,7 @@ export default {
         },
         spamComment(commentId, commentType, index, index2) {
             if (this.user) {
-                this.$http.post('http://localhost:8000/comments/' + commentId + '/spam', {
+                this.$http.post('/comments/' + commentId + '/spam', {
                     users_id: this.user.id,
                 }).then(res => {
                     if (commentType == 'directcomment') {
