@@ -3,7 +3,7 @@
         <notifications></notifications>
         ({{ count }}) TESTE
         <div v-if="followersInfo.length === 0">
-            No followers!
+            No followers! <i class="fa fa-frown-o"></i>
         </div>
         <div v-else v-for="(follower, index) in followersInfo" :key="index" class="friendship">
             <div>
