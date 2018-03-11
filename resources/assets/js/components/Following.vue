@@ -1,7 +1,7 @@
 <template>
     <span>
         <notifications></notifications>
-        ({{ count }})
+        ({{ count }}) test
         <div v-if="followingInfo.length === 0">
             No following!
         </div>
