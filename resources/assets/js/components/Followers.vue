@@ -1,7 +1,7 @@
 <template>
     <span>
         <notifications></notifications>
-        ({{ count }}) testando
+        ({{ count }}) testando!
         <div v-if="followersInfo.length === 0">
             No followers! <i class="fa fa-frown-o"></i>
         </div>
