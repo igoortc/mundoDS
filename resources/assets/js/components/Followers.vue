@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    var End = require('./end');
+    import instance from './end';
     export default {
         props: ['user'],
 
@@ -34,11 +34,11 @@
             getFollowers() {
                 let self = this;
                 let followers = [];
-                End.get('/api/user/' + self.user + '/followers/')
+                instance().get('/api/user/' + self.user + '/followers/')
                     .then(function (response) {
                         followers = response.data.data;
                         for (let i = 0; i < followers.length; i++) {
-                            End.get('/api/users/' + followers[i].user_id)
+                            instance().get('/api/users/' + followers[i].user_id)
                             .then(function (response) {
                                 self.followersInfo.push(response.data.data);
                                 self.count++;

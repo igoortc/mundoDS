@@ -6,10 +6,8 @@
 //     }
 // }
 
-var axios = require('axios');
+import axios from 'axios'
 
-var axiosInstance = axios.create({
-  baseURL: 'https://mundo-ds.herokuapp.com',
-});
-
-module.exports = axiosInstance;
+export default () => {
+  return axios.create({baseURL: 'https://mundo-ds.herokuapp.com'})
+}
