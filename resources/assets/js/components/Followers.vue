@@ -33,11 +33,11 @@
             getFollowers() {
                 let self = this;
                 let followers = [];
-                this.$http.get('/api/user/' + self.user + '/followers/')
+                this.$http.get('https://mundo-ds.herokuapp.com/api/user/' + self.user + '/followers/')
                     .then(function (response) {
                         followers = response.data.data;
                         for (let i = 0; i < followers.length; i++) {
-                            this.$http.get('/api/users/' + followers[i].user_id)
+                            this.$http.get('https://mundo-ds.herokuapp.com/api/users/' + followers[i].user_id)
                             .then(function (response) {
                                 self.followersInfo.push(response.data.data);
                                 self.count++;

@@ -33,11 +33,11 @@
             getFollowing() {
                 let self = this;
                 let following = [];
-                axios.get('/api/user/' + self.user + '/following/')
+                axios.get('https://mundo-ds.herokuapp.com/api/user/' + self.user + '/following/')
                     .then(function (response) {
                         following = response.data.data;
                         for (let i = 0; i < following.length; i++) {
-                            axios.get('/api/users/' + following[i].following_id)
+                            axios.get('https://mundo-ds.herokuapp.com/api/users/' + following[i].following_id)
                             .then(function (response) {
                                 self.followingInfo.push(response.data.data);
                                 self.count++;
