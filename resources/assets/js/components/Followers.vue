@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import End from './end'
+    var End = require('./end');
     export default {
         props: ['user'],
 
