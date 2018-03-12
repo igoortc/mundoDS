@@ -14,6 +14,7 @@
 </template>
 
 <script>
+    import End from './end'
     export default {
         props: ['user'],
 
@@ -33,11 +34,11 @@
             getFollowers() {
                 let self = this;
                 let followers = [];
-                this.$http.get('/api/user/' + self.user + '/followers/')
+                End.get('/api/user/' + self.user + '/followers/')
                     .then(function (response) {
                         followers = response.data.data;
                         for (let i = 0; i < followers.length; i++) {
-                            this.$http.get('/api/users/' + followers[i].user_id)
+                            End.get('/api/users/' + followers[i].user_id)
                             .then(function (response) {
                                 self.followersInfo.push(response.data.data);
                                 self.count++;
