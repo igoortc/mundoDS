@@ -180,7 +180,7 @@ module.exports = function normalizeComponent (
 /* harmony default export */ __webpack_exports__["a"] = ({
     endpoint: function endpoint() {
         return {
-            api_default: 'http://localhost:8000'
+            api_default: 'https://mundo-ds.herokuapp.com'
         };
     }
 });
