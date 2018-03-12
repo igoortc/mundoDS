@@ -8886,3 +8886,9 @@ legend {
   background-color: #fff;
 }
 
+@media screen and (max-width: 768px) {
+  .admin-panel .btn {
+    margin-top: 20px;
+  }
+}
+

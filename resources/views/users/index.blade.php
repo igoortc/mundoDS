@@ -10,6 +10,9 @@
                 </div>
                 @forelse ($users as $user)
                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a href="{{ url('user') }}/{{ $user->id }}">{{ $user->name }}</a>
+                        </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-md-3 col-3 profile">

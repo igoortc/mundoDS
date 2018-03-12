@@ -528,3 +528,10 @@ legend {
 .navbar-default .navbar-toggle .icon-bar {
     background-color: $white;
 }
+
+.admin-panel {
+    .btn {
+        min-width: 130px;
+        margin: 10px 0;
+    }
+}
