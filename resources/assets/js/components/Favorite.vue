@@ -16,7 +16,6 @@
 </template>
 
 <script>
-    import End from './end'
     export default {
         props: ['show', 'favorited'],
 
@@ -39,7 +38,7 @@
         methods: {
             favorite(show) {
                 let self = this;
-                axios.post(End.endpoint().api_default + '/favorite/'+show)
+                axios.post('/favorite/'+show)
                     .then(function (response) { 
                         self.isFavorited = true;
                         self.$notify({
@@ -58,7 +57,7 @@
             },
             unFavorite(show) {
                 let self = this;
-                axios.post(End.endpoint().api_default + '/unfavorite/'+show)
+                axios.post('/unfavorite/'+show)
                     .then(function (response) {
                         self.isFavorited = false;
                         self.$notify({

@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import End from '../../end'
 export default {
     data: function() {
         return {
@@ -77,7 +76,7 @@ export default {
         newShow() {
             this.show.poster = this.$refs.poster.value
             let self = this;
-            axios.post(End.endpoint().api_default + '/api/shows/', self.show)
+            axios.post('/api/shows/', self.show)
                 .then(function (response) {
                     self.$notify({
                         type: 'success',

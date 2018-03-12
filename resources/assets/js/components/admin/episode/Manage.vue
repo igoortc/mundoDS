@@ -83,7 +83,6 @@
 </template>
 
 <script>
-    import End from '../../end'
     export default {
         props: ['episode_id', 'show_id'],
         data: function() {
@@ -97,7 +96,7 @@
         methods: {
             getEpisode() {
                 let self = this;
-                axios.get(End.endpoint().api_default + '/api/shows/' + self.show_id + '/episodes/' + self.episode_id)
+                axios.get('/api/shows/' + self.show_id + '/episodes/' + self.episode_id)
                     .then(function (response) {
                         self.episode = response.data.data
                     })
@@ -112,7 +111,7 @@
             editEpisode() {
                 this.episode.image = this.$refs.image.value
                 let self = this;
-                axios.put(End.endpoint().api_default + '/api/shows/' + self.show_id + '/episodes/' + self.episode_id, self.episode)
+                axios.put('/api/shows/' + self.show_id + '/episodes/' + self.episode_id, self.episode)
                     .then(function (response) {
                         self.$notify({
                             type: 'success',
@@ -131,7 +130,7 @@
             },
             deleteEpisode() {
                 let self = this;
-                axios.delete(End.endpoint().api_default + '/api/shows/' + self.show_id + '/episodes/' + self.episode_id)
+                axios.delete('/api/shows/' + self.show_id + '/episodes/' + self.episode_id)
                     .then(function (response) {
                         self.$notify({
                             type: 'warn',

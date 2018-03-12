@@ -25,7 +25,6 @@
 </template>
 
 <script>
-    import End from './end'
     export default {
         props: ['episode', 'user'],
 
@@ -54,7 +53,7 @@
                 this.watched.episode_id = episode;
                 this.watched.rating = 0;
                 let self = this;
-                axios.post(End.endpoint().api_default + '/api/users/'+ self.watched.user_id + '/watches', self.watched)
+                axios.post('/api/users/'+ self.watched.user_id + '/watches', self.watched)
                     .then(function (response) {
                         self.isWatched = true
                         self.$notify({
@@ -81,7 +80,7 @@
                 }
                 this.value = null;
                 let self = this;
-                axios.delete(End.endpoint().api_default + '/api/users/'+ self.user + '/watches/' + watched_id)
+                axios.delete('/api/users/'+ self.user + '/watches/' + watched_id)
                     .then(function (response) { 
                         self.isWatched = false
                         self.$notify({
@@ -100,7 +99,7 @@
             },
             getWatched() {
                 let self = this;
-                axios.get(End.endpoint().api_default + '/api/users/' + self.user + '/watches/')
+                axios.get('/api/users/' + self.user + '/watches/')
                     .then(function (response) {
                         self.watchedEpisodes = response.data.data;
                         for (let i = 0; i < self.watchedEpisodes.length; i++) {
@@ -138,7 +137,7 @@
                 }
                 this.watched.rating = value;
                 let self = this;
-                axios.put(End.endpoint().api_default + '/api/users/'+ self.user + '/watches/' + watched_id + '?rating=' + self.watched.rating)
+                axios.put('/api/users/'+ self.user + '/watches/' + watched_id + '?rating=' + self.watched.rating)
                     .then(function (response) {
                         self.isRated = true
                         self.$notify({

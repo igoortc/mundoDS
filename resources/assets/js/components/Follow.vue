@@ -11,7 +11,6 @@
 </template>
 
 <script>
-    import End from './end'
     export default {
         props: ['user_id', 'following_id'],
 
@@ -34,7 +33,7 @@
         methods: {
             follow(user_id) {
                 let self = this;
-                axios.post(End.endpoint().api_default + '/follow/'+user_id)
+                axios.post('/follow/'+user_id)
                     .then(function (response) { 
                         self.isFollowed = true;
                         self.$notify({
@@ -53,7 +52,7 @@
             },
             unfollow(user_id) {
                 let self = this;
-                axios.post(End.endpoint().api_default + '/unfollow/'+user_id)
+                axios.post('/unfollow/'+user_id)
                     .then(function (response) {
                         self.isFollowed = false;
                         self.$notify({

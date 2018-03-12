@@ -14,7 +14,6 @@
 </template>
 
 <script>
-    import End from './end'
     export default {
         props: ['user'],
 
@@ -34,11 +33,11 @@
             getFollowing() {
                 let self = this;
                 let following = [];
-                axios.get(End.endpoint().api_default + '/api/user/' + self.user + '/following/')
+                axios.get('/api/user/' + self.user + '/following/')
                     .then(function (response) {
                         following = response.data.data;
                         for (let i = 0; i < following.length; i++) {
-                            axios.get(End.endpoint().api_default + '/api/users/' + following[i].following_id)
+                            axios.get('/api/users/' + following[i].following_id)
                             .then(function (response) {
                                 self.followingInfo.push(response.data.data);
                                 self.count++;

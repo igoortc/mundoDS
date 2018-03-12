@@ -52,7 +52,6 @@
 </template>
 
 <script>
-    import End from './end'
     export default {
         props: ['show', 'user'],
 
@@ -83,11 +82,11 @@
             getEpisodes()
             {
                 let self = this;
-                axios.get(End.endpoint().api_default + '/api/shows/'+ this.show + '/episodes')
+                axios.get('/api/shows/'+ this.show + '/episodes')
                     .then(function (response) {
                         self.episodes = response.data.data
                         for (let i = 0; i< self.episodes.length; i++) {
-                            axios.get(End.endpoint().api_default + '/avgEpisode/' + self.episodes[i].id)
+                            axios.get('/avgEpisode/' + self.episodes[i].id)
                                 .then(function (response) {
                                     self.average.push(response.data)
                                 })
@@ -110,7 +109,7 @@
             },
             getSeasons () {
                 let self = this;
-                axios.get(End.endpoint().api_default + '/api/shows/'+ this.show)
+                axios.get('/api/shows/'+ this.show)
                     .then(function (response) {
                         self.showSeasons = response.data.data.seasons;
                     })
@@ -140,7 +139,7 @@
             },
             getAverage (episode, index) {
                 let self = this
-                axios.get(End.endpoint().api_default + '/avgEpisode/' + episode)
+                axios.get('/avgEpisode/' + episode)
                     .then(function (response) {
                         self.average[index] = response.data.data
                     })

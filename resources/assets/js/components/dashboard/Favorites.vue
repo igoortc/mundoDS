@@ -13,7 +13,6 @@
 </template>
 
 <script>
-    import End from '../end'
     export default {
         props: ['user'],
         data: function() {
@@ -28,7 +27,7 @@
             getFavorites()
             {
                 let self = this;
-                axios.get(End.endpoint().api_default + '/dashFavorites/' + this.user)
+                axios.get('/dashFavorites/' + this.user)
                     .then(function (response) {
                         self.shows = response.data
                     })
