@@ -7,5 +7,5 @@
 // }
 
 export default {
-    BASEURL: 'https://mundo-ds.herokuapp.com'
+    api_default: 'https://mundo-ds.herokuapp.com/api'
 }

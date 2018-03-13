@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import BaseUrl from './end';
+    import Endpoint from './end';
     export default {
         props: ['user'],
 
@@ -35,13 +35,11 @@
                 let self = this;
                 let followers = [];
                 console.log('base' + BaseUrl.BASEURL)
-                axios.get(
-                    {baseUrl: BaseUrl.BASEURL, url: '/api/user/' + self.user + '/followers/'})
+                axios.get('/api/user/' + self.user + '/followers/', {baseUrl: Endpoint.api_default})
                     .then(function (response) {
                         followers = response.data.data;
                         for (let i = 0; i < followers.length; i++) {
-                            axios.get(
-                                {baseUrl: BaseUrl.BASEURL, url: '/api/users/' + followers[i].user_id})
+                            axios.get('/api/users/' + followers[i].user_id, {baseUrl: Endpoint.api_default})
                             .then(function (response) {
                                 self.followersInfo.push(response.data.data);
                                 self.count++;
