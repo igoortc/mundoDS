@@ -6,8 +6,6 @@
 //     }
 // }
 
-import axios from 'axios'
-
-export default () => {
-  return axios.create({baseURL: 'https://mundo-ds.herokuapp.com'})
+export default {
+    BASEURL: 'https://mundo-ds.herokuapp.com'
 }
