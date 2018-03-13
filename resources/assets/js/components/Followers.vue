@@ -35,11 +35,11 @@
                 let self = this;
                 let followers = [];
                 console.log('a ' + Endpoint.api_default)
-                axios.get('/user/' + self.user + '/followers/', {baseURL: Endpoint.api_default})
+                this.$http.get(Endpoint.api_default + '/user/' + self.user + '/followers/')
                     .then(function (response) {
                         followers = response.data.data;
                         for (let i = 0; i < followers.length; i++) {
-                            axios.get('/users/' + followers[i].user_id, {baseURL: Endpoint.api_default})
+                            this.$http.get(Endpoint.api_default + '/users/' + followers[i].user_id)
                             .then(function (response) {
                                 self.followersInfo.push(response.data.data);
                                 self.count++;
