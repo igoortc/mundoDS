@@ -34,7 +34,7 @@
             getFollowers() {
                 let self = this;
                 let followers = [];
-                console.log('base' + BaseUrl.BASEURL)
+                console.log('a ' + Endpoint.api_default)
                 axios.get('/api/user/' + self.user + '/followers/', {baseURL: Endpoint.api_default})
                     .then(function (response) {
                         followers = response.data.data;
