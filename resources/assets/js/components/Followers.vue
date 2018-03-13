@@ -34,7 +34,6 @@
             getFollowers() {
                 let self = this;
                 let followers = [];
-                console.log('a ' + Endpoint.api_default)
                 this.$http.get(Endpoint.api_default + '/user/' + self.user + '/followers/')
                     .then(function (response) {
                         followers = response.data.data;
