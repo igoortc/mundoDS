@@ -21,12 +21,12 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
-    <script>
+    <!-- <script>
         var host = "mundo-ds.herokuapp.com";
         if ((host == window.location.host) && (window.location.protocol != "https:")){
             window.location.protocol = "https";
         }
-    </script>
+    </script> -->
 </head>
 <body>
     <div id="app">

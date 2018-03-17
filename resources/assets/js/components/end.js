@@ -7,5 +7,6 @@
 // }
 
 export default {
-    api_default: 'https://mundo-ds.herokuapp.com/api'
+    // api_default: 'https://mundo-ds.herokuapp.com/api'
+    api_default: 'http://mundo-ds.herokuapp.com/api'
 }
