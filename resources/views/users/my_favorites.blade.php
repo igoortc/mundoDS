@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="page-header">
-                <h3>My Favorites</h3>
+                <h3>My Favorite Shows</h3>
             </div>
             @forelse ($myFavorites as $myFavorite)
                 <div class="panel panel-default">
@@ -28,6 +28,7 @@
             @empty
                 <p>You have no favorite shows.</p>
             @endforelse
+            {{ $myFavorites->links() }}
          </div>
     </div>
 </div>

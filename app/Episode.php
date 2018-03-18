@@ -39,15 +39,4 @@ class Episode extends Model
 
         return $show->name;
     }
-
-    // public function belongsToShow()
-    // {
-    //     return $this->belongsTo('App\Show');
-    // }
-
-    // public function episodeWatches()
-    // {
-    //     return $this->hasMany('App\Watch');
-    // }
-
 }

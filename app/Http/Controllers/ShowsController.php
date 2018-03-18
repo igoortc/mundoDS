@@ -11,7 +11,7 @@ class ShowsController extends Controller
 {
     public function index()
     {
-        $shows = Show::paginate(10);
+        $shows = Show::orderBy('name', 'ASC')->paginate(8);
 
         return view('shows.index', compact('shows'));
     }
@@ -48,15 +48,7 @@ class ShowsController extends Controller
 
         return back();
     }
-
-    // public function showEpisodes(Show $show)
-    // {
-    //     $showEpisodes = Show::episodes()->where('show_id', $show->id)
-    //                     ->paginate(5);
-
-    //     return back();
-    // }
-
+    
     public function average($id) {
         $show = Show::find($id);
         $episodes = DB::table('watches')

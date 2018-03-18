@@ -45,6 +45,7 @@
                     $('#photo').val(res.data.secure_url)
                     $('#poster').val(res.data.secure_url)
                     $('#image').val(res.data.secure_url)
+                    $('#photoProfile').val(res.data.secure_url)
                 })
             }
         }

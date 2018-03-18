@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\User;
+use App\Follow;
+use App\Watch;
 
 class UserController extends Controller
 {
@@ -27,6 +30,14 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
+        $follow = Follow::where('user_id', $id)->delete();
+
+        $following = Follow::where('following_id', $id)->delete();
+
+        $watch = Watch::where('user_id', $id)->delete();
+
+        $favorite = DB::table('favorites')->where('user_id', $id)->delete();
+
         return response()->json([
             'message' => 'User destroyed successfully!'
         ], 200);
@@ -40,6 +51,7 @@ class UserController extends Controller
         $user->photo = request('photo');
         $user->city = request('city');
         $user->bio = request('bio');
+        $user->age = request('age');
         $user->admin = request('admin');
         $user->save();
         

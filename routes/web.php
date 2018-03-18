@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\URL;
 |
 */
 
-// URL::forceScheme('https');
-
 Auth::routes();
 
 Route::get('/', 'DashboardController@index')->middleware('auth');

@@ -9,7 +9,6 @@ $light-pink:#c56393;
 $gray: #636b6f;
 $purple: #a053e3;
 $light-purple: #bba6ce;
-$lighter-purple: #876990;
 $white: #fff;
 $small-screen: 485px;
 $medium-screen: 760px;
@@ -19,7 +18,7 @@ $mobile-screen: 768px;
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 body {
-    color: $lighter-purple;
+    color: $brand-primary;
     background-color: $white;
 }
 
@@ -32,16 +31,20 @@ a {
     }
 }
 
+h3 {
+    margin-top: 15px;
+}
+
 .nav-pills > li.active > a {
-    background-color: $lighter-purple;
+    background-color: $brand-primary;
     
     &:hover, &:focus {
-        background-color: $lighter-purple;
+        background-color: $brand-primary;
     }
 }
 
 .panel-default > .panel-heading {
-    color: $lighter-purple;
+    color: $brand-primary;
 }
 
 .poster img, 
@@ -51,9 +54,12 @@ a {
     margin-right: 25px;
 }
 
-.showInfo p:first-child {
-    font-size: 25px;
-    font-weight: bold;
+.showInfo {
+    text-align: justify;
+    p:first-child {
+        font-size: 25px;
+        font-weight: bold;
+    }
 }
 
 .unavailable {
@@ -62,7 +68,7 @@ a {
 
 .favorites a, .favorites a:hover {
     text-decoration: none;
-    color: $lighter-purple;
+    color: $brand-primary;
 }
 
 .fa-heart, .fa-heart-o:hover, .fa-meh-o, .fa-smile-o {
@@ -70,7 +76,7 @@ a {
 }
 
 .fa-heart:hover {
-    color: $lighter-purple;
+    color: $brand-primary;
 }
 
 .fa-ban {
@@ -426,7 +432,7 @@ h4 {
 
 fieldset {
   border: 1px solid #DDD;
-  padding: 0px 0px 5px 15px;
+  padding: 5px 15px;
   margin: 0 0 20px 0;
   width: auto;
 }
@@ -437,6 +443,7 @@ legend {
   width: auto;
   border-bottom: 0;
   margin-bottom: 8px;
+  color: $brand-primary;
 }
 
 .search {
@@ -453,19 +460,24 @@ legend {
     li {
         width: 100%;
         a {
-            color: $white;
+            color: $white !important;
 
             &:hover, &:focus {
                 text-decoration: none;
                 color: $white;
-                background-color: $light-purple;
+                background-color: $light-pink;
             }
         }
     }
 }
 
-.dropdown a {
-    font-size: 16px;
+.dropdown {
+    a {
+        font-size: 16px;
+    }
+    span {
+        color: $white;
+    }
 }
 
 .navbar-header a {
@@ -512,7 +524,7 @@ legend {
     background-color: $light-purple;
 
     &:hover, &:focus {
-        background-color: $light-purple;
+        background-color: $light-pink;
     }
 }
 
@@ -534,4 +546,17 @@ legend {
         min-width: 130px;
         margin: 10px 0;
     }
+}
+
+.show-admin-actions {
+    display: inline-block;
+
+    .btn {
+        min-width: 130px;
+        margin: 10px 0;
+    }
+}
+
+.page-header {
+    margin: 0 0 22px;
 }

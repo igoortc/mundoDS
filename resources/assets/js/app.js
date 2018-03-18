@@ -25,6 +25,8 @@ Vue.component('episode-create', require('./components/admin/episode/Create.vue')
 Vue.component('episode-manage', require('./components/admin/episode/Manage.vue'));
 Vue.component('user-manage', require('./components/admin/user/Manage.vue'));
 Vue.component('content-manage', require('./components/admin/content/Manage.vue'));
+Vue.component('edit-profile', require('./components/user/Edit.vue'));
+Vue.component('user-favorites', require('./components/user/Favorites.vue'));
 
 const app = new Vue({
     el: '#app'

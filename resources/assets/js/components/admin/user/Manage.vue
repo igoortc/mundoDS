@@ -34,8 +34,8 @@
                     </div>
                     <div class="modal-footer">
                         <form>
-                            <button type="button" class="btn btn-danger" @click="makeAdmin">Yes!</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" @click="makeAdmin">Yes!</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
                         </form>
                     </div>
                 </div>

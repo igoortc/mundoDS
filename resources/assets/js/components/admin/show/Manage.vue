@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="show-admin-actions">
         <fieldset>
             <legend><i class="fa fa-user-secret"></i> Admin actions</legend>
-            <ul>
+            <ul class="text-center">
                 <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editShow"><i class="fa fa-pencil-square-o"></i> Edit show</button></li>
-                <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewEpisode"><i class="fa fa-plus-square"></i> Add new episode</button></li>
+                <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewEpisode"><i class="fa fa-plus-square"></i> New episode</button></li>
                 <li><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteShow"><i class="fa fa-trash"></i> Delete show</button></li>
             </ul>
         </fieldset>

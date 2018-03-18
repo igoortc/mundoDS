@@ -11,7 +11,17 @@
                 @forelse ($users as $user)
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            @if (Auth::user()->id != $user->id)
                             <a href="{{ url('user') }}/{{ $user->id }}">{{ $user->name }}</a>
+                            <follow
+                                :user_id={{ $user->id }}
+                                :following_id={{ $user->followed() ? 'true' : 'false' }}
+                                class="pull-right"
+                            ></follow>
+                            @endif
+                            @if (Auth::user()->id == $user->id)
+                                <a href="{{ url('my_profile') }}">{{ $user->name }}</a>
+                            @endif
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -24,17 +34,13 @@
                                     <p><i class="fa fa-quote-left"></i> {{ $user-> bio }}</p>
                                 </div>
                             </div>
-                            @if (Auth::user()->id != $user->id)
-                            <follow
-                                :user_id={{ $user->id }}
-                                :following_id={{ $user->followed() ? 'true' : 'false' }}
-                            ></follow>
-                            @endif
                         </div>
                     </div>
                 @empty
                     <p>There are no users.</p>
                 @endforelse
+
+                {{ $users->links() }}
             @else
             <div class="panel-heading">
                 <i class="fa fa-hand-paper-o"></i> This page is only available for users of the <strong>mundoDS</strong>!
