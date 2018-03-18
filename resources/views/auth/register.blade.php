@@ -76,11 +76,12 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('age') ? ' has-error' : '' }}">
-                            <label for="age" class="col-md-4 control-label">Age</label>
+                            <label for="age" class="col-md-4 control-label">Date of birth</label>
 
                             <div class="col-md-6">
-                                <input id="age" type="text" class="form-control" name="age" value="{{ old('age') }}" required autofocus>
-
+                                <input id="dob" type="text" class="form-control" name="age" value="{{ old('age') }}" required autofocus>
+                                <datepicker></datepicker>
+                                
                                 @if ($errors->has('age'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('age') }}</strong>

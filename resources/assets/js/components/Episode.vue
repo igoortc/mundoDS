@@ -72,8 +72,8 @@
             }
         },
         mounted() {
-            this.getEpisodes();
-            this.getSeasons();
+            this.getEpisodes()
+            this.getSeasons()
         },
         created() {
           this.startSeason();  

@@ -45,6 +45,8 @@ class Comments extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('comment_spam');
+        Schema::dropIfExists('comment_user_vote');
     }
 }
