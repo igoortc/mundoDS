@@ -11,7 +11,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(15);
+        $users = User::paginate(8);
 
         return view('users.index', compact('users'));
     }
@@ -25,7 +25,7 @@ class UsersController extends Controller
 
     public function myFavorites()
     {
-        $myFavorites = Auth::user()->favorites;
+        $myFavorites = Auth::user()->favorites()->paginate(5);
 
         return view('users.my_favorites', compact('myFavorites'));
     }
@@ -39,7 +39,7 @@ class UsersController extends Controller
 
     public function myWatched()
     {
-        $myWatched = Auth::user()->watches;
+        $myWatched = Auth::user()->watches()->paginate(5);
         return view('users.my_watched', compact('myWatched'));
     }
 

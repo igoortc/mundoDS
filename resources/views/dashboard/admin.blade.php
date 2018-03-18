@@ -38,4 +38,9 @@
     <show-create></show-create>
   </div>
 </div>
+<div class="modal fade" id="manageContent" tabindex="-1" role="dialog" aria-labelledby="manageContent" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <content-manage></content-manage>
+  </div>
+</div>
 @endsection

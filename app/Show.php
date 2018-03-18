@@ -35,15 +35,12 @@ class Show extends Model
         $show = Show::find($id);
         $average = DB::table('watches')
         ->join('episodes', 'watches.episode_id', '=', 'episodes.id')
+        ->join('shows', 'episodes.show_id', '=', 'shows.id')
+        ->where('shows.id', $id)
+        ->where('watches.rating', '<>', '0')
         ->avg('watches.rating');
         $avg = number_format($average, 1, '.', ',');
 
         return $avg;
     }
-
-    // public function episodes()
-    // {
-    //     return $this->hasMany('App\Episode');
-    // }
-
 }

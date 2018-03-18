@@ -1,18 +1,13 @@
 <template>
-    <span class="favorites">
+    <p class="favorites">
         <notifications></notifications>
         <a href="#" v-if="isFavorited" @click.prevent="unFavorite(show)">
             <i class="fa fa-heart"></i> <span>Favorited!</span>
         </a>
         <a href="#" v-else @click.prevent="favorite(show)">
-            <!-- <div class="row">
-                <vue-star animate="animated bounceIn" color="#F05654">
-                    <i slot="icon" class="fa fa-heart"></i>
-                </vue-star> 
-            </div> -->
             <i class="fa fa-heart-o"></i> <span>Favorite this show!</span>
         </a>
-    </span>
+    </p>
 </template>
 
 <script>

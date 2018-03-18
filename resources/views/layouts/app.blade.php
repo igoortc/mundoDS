@@ -21,12 +21,6 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
-    <!-- <script>
-        var host = "mundo-ds.herokuapp.com";
-        if ((host == window.location.host) && (window.location.protocol != "https:")){
-            window.location.protocol = "https";
-        }
-    </script> -->
 </head>
 <body>
     <div id="app">
@@ -59,7 +53,10 @@
                                 <search></search>
                             </li>
                             <li>
-                                <a href="{{ url('my_favorites') }}"><i class="fa fa-heart"></i> <span>My favorites</span></a>
+                                <a href="{{ url('all_users') }}"><i class="fa fa-users"></i>  <span>Find friends!</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ url('my_favorites') }}"><i class="fa fa-heart"></i> <span>My favorite shows</span></a>
                             </li>
                             <li>
                                 <a href="{{ url('my_watched') }}"><i class="fa fa-tv"></i>  <span>Watched episodes</span></a>

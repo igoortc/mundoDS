@@ -7,6 +7,12 @@
             @if (Auth::check())
             <div class="page-header">
                 <h3>{{ $user->name }}</h3>
+                @if (Auth::user()->id != $user->id)
+                    <follow
+                        :user_id={{ $user->id }}
+                        :following_id={{ $user->followed() ? 'true' : 'false' }}
+                    ></follow>
+                @endif
             </div>
             @if (Auth::user()->admin)
                 <user-manage :user_id={{ $user->id }}></user-manage>
@@ -18,25 +24,41 @@
                             <img src={{ $user-> photo }}>
                         </div>
                         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9">
-                            <p><i class="fa fa-calendar"></i> {{ $user-> age }}</p>
                             <p><i class="fa fa-globe"></i> {{ $user-> city }}</p>
                             <p><i class="fa fa-quote-left"></i> {{ $user-> bio }}</p>
+                            @if ($user->nrEpisodes($user->id) == 0)
+                                <p><i class="fa fa-list-ol"></i> {{ $user->name }} haven't watched any episodes</p>
+                            @elseif ($user->nrEpisodes($user->id) == 1)
+                                <p><i class="fa fa-list-ol"></i> Watched {{ $user->nrEpisodes($user->id) }} episode</p>
+                            @else
+                                <p><i class="fa fa-list-ol"></i> Watched {{ $user->nrEpisodes($user->id) }} episodes</p>
+                            @endif
+                            
+                            @if ($user->nrRatings($user->id) == 0)
+                                <p><i class="fa fa-star-o"></i> {{ $user->name }} haven't rated any episodes</p>
+                            @elseif ($user->nrRatings($user->id) == 1)
+                                <p><i class="fa fa-star-o"></i> Rated {{ $user->nrRatings($user->id) }} episode</p>
+                            @else
+                                <p><i class="fa fa-star-o"></i> Rated {{ $user->nrRatings($user->id) }} episodes</p>
+                            @endif
                         </div>
                     </div>
-                    @if (Auth::user()->id != $user->id)
-                    <follow
-                        :user_id={{ $user->id }}
-                        :following_id={{ $user->followed() ? 'true' : 'false' }}
-                    ></follow>
-                    @endif
-                    <div class="row mt-20">
-                        <div class="col-md-6">Followers
+                    <div class="row">
+                        <div class="col-md-6 mt-20">
+                            <strong>Followers</strong>
                             <followers :user={{ $user->id }}>
                             </followers>
                         </div>
-                        <div class="col-md-6">Following
+                        <div class="col-md-6 mt-20">
+                            <strong>Following</strong>
                             <following :user={{ $user->id }}>
                             </following>
+                        </div>
+                    </div>
+                    <div class="row mt-20">
+                        <div class="col-md-12">
+                            <strong>{{ $user->name }}'s favorite shows</strong>
+                            <user-favorites :user={{ $user->id }}></user-favorites>
                         </div>
                     </div>
                 </div>

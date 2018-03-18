@@ -2,11 +2,11 @@
     <span>
         <notifications></notifications>
         ({{ count }})
-        <div v-if="followingInfo.length === 0">
-            No following!
-        </div>
-        <div v-else v-for="(following, index) in followingInfo" :key="index" class="friendship">
-            <div>
+        <div class="friendship">
+            <div v-if="followingInfo.length === 0">
+                No following! <i class="fa fa-frown-o"></i>
+            </div>
+            <div v-else v-for="(following, index) in followingInfo" :key="index">
                 <a :href="'/user/' + following.id"> <img :src="following.photo"/></a>
             </div>
         </div>

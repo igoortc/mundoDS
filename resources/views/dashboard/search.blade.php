@@ -57,6 +57,7 @@
             @empty
                 <p>No shows found.</p>
             @endforelse
+            {{ $searchShows->links() }}
             <div class="page-header">
                 <h3>Users</h3>
             </div>
@@ -83,6 +84,7 @@
             @empty
                 <p>No users found.</p>
             @endforelse
+            {{ $searchUsers->links() }}
         </div>
     </div>
 </div>

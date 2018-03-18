@@ -23,8 +23,8 @@
                             <th>#</th>
                             <th>Title</th>
                             <th><i class="fa fa-star"></i></th>
-                            <th>Date aired</th>
-                            <th>Actions</th>
+                            <th>Date</th>
+                            <th width="124px">Actions</th>
                         </tr>
                     </thead>
                     <tbody>

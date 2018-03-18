@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use App\Follow;
+use App\Watch;
 
 class User extends Authenticatable
 {
@@ -48,6 +49,17 @@ class User extends Authenticatable
         return (bool) Follow::where('user_id', Auth::id())
                             ->where('following_id', $this->id)
                             ->first();
+    }
+
+    public function nrEpisodes($id) {
+        return Watch::where('user_id', $id)
+                    ->count();
+    }
+
+    public function nrRatings($id) {
+        return Watch::where('user_id', $id)
+                    ->where('rating', '<>', '0')
+                    ->count();
     }
 
 }
