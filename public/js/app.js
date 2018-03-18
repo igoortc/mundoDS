@@ -58444,6 +58444,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58461,20 +58462,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     mounted: function mounted() {
-        this.getUser();
+        this.getReportedContent();
     },
 
     methods: {
-        getUser: function getUser() {
+        getReportedContent: function getReportedContent() {
             var self = this;
             axios.get('/spam_comments').then(function (response) {
-                console.log(response.data);
                 self.comments = response.data;
             }).catch(function (error) {
                 self.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Failed to load comments. '
+                });
+            });
+        },
+        destroySpam: function destroySpam(comment) {
+            axios.delete('/destroy_spam/' + comment).then(function (response) {
+                self.$notify({
+                    type: 'success',
+                    title: '<i class="fa fa-heart"></i> Yay! The spam was deleted!',
+                    text: 'The changes were updated in the database!'
+                });
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Failed to delete comment. '
+                });
+            });
+            // window.location.href = "/";
+        },
+        notSpam: function notSpam(comment) {
+            console.log(comment);
+            comment.spam = 0;
+            axios.put('/not_spam/' + comment.id, comment).then(function (response) {
+                self.$notify({
+                    type: 'success',
+                    title: '<i class="fa fa-heart"></i> Yay! Not a spam!',
+                    text: 'The comment was marked as not spam!'
+                });
+            }).catch(function (error) {
+                self.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Failed to delete comment. '
                 });
             });
         }
@@ -58489,75 +58522,96 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal-content" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "modal-body" }, [
-      _vm.comments.length > 0
-        ? _c("table", [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.comments, function(comment) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(comment.id))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(comment.comment))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("a", { attrs: { href: "/users/" + comment.users_id } }, [
-                      _vm._v("Check")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        attrs: {
-                          href:
-                            "/show/" +
-                            comment.page_id.charAt(0) +
-                            "/episode/" +
-                            comment.page_id
-                        }
-                      },
-                      [_vm._v("Check")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "button" },
-                        on: { click: _vm.destroySpam }
-                      },
-                      [_c("i", { staticClass: "fa fa-ban" })]
-                    ),
+  return _c(
+    "div",
+    { staticClass: "modal-content" },
+    [
+      _c("notifications"),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-body" }, [
+        _vm.comments.length > 0
+          ? _c("table", { staticStyle: { width: "100%" } }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.comments, function(comment) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(comment.id))]),
                     _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: { click: _vm.notSpam }
-                      },
-                      [_c("i", { staticClass: "fa fa-check" })]
-                    )
+                    _c("td", [_vm._v('"' + _vm._s(comment.comment) + '"')]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: "/user/" + comment.users_id } },
+                        [_vm._v("Check")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "/show/" +
+                              comment.page_id.charAt(0) +
+                              "/episode/" +
+                              comment.page_id
+                          }
+                        },
+                        [_vm._v("Check")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              _vm.destroySpam(comment.id)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-ban" }),
+                          _vm._v(" Destroy")
+                        ]
+                      ),
+                      _vm._v("  |  \n                        "),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              _vm.notSpam(comment)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-check" }),
+                          _vm._v(" Restore")
+                        ]
+                      )
+                    ])
                   ])
-                ])
-              })
-            )
-          ])
-        : _c("p", [
-            _vm._v("There are no reported comments "),
-            _c("i", { staticClass: "fa fa-smile-o" })
-          ])
-    ])
-  ])
+                })
+              )
+            ])
+          : _c("p", [
+              _vm._v("There are no reported comments "),
+              _c("i", { staticClass: "fa fa-smile-o" })
+            ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
