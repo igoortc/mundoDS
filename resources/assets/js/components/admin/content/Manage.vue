@@ -7,7 +7,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <table>
+            <table v-if="comments.length > 0">
                 <thead>
                     <th>#</th>
                     <th>Comment</th>
@@ -28,6 +28,7 @@
                     </tr>
                 </tbody>
             </table>
+            <p v-else>There are no reported comments <i class="fa fa-smile-o"></i></p>
         </div>
     </div>
 </template>
@@ -56,7 +57,6 @@ export default {
             let self = this;
             axios.get('/spam_comments')
                 .then(function (response) {
-                    console.log(response.data)
                     self.comments = response.data
                 })
                 .catch(function (error) {

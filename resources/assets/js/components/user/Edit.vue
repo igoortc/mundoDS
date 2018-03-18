@@ -37,8 +37,8 @@
                                     <input type="text" name="city" class="form-control" id="city" v-model="user.city">
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r">
-                                    <label for="age" class="col-form-label">Age:</label>
-                                    <input type="text" name="age" class="form-control" id="age" v-model="user.age">
+                                    <label for="age" class="col-form-label">Date of birth:</label>
+                                    <date-picker v-model="user.age" lang="en" format="yyyy/MM/dd" disabled></date-picker>
                                 </div>
                             </div>
                             <div class="form-group">

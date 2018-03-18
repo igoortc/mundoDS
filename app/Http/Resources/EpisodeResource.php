@@ -21,7 +21,7 @@ class EpisodeResource extends Resource
             'season' => $this->season,
             'number' => $this->number,
             'synopsis' => $this->synopsis,
-            'date_aired' => $this->date_aired,
+            'date_aired' => $this->date_aired->format('Y/m/d'),
             'image' => $this->image,
             'date' => $this->created_at->diffForHumans()
         ];

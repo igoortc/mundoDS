@@ -30,14 +30,6 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        $follow = Follow::where('user_id', $id)->delete();
-
-        $following = Follow::where('following_id', $id)->delete();
-
-        $watch = Watch::where('user_id', $id)->delete();
-
-        $favorite = DB::table('favorites')->where('user_id', $id)->delete();
-
         return response()->json([
             'message' => 'User destroyed successfully!'
         ], 200);

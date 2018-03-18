@@ -19,7 +19,7 @@ class UserResource extends Resource
             'name' => $this->name,
             'email' => $this->email,
             'photo' => $this->photo,
-            'age' => $this->age,
+            'age' => $this->age->diffForHumans(null, true),
             'city' => $this->city,
             'bio' => $this->bio,
             'admin' => $this->admin,

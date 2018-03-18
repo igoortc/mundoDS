@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label for="date_aired" class="col-form-label">Date aired:</label>
-                <input type="text" class="form-control" id="date_aired"  v-model="episode.date_aired">
+                <date-picker v-model="episode.date_aired" format="yyyy/MM/dd" lang="en"></date-picker>
             </div>
             <div class="form-group text-right">
                 <a type="button" class="btn btn-primary" @click="newEpisode">Create new episode!</a>

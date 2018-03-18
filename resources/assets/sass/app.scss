@@ -35,6 +35,10 @@ h3 {
     margin-top: 15px;
 }
 
+small {
+    color: $brand-primary !important;
+}
+
 .nav-pills > li.active > a {
     background-color: $brand-primary;
     

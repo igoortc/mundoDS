@@ -20,6 +20,10 @@ class Episode extends Model
         'date_aired',
     ];
 
+    protected $dates = [
+        'date_aired'
+    ];
+
     public function watched() {
         return (bool) Watch::where('user_id', Auth::id())
                             ->where('episode_id', $this->id)

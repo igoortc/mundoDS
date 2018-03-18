@@ -8368,6 +8368,10 @@ h3 {
   margin-top: 15px;
 }
 
+small {
+  color: #876990 !important;
+}
+
 .nav-pills > li.active > a {
   background-color: #876990;
 }
