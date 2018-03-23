@@ -79,7 +79,7 @@
                             <label for="age" class="col-md-4 control-label">Date of birth</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="text" class="form-control" name="age" value="{{ old('age') }}" required autofocus>
+                                <input id="dob" type="hidden" class="form-control" name="age" value="{{ old('age') }}" required autofocus>
                                 <datepicker></datepicker>
                                 
                                 @if ($errors->has('age'))
