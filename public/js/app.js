@@ -11926,7 +11926,6 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('watched', __webpack_requi
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('follow', __webpack_require__(54));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('followers', __webpack_require__(57));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('following', __webpack_require__(60));
-// Vue.component('comment', require('./components/Comments.vue'));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('discussion', __webpack_require__(63));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('image-upload', __webpack_require__(66));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('dash-favorites', __webpack_require__(69));
@@ -54245,6 +54244,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 votes: 0,
                 spam: 0,
                 reply_id: 0,
+                parent_comment: '',
                 episode_id: '',
                 user_id: '',
                 date: ''
@@ -54263,55 +54263,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('/api/episodes/' + self.episode_id + '/discussion').then(function (response) {
                 self.comments = response.data.data;
                 for (var i = 0; i < self.comments.length; i++) {
-                    self.isLove(self.comments[i].id, i);
+                    self.isLove(self.comments[i].id);
+                    for (var j = 0; j < self.comments[i].reply_id.length; j++) {
+                        self.isLove(self.comments[i].reply_id[j].id);
+                    }
                 }
-                console.log(self.comments);
             });
             this.edit.fill(0);
         },
-        saveComment: function saveComment() {
+        saveComment: function saveComment(parent_comment) {
+            var _this = this;
+
             this.comment.user_id = this.user.id;
             this.comment.episode_id = this.episode_id;
+            this.comment.parent_comment = parent_comment;
             var self = this;
-            axios.post('/api/episodes/' + self.episode_id + '/discussion', self.comment).then(function (response) {
-                self.$notify({
+            axios.post('/api/episodes/' + this.episode_id + '/discussion', this.comment).then(function (response) {
+                _this.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! Your comment was posted!',
                     text: 'It is now available for others to see!'
                 });
             }).catch(function (error) {
-                self.$notify({
+                _this.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to comment.'
                 });
             });
             this.getComments();
+            if (parent_comment) {
+                setTimeout(function () {
+                    _this.comment.comment = '';
+                    _this.toggleReplyBox(parent_comment);
+                }, 1000);
+            }
         },
-        replyComment: function replyComment(discussion) {
-            this.comment.user_id = this.user.id;
-            this.comment.parent_comment = discussion;
+        editComment: function editComment(comment_id, comment) {
             var self = this;
-            axios.post('/api/discussion/' + discussion + '/replies', self.comment).then(function (response) {
-                self.$notify({
-                    type: 'success',
-                    title: '<i class="fa fa-heart"></i> Yay! Your reply was posted!',
-                    text: 'It is now available for others to see!'
-                });
-            }).catch(function (error) {
-                self.$notify({
-                    type: 'error',
-                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                    text: 'Try reloading the page or contact the support! Failed to reply comment.'
-                });
-            });
-            this.getComments();
-        },
-        editComment: function editComment(index) {
-            var self = this;
-            self.comments[index].user_id = self.comments[index].user_id.id;
-            self.comments[index].episode_id = self.comments[index].episode_id.id;
-            axios.put('/api/episodes/' + self.episode_id + '/discussion/' + self.comments[index].id, self.comments[index]).then(function (response) {
+            axios.put('/api/episodes/' + self.episode_id + '/discussion/' + comment_id, { comment: comment }).then(function (response) {
                 self.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Done! You edited the comment!',
@@ -54325,10 +54315,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
             this.getComments();
-            Vue.set(this.edit, index, 0);
+            Vue.set(this.edit, comment_id, 0);
             this.editing = false;
         },
-        openReplyBox: function openReplyBox(index) {
+        toggleReplyBox: function toggleReplyBox(index) {
             if (this.reply[index]) {
                 Vue.set(this.reply, index, 0);
                 this.replying = false;
@@ -54338,12 +54328,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.replying = true;
             }
         },
-        flagComment: function flagComment(index) {
+        flagComment: function flagComment(comment_id) {
             var self = this;
-            self.comments[index].spam = 1;
-            self.comments[index].user_id = self.comments[index].user_id.id;
-            self.comments[index].episode_id = self.comments[index].episode_id.id;
-            axios.put('/api/episodes/' + self.episode_id + '/discussion/' + self.comments[index].id, self.comments[index]).then(function (response) {
+            axios.put('/api/episodes/' + self.episode_id + '/discussion/' + comment_id, { spam: 1 }).then(function (response) {
                 self.getComments();
                 self.$notify({
                     type: 'warn',
@@ -54358,7 +54345,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
         },
-        openEditBox: function openEditBox(index) {
+        toggleEditBox: function toggleEditBox(index) {
             if (this.edit[index]) {
                 Vue.set(this.edit, index, 0);
                 this.editing = false;
@@ -54368,9 +54355,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.editing = true;
             }
         },
-        deleteComment: function deleteComment(index) {
+        deleteComment: function deleteComment(comment_id) {
             var self = this;
-            axios.delete('/api/episodes/' + self.episode_id + '/discussion/' + self.comments[index].id).then(function (response) {
+            axios.delete('/api/episodes/' + self.episode_id + '/discussion/' + comment_id).then(function (response) {
                 self.getComments();
                 self.$notify({
                     type: 'warn',
@@ -54385,10 +54372,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
         },
-        love: function love(discussion, index) {
+        love: function love(discussion) {
             var self = this;
             axios.post('/love_discussion/' + discussion).then(function (response) {
-                Vue.set(self.loved, index, 1);
+                Vue.set(self.loved, discussion, 1);
                 self.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! Good stuff!',
@@ -54403,10 +54390,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             this.getComments();
         },
-        unlove: function unlove(discussion, index) {
+        unlove: function unlove(discussion) {
             var self = this;
             axios.post('/unlove_discussion/' + discussion).then(function (response) {
-                Vue.set(self.loved, index, 0);
+                Vue.set(self.loved, discussion, 0);
                 self.$notify({
                     type: 'warn',
                     title: '<i class="fa fa-meh-o"></i> Okay... Have a nice life!',
@@ -54421,15 +54408,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             this.getComments();
         },
-        isLove: function isLove(discussion, index) {
-            var _this = this;
+        isLove: function isLove(discussion) {
+            var _this2 = this;
 
             axios.get('/user/' + this.user.id + '/discussion/' + discussion + '/hasLoved').then(function (response) {
                 if (response.data.data) {
-                    Vue.set(_this.loved, index, 1);
+                    Vue.set(_this2.loved, discussion, 1);
                     return true;
                 } else {
-                    Vue.set(_this.loved, index, 0);
+                    Vue.set(_this2.loved, discussion, 0);
                     return false;
                 }
             }).catch(function (error) {
@@ -54443,7 +54430,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.getComments();
-        // this.isLoved = this.isLove ? true : false
     }
 });
 
@@ -54496,7 +54482,11 @@ var render = function() {
                 _c("input", {
                   staticClass: "btn btn-primary",
                   attrs: { type: "button", value: "Comment!" },
-                  on: { click: _vm.saveComment }
+                  on: {
+                    click: function($event) {
+                      _vm.saveComment(0)
+                    }
+                  }
                 })
               ])
             ])
@@ -54523,7 +54513,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9" },
                 [
-                  _vm.edit[index]
+                  _vm.edit[com.id]
                     ? _c("div", [
                         _c("textarea", {
                           directives: [
@@ -54552,7 +54542,7 @@ var render = function() {
                             attrs: { type: "button", value: "Edit!" },
                             on: {
                               click: function($event) {
-                                _vm.editComment(index)
+                                _vm.editComment(com.id, com.comment)
                               }
                             }
                           })
@@ -54577,7 +54567,7 @@ var render = function() {
                 [
                   _c("ul", { staticClass: "comment-actions" }, [
                     _c("li", [
-                      _vm.loved[index]
+                      _vm.loved[com.id]
                         ? _c(
                             "a",
                             {
@@ -54585,7 +54575,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  _vm.unlove(com.id, index)
+                                  _vm.unlove(com.id)
                                 }
                               }
                             },
@@ -54598,7 +54588,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  _vm.love(com.id, index)
+                                  _vm.love(com.id)
                                 }
                               }
                             },
@@ -54617,7 +54607,7 @@ var render = function() {
                               {
                                 on: {
                                   click: function($event) {
-                                    _vm.flagComment(index)
+                                    _vm.flagComment(com.id)
                                   }
                                 }
                               },
@@ -54629,13 +54619,13 @@ var render = function() {
                           ])
                         : _c("span", [
                             _vm._v("\n                                 | "),
-                            _vm.edit[index]
+                            _vm.edit[com.id]
                               ? _c(
                                   "span",
                                   {
                                     on: {
                                       click: function($event) {
-                                        _vm.openEditBox(index)
+                                        _vm.toggleEditBox(com.id)
                                       }
                                     }
                                   },
@@ -54649,7 +54639,7 @@ var render = function() {
                                   {
                                     on: {
                                       click: function($event) {
-                                        _vm.openEditBox(index)
+                                        _vm.toggleEditBox(com.id)
                                       }
                                     }
                                   },
@@ -54665,14 +54655,14 @@ var render = function() {
                               staticClass: "fa fa-trash",
                               on: {
                                 click: function($event) {
-                                  _vm.deleteComment(index)
+                                  _vm.deleteComment(com.id)
                                 }
                               }
                             })
                           ])
                     ]),
                     _vm._v(" "),
-                    _vm.reply[index]
+                    _vm.reply[com.id]
                       ? _c("li", [
                           _c("i", { staticClass: "fa fa-times" }),
                           _vm._v(" "),
@@ -54681,7 +54671,7 @@ var render = function() {
                             {
                               on: {
                                 click: function($event) {
-                                  _vm.openReplyBox(index)
+                                  _vm.toggleReplyBox(com.id)
                                 }
                               }
                             },
@@ -54696,7 +54686,7 @@ var render = function() {
                             {
                               on: {
                                 click: function($event) {
-                                  _vm.openReplyBox(index)
+                                  _vm.toggleReplyBox(com.id)
                                 }
                               }
                             },
@@ -54736,11 +54726,6 @@ var render = function() {
                     "div",
                     { key: index2, staticClass: "comment-reply" },
                     [
-                      _vm._v(
-                        "\n                INDEX2 " +
-                          _vm._s(index2) +
-                          "\n                "
-                      ),
                       rep.user_id.id != _vm.user.id
                         ? _c("div", { staticClass: "comment-avatar" }, [
                             _c(
@@ -54764,7 +54749,7 @@ var render = function() {
                                 "col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9"
                             },
                             [
-                              _vm.edit[index2]
+                              _vm.edit[rep.id]
                                 ? _c("div", [
                                     _c("textarea", {
                                       directives: [
@@ -54803,7 +54788,10 @@ var render = function() {
                                           },
                                           on: {
                                             click: function($event) {
-                                              _vm.editComment(index2)
+                                              _vm.editComment(
+                                                rep.id,
+                                                rep.comment
+                                              )
                                             }
                                           }
                                         })
@@ -54829,7 +54817,7 @@ var render = function() {
                             [
                               _c("ul", { staticClass: "comment-actions" }, [
                                 _c("li", [
-                                  _vm.loved[index2]
+                                  _vm.loved[rep.id]
                                     ? _c(
                                         "a",
                                         {
@@ -54837,7 +54825,7 @@ var render = function() {
                                           on: {
                                             click: function($event) {
                                               $event.preventDefault()
-                                              _vm.unlove(rep.id, index2)
+                                              _vm.unlove(rep.id)
                                             }
                                           }
                                         },
@@ -54854,7 +54842,7 @@ var render = function() {
                                           on: {
                                             click: function($event) {
                                               $event.preventDefault()
-                                              _vm.love(rep.id, index2)
+                                              _vm.love(rep.id)
                                             }
                                           }
                                         },
@@ -54879,7 +54867,7 @@ var render = function() {
                                           {
                                             on: {
                                               click: function($event) {
-                                                _vm.flagComment(index2)
+                                                _vm.flagComment(rep.id)
                                               }
                                             }
                                           },
@@ -54895,13 +54883,13 @@ var render = function() {
                                         _vm._v(
                                           "\n                                        | "
                                         ),
-                                        _vm.edit[index2]
+                                        _vm.edit[rep.id]
                                           ? _c(
                                               "span",
                                               {
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.openEditBox(index2)
+                                                    _vm.toggleEditBox(rep.id)
                                                   }
                                                 }
                                               },
@@ -54917,7 +54905,7 @@ var render = function() {
                                               {
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.openEditBox(index2)
+                                                    _vm.toggleEditBox(rep.id)
                                                   }
                                                 }
                                               },
@@ -54936,7 +54924,7 @@ var render = function() {
                                           staticClass: "fa fa-trash",
                                           on: {
                                             click: function($event) {
-                                              _vm.deleteComment(index2)
+                                              _vm.deleteComment(rep.id)
                                             }
                                           }
                                         })
@@ -54978,7 +54966,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.reply[index]
+          _vm.reply[com.id]
             ? _c("div", { staticClass: "comment-form reply row" }, [
                 _c(
                   "div",
@@ -55025,7 +55013,7 @@ var render = function() {
                           attrs: { type: "button", value: "Reply!" },
                           on: {
                             click: function($event) {
-                              _vm.replyComment(com.id)
+                              _vm.saveComment(com.id)
                             }
                           }
                         })
@@ -55042,6 +55030,24 @@ var render = function() {
                   [
                     _c("div", { staticClass: "comment-avatar text-right" }, [
                       _c("img", { attrs: { src: _vm.user.photo } })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "reply-actions pull-right" }, [
+                      _c(
+                        "span",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.toggleReplyBox(com.id)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-times" }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Close")])
+                        ]
+                      )
                     ])
                   ]
                 )
@@ -58529,6 +58535,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 votes: '',
                 spam: '',
                 reply_id: '',
+                parent_comment: '',
                 page_id: '',
                 users_id: ''
             },
@@ -58541,11 +58548,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         getReportedContent: function getReportedContent() {
-            var self = this;
+            var _this = this;
+
             axios.get('/spams').then(function (response) {
-                self.comments = response.data.data;
+                _this.comments = response.data.data;
             }).catch(function (error) {
-                self.$notify({
+                _this.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Failed to load comments. '
@@ -58553,15 +58561,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         destroySpam: function destroySpam(comment) {
-            var self = this;
+            var _this2 = this;
+
             axios.delete('/api/destroy_spam/' + comment).then(function (response) {
-                self.$notify({
+                _this2.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! The spam was deleted!',
                     text: 'The changes were updated in the database!'
                 });
             }).catch(function (error) {
-                self.$notify({
+                _this2.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Failed to delete comment. '
@@ -58570,16 +58579,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getReportedContent();
         },
         notSpam: function notSpam(comment) {
-            var self = this;
+            var _this3 = this;
+
             comment.spam = 0;
             axios.put('/api/not_spam/' + comment.id, comment).then(function (response) {
-                self.$notify({
+                _this3.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! Not a spam!',
                     text: 'The comment was marked as not spam!'
                 });
             }).catch(function (error) {
-                self.$notify({
+                _this3.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Failed to unflag comment. '

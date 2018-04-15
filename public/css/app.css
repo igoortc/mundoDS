@@ -8740,7 +8740,7 @@ ul li {
 }
 
 .comment-form .form .form-row {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 .comment-form .form .form-row:last-child {
@@ -8824,5 +8824,13 @@ ul li {
 .comment-reply {
   padding-left: 80px;
   margin: 20px 0;
+}
+
+.reply-actions span {
+  cursor: pointer;
+}
+
+.reply-actions span span {
+  color: #fff;
 }
 

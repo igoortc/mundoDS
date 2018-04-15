@@ -43,6 +43,7 @@ export default {
                 votes: '',
                 spam: '',
                 reply_id: '',
+                parent_comment: '',
                 page_id: '',
                 users_id: ''
             },
@@ -50,61 +51,58 @@ export default {
         }
     },
     mounted() {
-        this.getReportedContent();
+        this.getReportedContent()
     },
     methods: {
         getReportedContent() {
-            let self = this;
             axios.get('/spams')
                 .then(response => {
-                    self.comments = response.data.data
+                    this.comments = response.data.data
                 })
                 .catch(error => {
-                    self.$notify({
+                    this.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                         text: 'Failed to load comments. '
-                    });
-                });
+                    })
+                })
         },
         destroySpam(comment) {
-            let self = this
             axios.delete('/api/destroy_spam/' + comment)
-                .then(function (response) {
-                    self.$notify({
+                .then(response => {
+                    this.$notify({
                             type: 'success',
                             title: '<i class="fa fa-heart"></i> Yay! The spam was deleted!',
                             text: 'The changes were updated in the database!'
-                        });
+                        })
                 })
-                .catch(function (error) {
-                    self.$notify({
+                .catch(error => {
+                    this.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                         text: 'Failed to delete comment. '
-                    });
-                });
-            this.getReportedContent();
+                    })
+                })
+            this.getReportedContent()
         },
         notSpam(comment) {
-            let self = this
             comment.spam = 0
             axios.put('/api/not_spam/' + comment.id, comment)
-                .then(function (response) {
-                    self.$notify({
+                .then(response => {
+                    this.$notify({
                             type: 'success',
                             title: '<i class="fa fa-heart"></i> Yay! Not a spam!',
                             text: 'The comment was marked as not spam!'
-                        });
+                        })
                 })
-                .catch(function (error) {
-                    self.$notify({
+                .catch(error => {
+                    this.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                         text: 'Failed to unflag comment. '
-                    });
-                });
-            this.getReportedContent();
+                    })
+                })
+            this.getReportedContent()
         }
     }
 }

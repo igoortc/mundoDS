@@ -19,6 +19,7 @@ class CreateDiscussionTable extends Migration
             $table->integer('votes')->default(0);
             $table->integer('spam')->default(0);
             $table->integer('reply_id')->default(0);
+            $table->integer('parent_comment')->default(0);
             $table->integer('episode_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();

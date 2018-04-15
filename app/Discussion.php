@@ -12,6 +12,7 @@ class Discussion extends Model
         'votes',
         'spam',
         'reply_id',
+        'parent_comment',
         'episode_id',
         'user_id'
     ];

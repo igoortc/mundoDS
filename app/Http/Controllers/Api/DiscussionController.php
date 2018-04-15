@@ -13,6 +13,7 @@ class DiscussionController extends Controller
 {
     public function index($episode, Request $request){
         $discussion = Discussion::where('episode_id', $episode)
+                    ->where('parent_comment', 0)
                     ->orderBy('created_at','DESC')
                     ->get();
 
@@ -29,6 +30,11 @@ class DiscussionController extends Controller
         $discussion = Discussion::find($id);
         $discussion->delete();
 
+        $replies = Discussion::where('parent_comment', $id);
+        if ($replies) {
+            $replies->delete();
+        }
+
         return response()->json([
             'message' => 'Comment destroyed successfully!'
         ], 200);
@@ -37,14 +43,7 @@ class DiscussionController extends Controller
     public function update(Request $request, $episode, $discussion)
     {
         $discussion = Discussion::find($discussion);
-
-        $discussion->comment = request('comment');
-        $discussion->votes = request('votes');
-        $discussion->spam = request('spam');
-        $discussion->reply_id = request('reply_id');
-        $discussion->episode_id = request('episode_id');
-        $discussion->user_id = request('user_id');
-        $discussion->save();
+        $discussion->update($request->all());
         
         return response()->json([
             'message' => 'Comment updated successfully!'
@@ -58,6 +57,7 @@ class DiscussionController extends Controller
             'votes' => 'required',
             'spam' => 'required',
             'reply_id' => 'required',
+            'parent_comment' => 'nullable',
             'episode_id' => 'required',
             'user_id' => 'required'
         ]);
