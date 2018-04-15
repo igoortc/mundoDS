@@ -23,3 +23,7 @@ Route::resource('users.watches', 'Api\WatchController');
 Route::resource('users', 'Api\UserController');
 Route::resource('user.following', 'Api\UserFollowController');
 Route::resource('user.followers', 'Api\FollowController');
+Route::resource('episodes.discussion', 'Api\DiscussionController');
+Route::resource('discussion.replies', 'Api\DiscussionRepliesController');
+Route::put('not_spam/{discussion}', 'Api\DiscussionController@notSpam');
+Route::delete('destroy_spam/{discussion}', 'Api\DiscussionController@destroySpam');

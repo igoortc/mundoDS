@@ -1,6 +1,5 @@
 <template>
     <div class="modal-content">
-        <notifications></notifications>
         <div class="modal-header">
             <h5 class="modal-title">Manage reported content</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -17,14 +16,14 @@
                     <th>Actions</th>
                 </thead>
                 <tbody>
-                    <tr v-for="comment in comments">
+                    <tr v-for="(comment, index) in comments" :key="index">
                         <td>{{ comment.id }}</td>
                         <td>"{{ comment.comment }}"</td>
-                        <td><a :href="'/user/' + comment.users_id">Check</a></td>
-                        <td><a :href="'/show/' + comment.page_id.charAt(0) + '/episode/' + comment.page_id">Check</a></td>
+                        <td><a :href="'/user/' + comment.user_id.id">{{ comment.user_id.name }}</a></td>
+                        <td><a :href="'/show/' + comment.episode_id.show_id + '/episode/' + comment.episode_id.id">Check</a></td>
                         <td>
                             <a href="#" @click="destroySpam(comment.id)"><i class="fa fa-ban"></i> Destroy</a>  |  
-                            <a href="#" @click="notSpam(comment)"><i class="fa fa-check"></i> Restore</a>
+                            <a href="#" @click="notSpam(comment)"><i class="fa fa-check"></i> Unflag</a>
                         </td>
                     </tr>
                 </tbody>
@@ -56,11 +55,11 @@ export default {
     methods: {
         getReportedContent() {
             let self = this;
-            axios.get('/spam_comments')
-                .then(function (response) {
-                    self.comments = response.data
+            axios.get('/spams')
+                .then(response => {
+                    self.comments = response.data.data
                 })
-                .catch(function (error) {
+                .catch(error => {
                     self.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
@@ -69,7 +68,8 @@ export default {
                 });
         },
         destroySpam(comment) {
-            axios.delete('/destroy_spam/' + comment)
+            let self = this
+            axios.delete('/api/destroy_spam/' + comment)
                 .then(function (response) {
                     self.$notify({
                             type: 'success',
@@ -84,12 +84,12 @@ export default {
                         text: 'Failed to delete comment. '
                     });
                 });
-                // window.location.href = "/";
+            this.getReportedContent();
         },
         notSpam(comment) {
-            console.log(comment)
+            let self = this
             comment.spam = 0
-            axios.put('/not_spam/' + comment.id, comment)
+            axios.put('/api/not_spam/' + comment.id, comment)
                 .then(function (response) {
                     self.$notify({
                             type: 'success',
@@ -101,9 +101,10 @@ export default {
                     self.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                        text: 'Failed to delete comment. '
+                        text: 'Failed to unflag comment. '
                     });
                 });
+            this.getReportedContent();
         }
     }
 }
