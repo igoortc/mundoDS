@@ -45,14 +45,11 @@ Route::get('average/{show}', 'ShowsController@average');
 
 Route::get('avgEpisode/{episode}', 'EpisodesController@average');
 
-Route::get('comments/{episode}', 'CommentController@index');
-
-Route::post('comments', 'CommentController@store');
-
-Route::post('comments/{commentId}/{type}', 'CommentController@update');
-
 Route::get('dashFavorites/{user}', 'UsersController@dashFavorites');
 
-Route::get('spam_comments', 'CommentController@getSpam');
-Route::put('not_spam/{comment}', 'CommentController@notSpam');
-Route::delete('destroy_spam/{comment}', 'CommentController@destroySpam');
+Route::get('spams', 'DiscussionController@getSpams');
+
+Route::post('love_discussion/{discussion}', 'DiscussionController@loveDiscussion');
+Route::post('unlove_discussion/{discussion}', 'DiscussionController@unloveDiscussion');
+
+Route::get('user/{user}/discussion/{discussion}/hasLoved', 'DiscussionController@hasLoved');

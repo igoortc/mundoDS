@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mt-20">
         <fieldset>
             <legend><i class="fa fa-user-secret"></i> Admin actions</legend>
             <ul>

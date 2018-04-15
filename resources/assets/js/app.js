@@ -17,7 +17,7 @@ Vue.component('watched', require('./components/Watched.vue'));
 Vue.component('follow', require('./components/Follow.vue'));
 Vue.component('followers', require('./components/Followers.vue'));
 Vue.component('following', require('./components/Following.vue'));
-Vue.component('comment', require('./components/Comments.vue'));
+Vue.component('discussion', require('./components/Discussion.vue'));
 Vue.component('image-upload', require('./components/ImageUpload.vue'));
 Vue.component('dash-favorites', require('./components/dashboard/Favorites.vue'));
 Vue.component('search', require('./components/dashboard/Search.vue'));

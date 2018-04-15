@@ -66,4 +66,9 @@ class User extends Authenticatable
                     ->count();
     }
 
+    public function discussionLove()
+    {
+        return $this->belongsToMany(Discussion::class, 'discussion_votes', 'user_id', 'comment_id')->withTimeStamps();
+    }
+
 }
