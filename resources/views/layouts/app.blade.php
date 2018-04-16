@@ -25,7 +25,7 @@
 <body>
     <div id="app">
     <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="page-wrap">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -56,13 +56,13 @@
                                 <a href="{{ url('all_users') }}"><i class="fa fa-users"></i>  <span>Find friends!</span></a>
                             </li>
                             <li>
+                                <a href="{{ url('all_shows') }}"><i class="fa fa-tv"></i>  <span>Find TV shows!</span></a>
+                            </li>
+                            <li>
                                 <a href="{{ url('my_favorites') }}"><i class="fa fa-heart"></i> <span>My favorite shows</span></a>
                             </li>
                             <li>
-                                <a href="{{ url('my_watched') }}"><i class="fa fa-tv"></i>  <span>Watched episodes</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-envelope-o"></i>  <span>Messages</span></a>
+                                <a href="{{ url('chat') }}"><i class="fa fa-envelope-o"></i>  <span>Messages</span></a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -72,6 +72,10 @@
                                     <li>
                                         <a href="{{ url('my_profile') }}"><i class="fa fa-id-card"></i> My profile</a>
                                     </li>
+                                    <li>
+                                        <a href="{{ url('my_watched') }}"><i class="fa fa-tv"></i> I've watched</a>
+                                    </li>
+                                    <hr class="nm"/>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

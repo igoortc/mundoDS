@@ -5,7 +5,7 @@
             <i class="fa fa-heart"></i> <span>Followed!</span>
         </a>
         <a href="#" v-else @click.prevent="follow(user_id)">
-            <i class="fa fa-heart-o"></i> <span>Follow this person!</span>
+            <i class="fa fa-heart-o"></i> <span>Follow!</span>
         </a>
     </span>
 </template>

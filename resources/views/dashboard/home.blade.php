@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="page-wrap">
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <h3>Hey, {{ Auth::user()->name }}! <i class="fa fa-hand-peace-o"></i> Here's your dashboard.</h3>

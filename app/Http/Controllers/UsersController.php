@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 use App\Show;
 use App\User;
 
@@ -50,9 +51,16 @@ class UsersController extends Controller
         return view('users.my_profile', compact('myProfile'));
     }
 
+    public function chat()
+    {
+        $friends = Auth::user()->follows;
+
+        return view('users.chat', compact('friends'));
+    }
+
     public function following()
     {
-        $following = Auth::user()->follows;
+        $following = UserResource::collection(Auth::user()->follows);
 
         return view('users.following', compact('following'));
     }

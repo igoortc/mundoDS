@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="page-wrap">
     <div class="row">
         <div class="page-header">
             <h3>{{ $episode->name }}</h3>
@@ -13,7 +13,8 @@
             <img src={{ $episode->image }}>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
-            <p>{{ $episode->synopsis }}</p>
+            <p><i class="fa fa-quote-left"></i> {{ $episode->synopsis }}</p>
+            <p><i class="fa fa-calendar-check-o"></i> Aired on {{ $episode->date_aired->format('j M Y')  }}</p>
             @if (Auth::check())
             <p><strong>Your actions:</strong>
                 <watched

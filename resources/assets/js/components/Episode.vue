@@ -22,7 +22,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
-                            <th><i class="fa fa-star"></i></th>
+                            <th class="hideMobile"><i class="fa fa-star"></i></th>
                             <th>Date</th>
                             <th width="124px">Actions</th>
                         </tr>
@@ -34,7 +34,7 @@
                             v-if="episode.season===season">
                                 <td>{{ episode.number }}</td>
                                 <td><a :href="'/show/' + episode.show_id + '/episode/' + episode.id">{{ episode.name }}</a></td>
-                                <td>{{ average[index] }}</td>
+                                <td class="hideMobile">{{ average[index] }}</td>
                                 <td>{{ episode.date_aired }}</td>
                                 <td>
                                     <watched

@@ -53,3 +53,5 @@ Route::post('love_discussion/{discussion}', 'DiscussionController@loveDiscussion
 Route::post('unlove_discussion/{discussion}', 'DiscussionController@unloveDiscussion');
 
 Route::get('user/{user}/discussion/{discussion}/hasLoved', 'DiscussionController@hasLoved');
+
+Route::get('chat', 'UsersController@chat')->middleware('auth');
