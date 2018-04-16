@@ -206,10 +206,12 @@ export default {
                         text: 'Try reloading the page or contact the support! Failed to comment.'
                     })
                 })
+            setTimeout(() => {
+                this.comment.comment = '' 
+            }, 500)
             this.getComments()
             if (parent_comment) {
                 setTimeout(() => {
-                    this.comment.comment = ''
                     this.toggleReplyBox(parent_comment)
                 }, 1000)
             }

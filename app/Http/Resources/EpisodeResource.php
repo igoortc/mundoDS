@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Carbon\Carbon;
 
 class EpisodeResource extends Resource
 {
@@ -21,7 +22,7 @@ class EpisodeResource extends Resource
             'season' => $this->season,
             'number' => $this->number,
             'synopsis' => $this->synopsis,
-            'date_aired' => $this->date_aired->format('Y/m/d'),
+            'date_aired' => $this->date_aired->diffInYears(Carbon::now()) >= 1 ? $this->date_aired->format('j M Y') : $this->date_aired->format('j M'),
             'image' => $this->image,
             'date' => $this->created_at->diffForHumans()
         ];

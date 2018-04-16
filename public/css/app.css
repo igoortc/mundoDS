@@ -8482,6 +8482,10 @@ small {
   text-align: justify;
 }
 
+.nm {
+  margin: 0 !important;
+}
+
 .np {
   padding: 0 !important;
 }
@@ -8494,6 +8498,10 @@ small {
   padding-right: 0 !important;
 }
 
+.mb-10 {
+  margin-bottom: 10px;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
@@ -8502,12 +8510,35 @@ small {
   margin-top: 10px;
 }
 
+.page-wrap {
+  margin: 0 15px;
+  padding: 0 15px;
+}
+
 .modal-title {
   display: inline-block;
 }
 
 .text-right {
   text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+@media screen and (max-width: 560px) {
+  .hideMobile {
+    display: none;
+  }
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+.opacity-1 div {
+  opacity: 1 !important;
 }
 
 h4 {
@@ -8558,6 +8589,7 @@ h4 {
   width: 50px;
   height: 50px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .friendships {
@@ -8832,5 +8864,111 @@ ul li {
 
 .reply-actions span span {
   color: #fff;
+}
+
+.nav-tabs > li > a {
+  border: 1px solid #eee;
+}
+
+.nav-link.active {
+  background: #bba6ce;
+  color: #c56393;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: #bba6ce;
+}
+
+.tabs div {
+  margin-bottom: 10px;
+}
+
+.nav-pills {
+  border-bottom: 1px solid #876990;
+  margin-bottom: 20px;
+}
+
+.nav-pills > li > a {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.nav-pills > li > a:focus {
+  color: #bba6ce !important;
+}
+
+.nav-pills > li.active > a {
+  background-color: #876990;
+  color: #bba6ce;
+}
+
+.chat-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.chat {
+  background: #bba6ce;
+  position: relative;
+  bottom: 0;
+  width: 300px;
+  height: calc(100vh - 275px);
+  overflow: auto;
+  padding: 0 15px;
+  display: inline-block;
+  margin: 0 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.chat-list {
+  max-height: 115px;
+  overflow: auto;
+}
+
+.chat-list div {
+  display: inline-block;
+  margin: 7px;
+}
+
+.chat-list div img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.sender {
+  position: absolute;
+  bottom: 15px;
+  width: 87%;
+}
+
+.messages-wrapper {
+  height: 100%;
+}
+
+.messages {
+  height: calc(100% - 125px);
+  overflow: auto;
+}
+
+.user-header {
+  background: #9e8baf;
+  padding: 5px 0;
+  margin-bottom: 10px;
+}
+
+.user-header div img {
+  width: 25px;
+  border-radius: 25px;
+}
+
+.user-header div span {
+  font-size: 16px;
+  font-weight: 700;
 }
 

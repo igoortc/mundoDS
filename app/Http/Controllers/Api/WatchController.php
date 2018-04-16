@@ -45,9 +45,8 @@ class WatchController extends Controller
     public function update(Request $request, $user, $watch_id)
     {
         $watch = Watch::find($watch_id);
-        $watch->rating = request('rating');
-        $watch->save();
-        
+        $watch->update($request->all());
+
         return response()->json([
             'message' => 'Rating updated successfully!'
         ], 200);

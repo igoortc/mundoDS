@@ -9,17 +9,10 @@ use Illuminate\Http\Request;
 
 class EpisodesController extends Controller
 {
-    // public function index(Show $show)
-    // {
-    //     $episodes = Episode::where('show_id', $show->id)
-    //         ->paginate(5);
-
-    //     return back();
-    // }
     public function show(Show $show, Episode $episode)
     {
         $episode = Episode::where('id', $episode->id)
-            ->first();
+                ->first();
         return view('episodes.show', compact('episode'));
     }
 

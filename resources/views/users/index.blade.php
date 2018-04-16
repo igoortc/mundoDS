@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="page-wrap">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             @if (Auth::check())
@@ -26,12 +26,12 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-md-3 col-3 profile">
-                                    <img src={{ $user-> photo }}>
+                                    <img src={{ $user->photo }}>
                                 </div>
                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9">
-                                    <p><i class="fa fa-calendar"></i> {{ $user-> age }}</p>
-                                    <p><i class="fa fa-globe"></i> {{ $user-> city }}</p>
-                                    <p><i class="fa fa-quote-left"></i> {{ $user-> bio }}</p>
+                                    <p><i class="fa fa-birthday-cake"></i> {{ $user->age->diffForHumans(null, true) }}</p>
+                                    <p><i class="fa fa-globe"></i> {{ $user->city }}</p>
+                                    <p><i class="fa fa-quote-left"></i> {{ $user->bio }}</p>
                                 </div>
                             </div>
                         </div>
