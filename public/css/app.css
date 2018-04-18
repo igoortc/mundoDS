@@ -8912,13 +8912,9 @@ ul li {
 
 .chat {
   background: #bba6ce;
-  position: relative;
-  bottom: 0;
   width: 300px;
   height: calc(100vh - 275px);
-  overflow: auto;
   padding: 0 15px;
-  display: inline-block;
   margin: 0 10px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
@@ -8942,9 +8938,9 @@ ul li {
 }
 
 .sender {
-  position: absolute;
-  bottom: 15px;
-  width: 87%;
+  position: relative;
+  bottom: -15px;
+  width: 95%;
 }
 
 .messages-wrapper {
@@ -8952,7 +8948,7 @@ ul li {
 }
 
 .messages {
-  height: calc(100% - 125px);
+  height: calc(100% - 170px);
   overflow: auto;
 }
 
@@ -8970,5 +8966,77 @@ ul li {
 .user-header div span {
   font-size: 16px;
   font-weight: 700;
+}
+
+.speech-bubble-user {
+  position: relative;
+  background: #c56393;
+  border-radius: .4em;
+  margin-bottom: 10px;
+  display: block;
+  width: 95%;
+  padding: 10px;
+  color: #333;
+}
+
+.speech-bubble-user:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-left-color: #c56393;
+  border-right: 0;
+  border-bottom: 0;
+  margin-top: -5px;
+  margin-right: -10px;
+}
+
+.speech-bubble-friend {
+  position: relative;
+  background: #876990;
+  border-radius: .4em;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  display: block;
+  width: 95%;
+  padding: 10px;
+  color: #333;
+}
+
+.speech-bubble-friend:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: #876990;
+  border-left: 0;
+  border-bottom: 0;
+  margin-top: -5px;
+  margin-left: -10px;
+}
+
+.chat-date {
+  font-size: 11px;
+  margin: 0;
+  text-align: right;
+  color: #504d4d;
+}
+
+.minimize_chat {
+  height: 35px;
+  overflow: hidden;
+}
+
+.chat-individual {
+  position: relative;
+  bottom: 0;
+  overflow: auto;
+  display: inline-block;
 }
 

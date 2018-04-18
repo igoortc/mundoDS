@@ -1,39 +1,42 @@
 <template>
-    <div class="messages-wrapper">
-        <div class="user-header row">
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 np-r">
-                <img :src="friend_resource.photo" />
+    <div class="chat" :class="{ minimize_chat: minimized }" >
+        <div class="messages-wrapper">
+            <div class="user-header row">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 np-r">
+                    <img :src="friend_resource.photo" />
+                </div>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-xl-7 text-left np">
+                    <span>{{friend_resource.name}}</span>
+                </div>
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 np text-right">
+                    <i v-if="!minimized" class="fa fa-minus-square" @click="toggleMinimize"></i>
+                    <i v-else class="fa fa-window-maximize" @click="toggleMinimize"></i>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 np-l text-right">
+                    <i class="fa fa-times"></i>
+                </div>
             </div>
-            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-xl-7 text-left np">
-                <span>{{friend_resource.name}}</span>
+            <div class="messages">
+                <div v-for="(message, index) in messages" :key="index">
+                    <div class="speech-bubble-user" v-if="message.user.id === user">
+                        <span>{{ message.message }}</span><br/>
+                        <p class="chat-date">{{ message.date }}</p>
+                    </div>
+                    <div class="speech-bubble-friend" v-else>
+                        <span>{{ message.message }}</span><br/>
+                        <p class="chat-date">{{ message.date }}</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 np text-right">
-                <i class="fa fa-minus-square"></i>
-            </div>
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 np-l text-right">
-                <i class="fa fa-times"></i>
-            </div>
+            <form class="form sender">
+                <div class="form-row">
+                    <textarea class="input" placeholder="Write something..." required v-model="chat.message"/>
+                </div>
+                <div class="form-row">
+                    <input type="button" class="btn btn-primary" @click="sendMessage()" value="Send!">
+                </div>
+            </form>
         </div>
-        <div class="messages">
-            <div v-for="(message, index) in messages" :key="index">
-                <p v-if="message.user.id === user" style="float: right">
-                    {{ message.user.name }}
-                    {{ message.message }}
-                </p>
-                <p v-else style="float: left">
-                    {{ message.user.name }}
-                    {{ message.message }}
-                </p>
-            </div>
-        </div>
-        <form class="form sender">
-            <div class="form-row">
-                <textarea class="input" placeholder="Write something..." required v-model="chat.message"/>
-            </div>
-            <div class="form-row">
-                <input type="button" class="btn btn-primary" @click="sendMessage()" value="Send!">
-            </div>
-        </form>
     </div>
 </template>
 
@@ -48,7 +51,8 @@
                     user: '',
                     friend: ''
                 },
-                friend_resource: []
+                friend_resource: [],
+                minimized: false
             }
         },
         methods: {
@@ -95,6 +99,14 @@
                         });
                     });
             },
+            toggleMinimize () {
+                if (this.minimized) {
+                    this.minimized = false
+                }
+                else {
+                    this.minimized = true
+                }
+            }
         },
         mounted () {
             this.getMessages()

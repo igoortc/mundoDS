@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="chat-wrapper">
-            <div v-for="(chat, index) in openChats" :key="index" class="chat">
+            <div v-for="(chat, index) in openChats" :key="index" class="chat-individual">
                 <chat 
                     :friend="chat"
                     :user="user"/>
