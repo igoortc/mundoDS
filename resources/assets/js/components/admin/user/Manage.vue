@@ -122,7 +122,6 @@
             removeAdmin() {
                 this.user.admin = 0
                 let self = this
-                console.log(self.user)
                 axios.put('/api/users/' + self.user.id, self.user)
                     .then(function (response) {
                         self.$notify({
@@ -143,7 +142,6 @@
             makeAdmin() {
                 this.user.admin = 1
                 let self = this
-                console.log(self.user)
                 axios.put('/api/users/' + self.user.id, self.user)
                     .then(function (response) {
                         self.$notify({

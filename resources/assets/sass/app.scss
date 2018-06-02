@@ -11,8 +11,10 @@ $purple: #a053e3;
 $dark-purple: #876990;
 $light-purple: #bba6ce;
 $pale-purple: #9e8baf;
-$white: #fff;
 $light-gray: #eee;
+$white: #fff;
+$black: #333;
+$pale-black: #504d4d;
 $small-screen: 485px;
 $average-screen: 560px;
 $medium-screen: 760px;
@@ -560,14 +562,10 @@ ul {
 }
 
 .chat {
-    background: $light-purple;
-    position: relative;
-    bottom: 0;
+    background: #bba6ce;
     width: 300px;
     height: calc(100vh - 275px);
-    overflow: auto;
     padding: 0 15px;
-    display: inline-block;
     margin: 0 10px;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
@@ -591,9 +589,9 @@ ul {
 }
 
 .sender {
-    position: absolute;
-    bottom: 15px;
-    width: 87%;
+    position: relative;
+    bottom: -15px;
+    width: 95%;
 }
 
 .messages-wrapper {
@@ -601,7 +599,7 @@ ul {
 }
 
 .messages {
-    height: calc(100% - 125px);
+    height: calc(100% - 170px);
     overflow: auto;
 }
 
@@ -620,4 +618,76 @@ ul {
             font-weight: 700;
         }
     }
+}
+
+.speech-bubble-user {
+	position: relative;
+	background: $light-pink;
+    border-radius: .4em;
+    margin-bottom: 10px;
+    display: block;
+    width: 95%;
+    padding: 10px;
+    color: $black;
+}
+
+.speech-bubble-user:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 10px solid transparent;
+	border-left-color: $light-pink;
+	border-right: 0;
+	border-bottom: 0;
+	margin-top: -5px;
+	margin-right: -10px;
+}
+
+.speech-bubble-friend {
+	position: relative;
+	background: $dark-purple;
+    border-radius: .4em;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    display: block;
+    width: 95%;
+    padding: 10px;
+    color: $black;
+}
+
+.speech-bubble-friend:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 10px solid transparent;
+	border-right-color: $dark-purple;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -5px;
+	margin-left: -10px;
+}
+
+.chat-date {
+    font-size: 11px;
+    margin: 0;
+    text-align: right;
+    color: $pale-black;
+}
+
+.minimize_chat {
+    height: 35px;
+    overflow: hidden;
+}
+
+.chat-individual {
+    position: relative;
+    bottom: 0;
+    overflow: auto;
+    display: inline-block;
 }
