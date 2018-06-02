@@ -87,9 +87,7 @@
             getFriend () {
                 axios.get('/api/users/' + this.friend)
                     .then(response => {
-                        console.log(response.data.data)
                         this.friend_resource = response.data.data
-                        console.log(this.friend_resource)
                     })
                     .catch(error => {
                         this.$notify({
