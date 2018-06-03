@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Chat;
 use App\Http\Resources\ChatResource;
+use App\Events\MessageSent;
 
 class ChatController extends Controller
 {
@@ -29,7 +30,8 @@ class ChatController extends Controller
         ]);
 
         $chat = Chat::create($chat);
+        broadcast(new MessageSent($chat))->toOthers();
 
-        return new ChatResource($chat);
+        return ['status' => 'Message Sent!'];
     }
 }
