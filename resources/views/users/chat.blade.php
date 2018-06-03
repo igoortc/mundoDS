@@ -2,7 +2,7 @@
 
 @section('content')
     @if (Auth::check())
-        <div class="page-wrap">
+        <div class="page-wrap np">
             <h3>Choose a friend to chat!</h3>
             <chat-list
                 :friends="{{ $friends }}"

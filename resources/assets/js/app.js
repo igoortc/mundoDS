@@ -7,12 +7,14 @@ import VuePaginate from 'vue-paginate'
 import DatePicker from 'vue2-datepicker'
 import BootstrapVue from 'bootstrap-vue'
 import bTabs from 'bootstrap-vue/es/components/tabs/tabs'
+import VueChatScroll from 'vue-chat-scroll'
 
 Vue.use(VuePaginate)
 Vue.use(VueResource)
 Vue.use(Notifications)
 Vue.use(DatePicker)
 Vue.use(BootstrapVue)
+Vue.use(VueChatScroll)
 Vue.component('paginate', require('vuejs-paginate'))
 Vue.component('favorite', require('./components/Favorite.vue'))
 Vue.component('episodes', require('./components/Episode.vue'))

@@ -1,22 +1,15 @@
 <template>
-    <div class="chat" :class="{ minimize_chat: minimized }" >
+    <div class="chat">
         <div class="messages-wrapper">
             <div class="user-header row">
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 np-r">
-                    <img :src="friend_resource.photo" />
-                </div>
-                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-xl-7 text-left np">
-                    <span>{{friend_resource.name}}</span>
-                </div>
-                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 np text-right">
-                    <i v-if="!minimized" class="fa fa-minus-square" @click="toggleMinimize"></i>
-                    <i v-else class="fa fa-window-maximize" @click="toggleMinimize"></i>
-                </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 np-l text-right">
-                    <i class="fa fa-times"></i>
-                </div>
+                <img :src="friend_resource.photo" />
+                <span>{{friend_resource.name}}</span>
             </div>
-            <div class="messages">
+            <!-- <div v-if="messages.length === 0">
+                <p>You and {{friend_resource.name}} have not started a conversation yet.</p>
+                <p>Go ahead and send a message! <i class="fa fa-smile-o"></i></p>
+            </div> -->
+            <div class="messages" v-chat-scroll>
                 <div v-for="(message, index) in messages" :key="index">
                     <div class="speech-bubble-user" v-if="message.user.id === user">
                         <span>{{ message.message }}</span><br/>
@@ -28,12 +21,9 @@
                     </div>
                 </div>
             </div>
-            <form class="form sender">
+            <form class="form sender" @submit.prevent="sendMessage">
                 <div class="form-row">
-                    <textarea class="input" placeholder="Write something..." required v-model="chat.message"/>
-                </div>
-                <div class="form-row">
-                    <input type="button" class="btn btn-primary" @click="sendMessage()" value="Send!">
+                    <input class="input" placeholder="Write something, then hit Enter..." required v-model="chat.message" @keyup.enter.native="sendMessage()" />
                 </div>
             </form>
         </div>
@@ -51,8 +41,7 @@
                     user: '',
                     friend: ''
                 },
-                friend_resource: [],
-                minimized: false
+                friend_resource: []
             }
         },
         methods: {
@@ -74,6 +63,8 @@
                 this.chat.friend = this.friend
                 axios.post('/api/chat/' + this.user + '/friend/' + this.friend, this.chat)
                     .then(response => {
+                        this.$emit('messagesent', this.chat)
+                        this.chat.message = ''
                         this.getMessages()
                     })
                     .catch(error => {
@@ -96,15 +87,22 @@
                             text: 'Failed to load user. '
                         });
                     });
-            },
-            toggleMinimize () {
-                if (this.minimized) {
-                    this.minimized = false
-                }
-                else {
-                    this.minimized = true
-                }
             }
+        },
+        created () {
+            Echo.private('chat')
+                .listen('MessageSent', (e) => {
+                    // if (e.chat.user === this.friend && e.chat.friend === this.user) {
+                    //     this.messages.push({
+                    //         message: e.chat.message,
+                    //         user: e.chat.user,
+                    //         friend: e.chat.friend
+                    //     })
+                    // }
+                    if (e.chat.user === this.friend && e.chat.friend === this.user) {
+                        this.getMessages()
+                    }
+                })
         },
         mounted () {
             this.getMessages()
