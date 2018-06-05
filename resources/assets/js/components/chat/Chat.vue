@@ -92,6 +92,7 @@
         created () {
             Echo.private('chat')
                 .listen('MessageSent', (e) => {
+                    console.log('cheguei', e)
                     // if (e.chat.user === this.friend && e.chat.friend === this.user) {
                     //     this.messages.push({
                     //         message: e.chat.message,
