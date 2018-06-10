@@ -6,6 +6,7 @@ use App\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\FavoritesResource;
 
 class ShowsController extends Controller
 {
@@ -56,5 +57,13 @@ class ShowsController extends Controller
         ->avg('watches.rating');
 
         return $episodes;
+    }
+
+    public function getFans($show)
+    {
+        $fans = DB::table('favorites')
+            ->where('show_id', $show)->get();
+
+        return FavoritesResource::collection($fans);
     }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\SuggestionResource;
 use App\Show;
 use App\User;
 
@@ -77,5 +79,23 @@ class UsersController extends Controller
         Auth::user()->follows()->detach($user->id);
 
         return back();
+    }
+
+    public function suggestions($user) {
+        $suggestions = DB::table('favorites')
+            ->select('suggestions.suggestion')
+            ->distinct()
+            ->join('suggestions', 'suggestions.show_id', '=', 'favorites.show_id')
+            ->where('favorites.user_id', $user)
+            ->whereNotIn('suggestions.suggestion', function($q) use ($user){
+                $q->select('show_id')
+                  ->from('favorites')
+                  ->where('user_id', $user);
+            })
+            ->inRandomOrder()
+            ->take(6)
+            ->get();
+
+        return SuggestionResource::collection($suggestions);
     }
 }

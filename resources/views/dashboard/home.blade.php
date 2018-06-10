@@ -24,5 +24,11 @@
             </following>
         </div>
     </div>
+    <div class="row mt-20">
+        <div class="col-md-12">
+            <h4>You might also like</h4>
+            <user-suggestions :user={{ Auth::user()->id }} />
+        </div>
+    </div>
 </div>
 @endsection

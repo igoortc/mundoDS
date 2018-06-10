@@ -2,7 +2,7 @@
     <span>
         <notifications></notifications>
         ({{ count }})
-        <div class="friendship">
+        <div class="thumbnails">
             <div v-if="followersInfo.length === 0">
                 No followers! <i class="fa fa-frown-o"></i>
             </div>
