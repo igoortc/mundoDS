@@ -11,6 +11,12 @@
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9 showInfo">
                         <p>{{ $show->name }}</p>
+                        @if (Auth::check())
+                            <favorite
+                                :show={{ $show->id }}
+                                :favorited={{ $show->favorited() ? 'true' : 'false' }}
+                            ></favorite>
+                        @endif
                         @if (Auth::user()->admin)
                             <show-manage :show_id={{ $show->id }}></show-manage>
                         @endif
@@ -41,17 +47,21 @@
                             <img class="unavailable" alt="IMDb" src="/images/imdb.png">
                             @endif
                         </div>
-                        <p>{{ $show->synopsis }}</p>
+                        <div class="synopsis"><i class="fa fa-quote-left"></i> {{ $show->synopsis }}</div>
                         @if (Auth::check())
-                            <favorite
-                                :show={{ $show->id }}
-                                :favorited={{ $show->favorited() ? 'true' : 'false' }}
-                            ></favorite>
                             <episodes 
                                 :show={{ $show->id }}
                                 :user={{ Auth::user()->id }}
                             ></episodes>
                         @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-6 full-width-mobile col-xl-offset-3 col-lg-offset-3 col-md-offset-3 col-sm-offset-3">
+                        <suggestions :show_id={{ $show->id }} />
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-6 full-width-mobile col-xl-offset-1 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
+                        <fans :show_id={{ $show->id }} />
                     </div>
                 </div>
             </div>

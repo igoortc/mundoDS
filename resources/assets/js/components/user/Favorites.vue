@@ -1,11 +1,11 @@
 <template>
     <span>
         <notifications></notifications>
-        <div class="friendship">
+        <div class="thumbnails">
             <div v-if="shows.length === 0">
                 No favorite shows! <i class="fa fa-frown-o"></i>
             </div>
-            <div v-else v-for="show in shows">
+            <div v-else v-for="(show, index) in shows" :key="index">
                 <a :href="'/show/' + show.id" ><img :src="show.poster" /></a>
             </div>
         </div>

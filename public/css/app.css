@@ -8385,7 +8385,38 @@ small {
   color: #876990;
 }
 
-.poster img,
+@media screen and (max-width: 485px) {
+  .full-width-mobile {
+    width: 100%;
+  }
+}
+
+.poster img {
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .poster img {
+    width: 120px;
+    float: left;
+    margin-right: 25px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .poster img {
+    width: auto;
+    height: 130px;
+  }
+}
+
+@media screen and (max-width: 485px) {
+  .poster img {
+    width: auto;
+    height: 80px;
+  }
+}
+
 .profile img {
   width: 120px;
   float: left;
@@ -8401,9 +8432,35 @@ small {
   font-weight: bold;
 }
 
+@media screen and (max-width: 560px) {
+  .showInfo p:first-child {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 485px) {
+  .showDetail {
+    margin-top: 25px;
+  }
+}
+
+.synopsis {
+  margin: 15px 0;
+}
+
+@media screen and (max-width: 560px) {
+  .synopsis {
+    display: inline-block;
+  }
+}
+
 .unavailable {
   -webkit-filter: grayscale(100%);
           filter: grayscale(100%);
+}
+
+.favorites {
+  font-size: 17px;
 }
 
 .favorites a,
@@ -8471,6 +8528,31 @@ small {
   cursor: default;
 }
 
+.episodeList {
+  display: inline-block;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.seasonEpisodes .header {
+  border-bottom: 2px solid #9e8baf;
+  margin: 0 0 20px 0;
+  padding-bottom: 7px;
+}
+
+.seasonEpisodes .header div {
+  padding: 0;
+}
+
+.seasonEpisodes .body {
+  margin: 0 0 20px 0;
+  border-bottom: 1px solid #9e8baf;
+}
+
+.seasonEpisodes .body div {
+  padding: 0;
+}
+
 .episodeDetail img {
   width: 200px;
   height: 112px;
@@ -8527,9 +8609,15 @@ small {
   text-align: left;
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 768px) {
   .hideMobile {
     display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .offset-1-mob {
+    margin-left: 8.33333333%;
   }
 }
 
@@ -8575,36 +8663,45 @@ h4 {
   }
 }
 
-.friendship {
+.thumbnails {
   max-height: 115px;
   overflow: auto;
 }
 
-.friendship div {
+.thumbnails div {
   display: inline-block;
   margin: 7px;
 }
 
-.friendship div img {
+.thumbnails div img {
   width: 50px;
   height: 50px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.friendships {
+.thumbnailss {
   margin-top: 25px;
 }
 
-.friendships div h4 {
+.thumbnailss div h4 {
   display: inline-block;
   margin: 11px 0;
+}
+
+.friendships {
+  margin-top: 20px;
 }
 
 @media screen and (max-width: 760px) {
   .following {
     margin-top: 30px;
   }
+}
+
+.following h4,
+.followers h4 {
+  display: inline-block;
 }
 
 fieldset {
@@ -8901,7 +8998,7 @@ ul li {
 
 .nav-pills > li.active > a {
   background-color: #876990;
-  color: #bba6ce;
+  color: #fff;
 }
 
 .chat-wrapper {

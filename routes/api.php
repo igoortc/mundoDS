@@ -24,6 +24,7 @@ Route::resource('users', 'Api\UserController');
 Route::resource('user.following', 'Api\UserFollowController');
 Route::resource('user.followers', 'Api\FollowController');
 Route::resource('episodes.discussion', 'Api\DiscussionController');
+Route::resource('suggestions', 'Api\SuggestionController');
 Route::get('chat/{user}/friend/{friend}', 'Api\ChatController@index');
 Route::post('chat/{user}/friend/{friend}', 'Api\ChatController@store');
 Route::put('not_spam/{discussion}', 'Api\DiscussionController@notSpam');

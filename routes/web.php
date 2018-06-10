@@ -23,14 +23,13 @@ Route::get('all_users', 'UsersController@index')->middleware('auth');
 
 Route::post('favorite/{show}', 'ShowsController@favoriteShow');
 Route::post('unfavorite/{show}', 'ShowsController@unFavoriteShow');
+Route::get('fans/{show}', 'ShowsController@getFans');
 
 Route::get('my_favorites', 'UsersController@myFavorites')->middleware('auth');
-
 Route::get('my_watched', 'UsersController@myWatched')->middleware('auth');
-
 Route::get('my_profile', 'UsersController@myProfile')->middleware('auth');
-
 Route::get('following', 'UsersController@following')->middleware('auth');
+Route::get('user_suggestions/{user}', 'UsersController@suggestions');
 
 Route::get('show/{show}/episode/{episode}', 'EpisodesController@show')->middleware('auth');;
 

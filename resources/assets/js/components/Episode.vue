@@ -17,34 +17,51 @@
                 :id="'T' + season" 
                 class="tab-pane" 
                 :class="{ active: isActive('T' + season) }">
-                <table class="table" v-if="hasEpisodes(season)">
-                    <thead class="thead-inverse">
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th class="hideMobile"><i class="fa fa-star"></i></th>
-                            <th>Date</th>
-                            <th width="124px">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr 
-                            v-for="(episode, index) in episodes" 
-                            :key="index"
-                            v-if="episode.season===season">
-                                <td>{{ episode.number }}</td>
-                                <td><a :href="'/show/' + episode.show_id + '/episode/' + episode.id">{{ episode.name }}</a></td>
-                                <td class="hideMobile">{{ average[index] }}</td>
-                                <td>{{ episode.date_aired }}</td>
-                                <td>
-                                    <watched
-                                        :episode="episode.id"
-                                        :user="user"
-                                    ></watched>
-                                </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="seasonEpisodes" v-if="hasEpisodes(season)">
+                    <div class="row header">
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <strong>#</strong>
+                        </div>
+                        <div class="col-md-6 col-sm-4 col-xs-9">
+                            <strong>Title</strong>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-2 text-center">
+                            <strong><i class="fa fa-star"></i></strong>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2 hideMobile">
+                            <strong>Date</strong>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-4 hideMobile">
+                            <strong>Actions</strong>
+                        </div>
+                    </div>
+                    <div 
+                        class="row body"
+                        v-for="(episode, index) in episodes" 
+                        :key="index"
+                        v-if="episode.season===season">
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <span>{{ episode.number }}</span>
+                        </div>
+                        <div class="col-md-6 col-sm-4 col-xs-9">
+                            <span><a :href="'/show/' + episode.show_id + '/episode/' + episode.id">{{ episode.name }}</a></span>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-2 text-center">
+                            <span>{{ average[index] }}</span>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-4 offset-1-mob">
+                            <span>{{ episode.date_aired }}</span>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-7">
+                            <span>
+                                <watched
+                                    :episode="episode.id"
+                                    :user="user"
+                                ></watched>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <span v-else>No episodes of this season have aired yet!</span>
             </div>
         </div>

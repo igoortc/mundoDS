@@ -58,7 +58,31 @@ small {
     color: $brand-primary;
 }
 
-.poster img, 
+.full-width-mobile {
+    @media screen and (max-width: $small-screen) {
+        width: 100%;
+    }
+}
+
+.poster {
+    img {
+        width: 100%;
+        @media screen and (max-width: $mobile-screen) {
+            width: 120px;
+            float: left;
+            margin-right: 25px;
+        }
+        @media screen and (max-width: $average-screen) {
+            width: auto;
+            height: 130px;
+        }
+        @media screen and (max-width: $small-screen) {
+            width: auto;
+            height: 80px;
+        }
+    }
+}
+
 .profile img {
     width: 120px;
     float: left;
@@ -70,6 +94,24 @@ small {
     p:first-child {
         font-size: 25px;
         font-weight: bold;
+
+        @media screen and (max-width: $average-screen) {
+            font-size: 20px;
+        }
+    }
+}
+
+.showDetail {
+    @media screen and (max-width: $small-screen) {
+        margin-top: 25px;
+    }
+}
+
+.synopsis {
+    margin: 15px 0;
+
+    @media screen and (max-width: $average-screen) {
+        display: inline-block;
     }
 }
 
@@ -77,9 +119,13 @@ small {
     filter: grayscale(100%);
 }
 
-.favorites a, .favorites a:hover {
-    text-decoration: none;
-    color: $brand-primary;
+.favorites {
+    font-size: 17px;
+
+    a, a:hover {
+        text-decoration: none;
+        color: $brand-primary;
+    }
 }
 
 .fa-heart, .fa-heart-o:hover, .fa-meh-o, .fa-smile-o {
@@ -130,6 +176,33 @@ small {
 .disabledStar {
     pointer-events: none;
     cursor: default;
+}
+
+.episodeList {
+    display: inline-block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.seasonEpisodes {
+    .header {
+        border-bottom: 2px solid $pale-purple;
+        margin: 0 0 20px 0;
+        padding-bottom: 7px;
+
+        div {
+            padding: 0;
+        }
+    }
+    
+    .body {
+        margin: 0 0 20px 0;
+        border-bottom: 1px solid $pale-purple;
+
+        div {
+            padding: 0;
+        }
+    }
 }
 
 .episodeDetail {
@@ -190,8 +263,14 @@ small {
 }
 
 .hideMobile {
-    @media screen and (max-width: $average-screen) {
+    @media screen and (max-width: $mobile-screen) {
         display: none;
+    }
+}
+
+.offset-1-mob {
+    @media screen and (max-width: $mobile-screen) {
+        margin-left: 8.33333333%;
     }
 }
 
@@ -232,7 +311,7 @@ h4 {
     }
 }
 
-.friendship {
+.thumbnails {
     max-height: 115px;
     overflow: auto;
 
@@ -248,7 +327,7 @@ h4 {
     }
 }
 
-.friendships {
+.thumbnailss {
     margin-top: 25px;
 
     div h4 {
@@ -257,10 +336,19 @@ h4 {
     }
 }
 
+.friendships {
+    margin-top: 20px;
+}
+
 .following {
     @media screen and (max-width: $medium-screen) {
         margin-top: 30px;
     }
+}
+
+.following h4,
+.followers h4 {
+    display: inline-block;
 }
 
 fieldset {
@@ -552,7 +640,7 @@ ul {
     }
     > li.active > a {
         background-color: $dark-purple;
-        color: $light-purple;
+        color: #fff;
     }
 }
 
