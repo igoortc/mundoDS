@@ -21,15 +21,21 @@
         </div>
     </div>
     <div class="row friendships">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 followers">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6 full-width-mobile followers">
             <h4>Your followers</h4>
             <followers :user={{ Auth::user()->id }}>
             </followers>
         </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 following">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6 full-width-mobile following">
             <h4>People you follow</h4>
             <following :user={{ Auth::user()->id }}>
             </following>
+        </div>
+    </div>
+    <div class="row mt-20">
+        <div class="col-md-12">
+            <h4>You might also like</h4>
+            <user-suggestions :user={{ Auth::user()->id }} />
         </div>
     </div>
 </div>
