@@ -8393,6 +8393,7 @@ small {
 
 .poster img {
   width: 100%;
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 768px) {
@@ -8420,7 +8421,80 @@ small {
 .profile img {
   width: 120px;
   float: left;
-  margin-right: 25px;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .profile img {
+    margin-right: 25px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .profile img {
+    width: auto;
+    height: 130px;
+  }
+}
+
+@media screen and (max-width: 485px) {
+  .profile img {
+    width: auto;
+    height: 80px;
+  }
+}
+
+.analytics {
+  display: inline-block;
+}
+
+@media screen and (max-width: 445px) {
+  .analytics {
+    margin-top: 5px;
+  }
+}
+
+.searchResults .poster {
+  padding-left: 10px;
+  float: left;
+}
+
+.searchResults .poster img {
+  width: 90px;
+  height: auto !important;
+}
+
+@media screen and (max-width: 445px) {
+  .searchResults .poster img {
+    width: 65px;
+  }
+}
+
+.searchResults .showInfo p:first-child {
+  font-size: 18px;
+  margin: 0;
+}
+
+.searchResults .showInfo p:not(:first-child) {
+  margin-top: 4px;
+}
+
+.searchResults div.panel-body {
+  padding: 10px 0 0;
+  margin-bottom: 0;
+}
+
+.searchResults div.panel-body .row {
+  margin: 0;
+}
+
+.searchResults .showDetail {
+  display: inline-block;
+  margin-top: 0;
+}
+
+.searchResults .favorites {
+  font-size: 14px;
 }
 
 .showInfo {
@@ -8678,6 +8752,8 @@ h4 {
   height: 50px;
   border-radius: 5px;
   cursor: pointer;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .thumbnailss {
@@ -8691,12 +8767,6 @@ h4 {
 
 .friendships {
   margin-top: 20px;
-}
-
-@media screen and (max-width: 760px) {
-  .following {
-    margin-top: 30px;
-  }
 }
 
 .following h4,
@@ -8969,7 +9039,7 @@ ul li {
 
 .nav-link.active {
   background: #bba6ce;
-  color: #c56393;
+  color: #fff;
 }
 
 .nav > li > a:hover,
@@ -8993,7 +9063,7 @@ ul li {
 }
 
 .nav-pills > li > a:focus {
-  color: #bba6ce !important;
+  color: #fff !important;
 }
 
 .nav-pills > li.active > a {

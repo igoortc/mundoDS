@@ -15,6 +15,7 @@ $light-gray: #eee;
 $white: #fff;
 $black: #333;
 $pale-black: #504d4d;
+$smallest-screen: 445px;
 $small-screen: 485px;
 $average-screen: 560px;
 $medium-screen: 760px;
@@ -67,6 +68,8 @@ small {
 .poster {
     img {
         width: 100%;
+        border-radius: 5px; 
+
         @media screen and (max-width: $mobile-screen) {
             width: 120px;
             float: left;
@@ -83,10 +86,72 @@ small {
     }
 }
 
-.profile img {
-    width: 120px;
-    float: left;
-    margin-right: 25px;
+.profile {
+    img {
+        width: 120px;
+        float: left;
+        border-radius: 5px; 
+
+        @media screen and (max-width: $mobile-screen) {
+            margin-right: 25px;
+        }
+        @media screen and (max-width: $average-screen) {
+            width: auto;
+            height: 130px;
+        }
+        @media screen and (max-width: $small-screen) {
+            width: auto;
+            height: 80px;
+        }
+    }
+}
+
+.analytics {
+    display: inline-block;
+
+    @media screen and (max-width: $smallest-screen) {
+        margin-top: 5px;
+    }
+}
+
+.searchResults {
+    .poster {
+        padding-left: 10px;
+        float: left;
+
+        img {
+            width: 90px;
+            height: auto !important;
+
+            @media screen and (max-width: $smallest-screen) {
+                width: 65px;
+            }
+        }
+    }
+    .showInfo { 
+        p:first-child {
+            font-size: 18px;
+            margin: 0;
+        }
+        p:not(:first-child) {
+            margin-top: 4px;
+        }
+    }
+    div.panel-body {
+        padding: 10px 0 0;
+        margin-bottom: 0;
+
+        .row {
+            margin: 0;
+        }
+    }
+    .showDetail {
+        display: inline-block;
+        margin-top: 0;
+    }
+    .favorites {
+        font-size: 14px;
+    }
 }
 
 .showInfo {
@@ -323,6 +388,7 @@ h4 {
             height: 50px;
             border-radius: 5px;
             cursor: pointer;
+            object-fit: cover;
         }
     }
 }
@@ -340,15 +406,11 @@ h4 {
     margin-top: 20px;
 }
 
-.following {
-    @media screen and (max-width: $medium-screen) {
-        margin-top: 30px;
+.following, 
+.followers {
+    h4 {
+        display: inline-block;
     }
-}
-
-.following h4,
-.followers h4 {
-    display: inline-block;
 }
 
 fieldset {
@@ -614,7 +676,7 @@ ul {
 
 .nav-link.active {
     background: $light-purple;
-    color: $light-pink;
+    color: $white;
 }
 
 .nav > li > a:hover,
@@ -635,12 +697,12 @@ ul {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         &:focus {
-            color: $light-purple !important;
+            color: $white !important;
         }
     }
     > li.active > a {
         background-color: $dark-purple;
-        color: #fff;
+        color: $white;
     }
 }
 

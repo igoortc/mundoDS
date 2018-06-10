@@ -78055,7 +78055,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.get('/fans/' + this.show_id).then(function (response) {
-                console.log('resp', response);
                 _this.fans = response.data.data;
             }).catch(function (error) {
                 self.$notify({
@@ -84026,7 +84025,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.get('/user_suggestions/' + this.user).then(function (response) {
-                console.log(response);
                 _this.shows = response.data.data;
             }).catch(function (error) {
                 self.$notify({
