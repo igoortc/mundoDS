@@ -44,7 +44,7 @@ Pusher.logToConsole = true
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: '761f37ce2a6386ddb765',
+    key: '53f8175d391caf9cc0af',
     cluster: 'mt1',
     encrypted: true,
 });
