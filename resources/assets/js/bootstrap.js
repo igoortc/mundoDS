@@ -40,6 +40,8 @@ window.axios.defaults.headers.common = {
 import Pusher from "pusher-js"
 import Echo from "laravel-echo"
 
+Pusher.logToConsole = true
+
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: '761f37ce2a6386ddb765',

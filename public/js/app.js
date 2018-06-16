@@ -19037,6 +19037,8 @@ window.axios.defaults.headers.common = {
 
 
 
+__WEBPACK_IMPORTED_MODULE_0_pusher_js___default.a.logToConsole = true;
+
 window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
   broadcaster: 'pusher',
   key: '761f37ce2a6386ddb765',
