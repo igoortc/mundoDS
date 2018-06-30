@@ -169,6 +169,7 @@ small {
 .showDetail {
     @media screen and (max-width: $small-screen) {
         margin-top: 25px;
+        display: inline-block;
     }
 }
 
@@ -291,11 +292,21 @@ small {
 }
 
 .np-l {
-    padding-left: 0 !important;
+    @media screen and (min-width: $mobile-screen) {
+        padding-left: 0 !important;
+    }
+    @media screen and (max-width: $mobile-screen) {
+        padding: 0 !important;
+    }
 }
 
 .np-r {
-    padding-right: 0 !important;
+    @media screen and (min-width: $mobile-screen) {
+        padding-right: 0 !important;
+    }
+    @media screen and (max-width: $mobile-screen) {
+        padding: 0 !important;
+    }
 }
 
 .mb-10 {
@@ -591,6 +602,14 @@ ul {
     }
 }
 
+.comment-form.reply {
+    .form {
+        @media screen and (max-width: $mobile-screen) {
+            margin-left: 10px;
+        }
+    }
+}
+
 .comment-form,
 .comment {
   margin-bottom: 20px;
@@ -659,6 +678,10 @@ ul {
 .comment-reply {
     padding-left: 80px;
     margin: 20px 0;
+
+    @media screen and (max-width: $medium-screen) {
+        padding-left: 20px;
+    }
 }
 
 .reply-actions {
@@ -856,6 +879,21 @@ ul {
     margin: 0;
     text-align: right;
     color: $pale-black;
+}
+
+.mx-datepicker {
+    width: 100% !important;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: $purple;
+}
+
+.manageContentTable  {
+    thead th,
+    td {
+        padding: 3px 5px;
+    }
 }
 
 // .minimize_chat {

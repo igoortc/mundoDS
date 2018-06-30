@@ -25,7 +25,7 @@
         },
         computed: {
             clUrl: function() {
-                return 'https://api.cloudinary.com/v1_1/' + this.cloudinary.cloudName + '/upload'
+                return `https://api.cloudinary.com/v1_1/${this.cloudinary.cloudName}/upload`
             },
         },
         methods: {
@@ -35,13 +35,12 @@
                 formData.append('upload_preset', this.cloudinary.uploadPreset)
                 this.empty = false
                 this.uploading = true
-                let self = this
-                axios.post(this.clUrl, formData).then(res => {
+                this.$http.post(this.clUrl, formData).then(res => {
                     this.thumbs.unshift({
                         url: res.data.secure_url
                     })
-                    self.uploading = false
-                    self.uploaded = true
+                    this.uploading = false
+                    this.uploaded = true
                     $('#photo').val(res.data.secure_url)
                     $('#poster').val(res.data.secure_url)
                     $('#image').val(res.data.secure_url)

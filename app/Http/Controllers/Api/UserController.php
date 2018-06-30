@@ -43,7 +43,6 @@ class UserController extends Controller
         $user->photo = request('photo');
         $user->city = request('city');
         $user->bio = request('bio');
-        $user->age = request('age');
         $user->admin = request('admin');
         $user->save();
         

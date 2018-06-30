@@ -12,7 +12,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title"><strong>Edit "{{ show.name }}"</strong></h3>
+                        <h4 class="modal-title"><strong>Edit "{{ show.name }}"</strong></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -75,7 +75,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title"><strong>Add new episode to "{{ show.name }}"</strong></h3>
+                        <h4 class="modal-title"><strong>Add new episode to "{{ show.name }}"</strong></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

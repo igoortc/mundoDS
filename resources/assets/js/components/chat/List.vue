@@ -5,8 +5,8 @@
                 You don't have any friends yet. <a href="all_users">Find some</a>! <i class="fa fa-smile-o"></i>
             </p>
             <div v-else v-for="(friend, index) in friends" :key="index">
-                <img @click="toggleChat(friend.id)" :src="friend.photo"/>
-                <span>{{friend.name}}</span>
+                <img @click="toggleChat(friend.following.id)" :src="friend.following.photo"/>
+                <span>{{friend.following.name}}</span>
             </div>
         </div>
         <div class="col-md-8 col-sm-12">
@@ -21,10 +21,11 @@
 
 <script>
     export default {
-        props: ['friends', 'user'],
+        props: ['user'],
         data () {
             return {
-                openChats: []
+                openChats: [],
+                friends: []
             }
         },
         methods: {
@@ -36,7 +37,23 @@
                 setTimeout(() => { 
                     this.openChats.push(friend)
                 }, 300)
-            }
+            },
+            getFriends () {
+                axios.get('/friends/' + this.user)
+                    .then(response => {
+                        this.friends = response.data.data
+                    })
+                    .catch(error => {
+                        this.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Failed to load friends. '
+                        });
+                    });
+            },
+        },
+        created () {
+            this.getFriends()
         }
     }
 </script>

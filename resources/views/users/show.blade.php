@@ -28,7 +28,7 @@
                             <p><i class="fa fa-quote-left"></i> {{ $user-> bio }}</p>
                             <div class="analytics">
                                 @if ($user->nrEpisodes($user->id) == 0)
-                                    <p><i class="fa fa-list-ol"></i> {{ $user->name }} haven't watched any episodes</p>
+                                    <p><i class="fa fa-list-ol"></i> {{ $user->name }} hasn't watched any episodes</p>
                                 @elseif ($user->nrEpisodes($user->id) == 1)
                                     <p><i class="fa fa-list-ol"></i> Watched {{ $user->nrEpisodes($user->id) }} episode</p>
                                 @else
@@ -36,7 +36,7 @@
                                 @endif
                                 
                                 @if ($user->nrRatings($user->id) == 0)
-                                    <p><i class="fa fa-star-o"></i> {{ $user->name }} haven't rated any episodes</p>
+                                    <p><i class="fa fa-star-o"></i> {{ $user->name }} hasn't rated any episodes</p>
                                 @elseif ($user->nrRatings($user->id) == 1)
                                     <p><i class="fa fa-star-o"></i> Rated {{ $user->nrRatings($user->id) }} episode</p>
                                 @else

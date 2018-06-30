@@ -30,6 +30,7 @@ Route::get('my_watched', 'UsersController@myWatched')->middleware('auth');
 Route::get('my_profile', 'UsersController@myProfile')->middleware('auth');
 Route::get('following', 'UsersController@following')->middleware('auth');
 Route::get('user_suggestions/{user}', 'UsersController@suggestions');
+Route::get('friends/{user}', 'UsersController@friends');
 
 Route::get('show/{show}/episode/{episode}', 'EpisodesController@show')->middleware('auth');;
 

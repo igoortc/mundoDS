@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\FollowResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\SuggestionResource;
 use App\Show;
 use App\User;
+use App\Follow;
 
 class UsersController extends Controller
 {
@@ -55,9 +57,7 @@ class UsersController extends Controller
 
     public function chat()
     {
-        $friends = Auth::user()->follows;
-
-        return view('users.chat', compact('friends'));
+        return view('users.chat');
     }
 
     public function following()
@@ -79,6 +79,18 @@ class UsersController extends Controller
         Auth::user()->follows()->detach($user->id);
 
         return back();
+    }
+
+    public function friends($id) {
+        $following = Follow::select('user_id')
+                            ->where('following_id', $id)
+                            ->get();
+
+        $friends = Follow::where('user_id', $id)
+                            ->whereIn('following_id', $following)
+                            ->get();
+
+        return FollowResource::collection($friends);
     }
 
     public function suggestions($user) {

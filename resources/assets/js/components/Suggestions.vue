@@ -30,12 +30,11 @@
         methods: {
             getSuggestions() {
                 axios.get('/api/suggestions/' + this.show_id)
-                    .then((response) => {
+                    .then(response => {
                         this.suggestions = response.data.data
                     })
-                    .catch(function (error) {
-                        console.log('error', error)
-                        self.$notify({
+                    .catch(error => {
+                        this.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Try reloading the page or contact the support! Failed to load suggestions.'

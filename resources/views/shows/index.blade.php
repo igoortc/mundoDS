@@ -11,10 +11,10 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-3 poster">
+                            <div class="col-sm-3 col-md-3 poster">
                                 <img src={{ $show->poster }}>
                             </div>
-                            <div class="col-md-9 showInfo">
+                            <div class="col-sm-9 col-md-9 showInfo">
                                 <a href="{{ url('show') }}/{{ $show->id }}"><p>{{ $show->name }}</p></a>
                                 <div class="showDetail">
                                     <span>{{ $show->seasons }} seasons | </span>

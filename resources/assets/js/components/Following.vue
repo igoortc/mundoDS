@@ -26,38 +26,27 @@
         },
 
         mounted()  {
-            this.getFollowing();
+            this.getFollowing()
         },
 
         methods: {
             getFollowing() {
-                let self = this;
-                let following = [];
-                axios.get('/api/user/' + self.user + '/following/')
-                    .then(function (response) {
+                let following = []
+                axios.get('/api/user/' + this.user + '/following/')
+                    .then(response => {
                         following = response.data.data;
-                        for (let i = 0; i < following.length; i++) {
-                            axios.get('/api/users/' + following[i].following_id)
-                            .then(function (response) {
-                                self.followingInfo.push(response.data.data);
-                                self.count++;
-                            })
-                            .catch(function (error) {
-                                self.$notify({
-                                    type: 'error',
-                                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                                    text: 'Try reloading the page or contact the support! Failed to load following.'
-                                });
-                            });
-                        }
+                        following.forEach(f => {
+                            this.followingInfo.push(f.following)
+                            this.count++
+                        })
                     })
-                    .catch(function (error) {
-                        self.$notify({
+                    .catch(error => {
+                        this.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Try reloading the page or contact the support! Failed to load following.'
-                        });
-                    });
+                        })
+                    })
             }
         }
     }

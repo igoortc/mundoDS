@@ -19,6 +19,7 @@ class EpisodeController extends Controller
     // }
     public function index($show, Request $request){
         $episodes = Episode::where('show_id', $show)
+                    ->orderBy('number')
                     ->get();
 
         return  EpisodeResource::collection($episodes);
@@ -55,7 +56,7 @@ class EpisodeController extends Controller
         $episode->season = request('season');
         $episode->number = request('number');
         $episode->synopsis = request('synopsis');
-        $episode->date_aired = request('date_aired');
+        // $episode->date_aired = request('date_aired');
         $episode->image = request('image');
 
         $episode->save();

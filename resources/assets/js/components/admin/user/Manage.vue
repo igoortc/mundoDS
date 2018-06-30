@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="show-admin-actions">
         <fieldset>
             <legend><i class="fa fa-user-secret"></i> Admin actions</legend>
-            <ul>
+            <ul class="text-center">
                 <li v-if="user.admin===0">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#makeAdmin">
                         <i class="fa fa-user-secret"></i> Make admin
