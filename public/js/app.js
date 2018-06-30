@@ -19046,16 +19046,6 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
   encrypted: true
 });
 
-window.axios.interceptors.request.use(function (request) {
-  var isCloudinary = request.url.includes('cloudinary.com');
-  if (isCloudinary) {
-    console.log('is', window.axios.defaults.headers.common);
-    delete window.axios.defaults.headers.common['X-Socket-ID'];
-  }
-  console.log('aa', request);
-  return request;
-});
-
 /***/ }),
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -79569,31 +79559,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var formData = new FormData();
             formData.append('file', file[0]);
             formData.append('upload_preset', this.cloudinary.uploadPreset);
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = formData.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var pair = _step.value;
-
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
             this.empty = false;
             this.uploading = true;
             this.$http.post(this.clUrl, formData).then(function (res) {
