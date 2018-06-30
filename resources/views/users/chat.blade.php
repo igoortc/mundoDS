@@ -5,7 +5,6 @@
         <div class="page-wrap np">
             <h3>Choose a friend to chat!</h3>
             <chat-list
-                :friends="{{ $friends }}"
                 :user="{{ Auth::user()->id }}"></chat-list>
         </div>
     @else

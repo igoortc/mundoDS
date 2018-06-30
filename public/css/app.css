@@ -8515,6 +8515,7 @@ small {
 @media screen and (max-width: 485px) {
   .showDetail {
     margin-top: 25px;
+    display: inline-block;
   }
 }
 
@@ -8646,12 +8647,28 @@ small {
   padding: 0 !important;
 }
 
-.np-l {
-  padding-left: 0 !important;
+@media screen and (min-width: 768px) {
+  .np-l {
+    padding-left: 0 !important;
+  }
 }
 
-.np-r {
-  padding-right: 0 !important;
+@media screen and (max-width: 768px) {
+  .np-l {
+    padding: 0 !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .np-r {
+    padding-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .np-r {
+    padding: 0 !important;
+  }
 }
 
 .mb-10 {
@@ -8956,6 +8973,12 @@ ul li {
   padding: 6px 15px;
 }
 
+@media screen and (max-width: 768px) {
+  .comment-form.reply .form {
+    margin-left: 10px;
+  }
+}
+
 .comment-form,
 .comment {
   margin-bottom: 20px;
@@ -9023,6 +9046,12 @@ ul li {
 .comment-reply {
   padding-left: 80px;
   margin: 20px 0;
+}
+
+@media screen and (max-width: 760px) {
+  .comment-reply {
+    padding-left: 20px;
+  }
 }
 
 .reply-actions span {
@@ -9230,5 +9259,19 @@ ul li {
   margin: 0;
   text-align: right;
   color: #504d4d;
+}
+
+.mx-datepicker {
+  width: 100% !important;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #a053e3;
+}
+
+.manageContentTable thead th,
+.manageContentTable td {
+  padding: 3px 5px;
 }
 

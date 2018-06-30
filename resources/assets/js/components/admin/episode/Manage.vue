@@ -1,8 +1,8 @@
 <template>
-    <div class="mt-20">
+    <div class="show-admin-actions">
         <fieldset>
             <legend><i class="fa fa-user-secret"></i> Admin actions</legend>
-            <ul>
+            <ul class="text-center">
                 <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editEpisode"><i class="fa fa-pencil-square-o"></i> Edit episode</button></li>
                 <li><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteEpisode"><i class="fa fa-trash"></i> Delete episode</button></li>
             </ul>
@@ -11,7 +11,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title"><strong>Edit "{{ episode.name }}"</strong></h3>
+                        <h4 class="modal-title"><strong>Edit "{{ episode.name }}"</strong></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="date_aired" class="col-form-label">Date aired:</label>
-                                <input type="text" class="form-control" id="date_aired"  v-model="episode.date_aired">
+                                <input type="text" class="form-control" id="date_aired" disabled v-model="episode.date_aired">
                             </div>
                             <div class="form-group text-right">
                                 <a type="button" class="btn btn-primary" @click="editEpisode">Edit episode!</a>

@@ -26,38 +26,27 @@
         },
 
         mounted()  {
-            this.getFollowers();
+            this.getFollowers()
         },
 
         methods: {
             getFollowers() {
-                let self = this;
-                let followers = [];
-                axios.get('/api/user/' + self.user + '/followers/')
-                    .then(function (response) {
-                        followers = response.data.data;
-                        for (let i = 0; i < followers.length; i++) {
-                            axios.get('/api/users/' + followers[i].user_id)
-                            .then(function (response) {
-                                self.followersInfo.push(response.data.data);
-                                self.count++;
-                            })
-                            .catch(function (error) {
-                                self.$notify({
-                                    type: 'error',
-                                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                                    text: 'Try reloading the page or contact the support! Failed to load followers.'
-                                });
-                            });
-                        }
+                let followers = []
+                axios.get('/api/user/' + this.user + '/followers/')
+                    .then(response => {
+                        followers = response.data.data
+                        followers.forEach(f => {
+                            this.followersInfo.push(f.user)
+                            this.count++
+                        })
                     })
-                    .catch(function (error) {
-                        self.$notify({
+                    .catch(error => {
+                        this.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Try reloading the page or contact the support! Failed to load followers.'
-                        });
-                    });
+                        })
+                    })
             }
         }
     }

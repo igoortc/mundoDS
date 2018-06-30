@@ -28,16 +28,16 @@
             getSuggestions()
             {
                 axios.get('/user_suggestions/' + this.user)
-                    .then((response) => {
+                    .then(response => {
                         this.shows = response.data.data
                     })
-                    .catch(function (error) {
-                        self.$notify({
+                    .catch(error => {
+                        this.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Try reloading the page or contact the support! Failed to load suggestions. '
-                        });
-                    });
+                        })
+                    })
             }
         }
     }

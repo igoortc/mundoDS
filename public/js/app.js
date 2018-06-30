@@ -19037,7 +19037,7 @@ window.axios.defaults.headers.common = {
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_pusher_js___default.a.logToConsole = true;
+__WEBPACK_IMPORTED_MODULE_0_pusher_js___default.a.logToConsole = false;
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
   broadcaster: 'pusher',
@@ -77576,9 +77576,6 @@ var render = function() {
               disabledStar: !_vm.isWatched
             },
             on: {
-              click: function($event) {
-                _vm.set(rating, _vm.episode)
-              },
               mouseover: function($event) {
                 _vm.star_over(rating)
               },
@@ -77599,6 +77596,9 @@ var render = function() {
               attrs: { type: "radio" },
               domProps: { value: rating, checked: _vm._q(_vm.value, rating) },
               on: {
+                click: function($event) {
+                  _vm.set(rating, _vm.episode)
+                },
                 change: function($event) {
                   _vm.value = rating
                 }
@@ -77904,8 +77904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('/api/suggestions/' + this.show_id).then(function (response) {
                 _this.suggestions = response.data.data;
             }).catch(function (error) {
-                console.log('error', error);
-                self.$notify({
+                _this.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to load suggestions.'
@@ -78204,24 +78203,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         getFollowers: function getFollowers() {
-            var self = this;
+            var _this = this;
+
             var followers = [];
-            axios.get('/api/user/' + self.user + '/followers/').then(function (response) {
+            axios.get('/api/user/' + this.user + '/followers/').then(function (response) {
                 followers = response.data.data;
-                for (var i = 0; i < followers.length; i++) {
-                    axios.get('/api/users/' + followers[i].user_id).then(function (response) {
-                        self.followersInfo.push(response.data.data);
-                        self.count++;
-                    }).catch(function (error) {
-                        self.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Try reloading the page or contact the support! Failed to load followers.'
-                        });
-                    });
-                }
+                followers.forEach(function (f) {
+                    _this.followersInfo.push(f.user);
+                    _this.count++;
+                });
             }).catch(function (error) {
-                self.$notify({
+                _this.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to load followers.'
@@ -78364,24 +78356,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         getFollowing: function getFollowing() {
-            var self = this;
+            var _this = this;
+
             var following = [];
-            axios.get('/api/user/' + self.user + '/following/').then(function (response) {
+            axios.get('/api/user/' + this.user + '/following/').then(function (response) {
                 following = response.data.data;
-                for (var i = 0; i < following.length; i++) {
-                    axios.get('/api/users/' + following[i].following_id).then(function (response) {
-                        self.followingInfo.push(response.data.data);
-                        self.count++;
-                    }).catch(function (error) {
-                        self.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Try reloading the page or contact the support! Failed to load following.'
-                        });
-                    });
-                }
+                following.forEach(function (f) {
+                    _this.followingInfo.push(f.following);
+                    _this.count++;
+                });
             }).catch(function (error) {
-                self.$notify({
+                _this.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to load following.'
@@ -78636,9 +78621,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['episode_id', 'user'],
@@ -78709,21 +78691,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         editComment: function editComment(comment_id, comment) {
-            var self = this;
-            axios.put('/api/episodes/' + self.episode_id + '/discussion/' + comment_id, { comment: comment }).then(function (response) {
-                self.$notify({
+            var _this2 = this;
+
+            axios.put('/api/episodes/' + this.episode_id + '/discussion/' + comment_id, { comment: comment }).then(function (response) {
+                _this2.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Done! You edited the comment!',
                     text: 'The comment was updated!'
                 });
+                _this2.getComments();
             }).catch(function (error) {
-                self.$notify({
+                _this2.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to edit comment.'
                 });
             });
-            this.getComments();
             Vue.set(this.edit, comment_id, 0);
             this.editing = false;
         },
@@ -78818,14 +78801,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getComments();
         },
         isLove: function isLove(discussion) {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('/user/' + this.user.id + '/discussion/' + discussion + '/hasLoved').then(function (response) {
                 if (response.data.data) {
-                    Vue.set(_this2.loved, discussion, 1);
+                    Vue.set(_this3.loved, discussion, 1);
                     return true;
                 } else {
-                    Vue.set(_this2.loved, discussion, 0);
+                    Vue.set(_this3.loved, discussion, 0);
                     return false;
                 }
             }).catch(function (error) {
@@ -78971,7 +78954,7 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right"
+                    "col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right"
                 },
                 [
                   _c("ul", { staticClass: "comment-actions" }, [
@@ -79110,7 +79093,9 @@ var render = function() {
             _c("div", { staticClass: "row mt-10" }, [
               _c(
                 "div",
-                { staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" },
+                {
+                  staticClass: "col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+                },
                 [
                   com.user_id.id != _vm.user.id
                     ? _c("a", { attrs: { href: "/user/" + com.user_id.id } }, [
@@ -79221,7 +79206,7 @@ var render = function() {
                             "div",
                             {
                               staticClass:
-                                "col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right"
+                                "col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right"
                             },
                             [
                               _c("ul", { staticClass: "comment-actions" }, [
@@ -79349,7 +79334,7 @@ var render = function() {
                             "div",
                             {
                               staticClass:
-                                "col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+                                "col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
                             },
                             [
                               rep.user_id.id != _vm.user.id
@@ -79437,10 +79422,6 @@ var render = function() {
                     staticClass: "col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"
                   },
                   [
-                    _c("div", { staticClass: "comment-avatar text-right" }, [
-                      _c("img", { attrs: { src: _vm.user.photo } })
-                    ]),
-                    _vm._v(" "),
                     _c("div", { staticClass: "reply-actions pull-right" }, [
                       _c(
                         "span",
@@ -79580,13 +79561,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             formData.append('upload_preset', this.cloudinary.uploadPreset);
             this.empty = false;
             this.uploading = true;
-            var self = this;
-            axios.post(this.clUrl, formData).then(function (res) {
+            this.$http.post(this.clUrl, formData).then(function (res) {
                 _this.thumbs.unshift({
                     url: res.data.secure_url
                 });
-                self.uploading = false;
-                self.uploaded = true;
+                _this.uploading = false;
+                _this.uploaded = true;
                 $('#photo').val(res.data.secure_url);
                 $('#poster').val(res.data.secure_url);
                 $('#image').val(res.data.secure_url);
@@ -80647,7 +80627,7 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-header" }, [
-                _c("h3", { staticClass: "modal-title" }, [
+                _c("h4", { staticClass: "modal-title" }, [
                   _c("strong", [_vm._v('Edit "' + _vm._s(_vm.show.name) + '"')])
                 ]),
                 _vm._v(" "),
@@ -81025,7 +81005,7 @@ var render = function() {
               { staticClass: "modal-content" },
               [
                 _c("div", { staticClass: "modal-header" }, [
-                  _c("h3", { staticClass: "modal-title" }, [
+                  _c("h4", { staticClass: "modal-title" }, [
                     _c("strong", [
                       _vm._v(
                         'Add new episode to "' + _vm._s(_vm.show.name) + '"'
@@ -81791,7 +81771,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mt-20" }, [
+  return _c("div", { staticClass: "show-admin-actions" }, [
     _vm._m(0),
     _vm._v(" "),
     _c(
@@ -81813,7 +81793,7 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-header" }, [
-                _c("h3", { staticClass: "modal-title" }, [
+                _c("h4", { staticClass: "modal-title" }, [
                   _c("strong", [
                     _vm._v('Edit "' + _vm._s(_vm.episode.name) + '"')
                   ])
@@ -82064,7 +82044,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", id: "date_aired" },
+                      attrs: { type: "text", id: "date_aired", disabled: "" },
                       domProps: { value: _vm.episode.date_aired },
                       on: {
                         input: function($event) {
@@ -82170,7 +82150,7 @@ var staticRenderFns = [
         _vm._v(" Admin actions")
       ]),
       _vm._v(" "),
-      _c("ul", [
+      _c("ul", { staticClass: "text-center" }, [
         _c("li", [
           _c(
             "button",
@@ -82495,11 +82475,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "show-admin-actions" }, [
     _c("fieldset", [
       _vm._m(0),
       _vm._v(" "),
-      _c("ul", [
+      _c("ul", { staticClass: "text-center" }, [
         _vm.user.admin === 0 ? _c("li", [_vm._m(1)]) : _c("li", [_vm._m(2)]),
         _vm._v(" "),
         _vm._m(3)
@@ -82930,8 +82910,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -83020,78 +82998,95 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "modal-body" }, [
       _vm.comments.length > 0
-        ? _c("table", { staticStyle: { width: "100%" } }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.comments, function(comment, index) {
-                return _c("tr", { key: index }, [
-                  _c("td", [_vm._v(_vm._s(comment.id))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v('"' + _vm._s(comment.comment) + '"')]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      { attrs: { href: "/user/" + comment.user_id.id } },
-                      [_vm._v(_vm._s(comment.user_id.name))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        attrs: {
-                          href:
-                            "/show/" +
-                            comment.episode_id.show_id +
-                            "/episode/" +
-                            comment.episode_id.id
-                        }
-                      },
-                      [_vm._v("Check")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            _vm.destroySpam(comment.id)
+        ? _c(
+            "table",
+            {
+              staticClass: "manageContentTable",
+              staticStyle: { width: "100%" }
+            },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.comments, function(comment, index) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v('"' + _vm._s(comment.comment) + '"')]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: "/user/" + comment.user_id.id } },
+                        [_vm._v(_vm._s(comment.user_id.name))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "/show/" +
+                              comment.episode_id.show_id +
+                              "/episode/" +
+                              comment.episode_id.id
                           }
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-ban" }),
-                        _vm._v(" Destroy")
-                      ]
-                    ),
-                    _vm._v("  |  \n                        "),
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            _vm.notSpam(comment)
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-television" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "hideMobile" }, [
+                            _vm._v("Check")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              _vm.destroySpam(comment.id)
+                            }
                           }
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-check" }),
-                        _vm._v(" Unflag")
-                      ]
-                    )
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-ban" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "hideMobile" }, [
+                            _vm._v("Destroy")
+                          ])
+                        ]
+                      ),
+                      _vm._v("  |  \n                        "),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              _vm.notSpam(comment)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-check" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "hideMobile" }, [
+                            _vm._v("Unflag")
+                          ])
+                        ]
+                      )
+                    ])
                   ])
-                ])
-              })
-            )
-          ])
+                })
+              )
+            ]
+          )
         : _c("p", [
             _vm._v("There are no reported comments "),
             _c("i", { staticClass: "fa fa-smile-o" })
@@ -83128,8 +83123,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("#")]),
-      _vm._v(" "),
       _c("th", [_vm._v("Comment")]),
       _vm._v(" "),
       _c("th", [_vm._v("Author")]),
@@ -83297,11 +83290,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         getUser: function getUser() {
-            var self = this;
-            axios.get('/api/users/' + self.user_id).then(function (response) {
-                self.user = response.data.data;
+            var _this = this;
+
+            axios.get('/api/users/' + this.user_id).then(function (response) {
+                _this.user = response.data.data;
             }).catch(function (error) {
-                self.$notify({
+                _this.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Failed to load user information. '
@@ -83309,17 +83303,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         editUser: function editUser() {
+            var _this2 = this;
+
             this.user.photo = this.$refs.photoProfile.value;
-            var self = this;
-            axios.put('/api/users/' + self.user_id, self.user).then(function (response) {
-                self.$notify({
+            axios.put('/api/users/' + this.user_id, this.user).then(function (response) {
+                _this2.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! Your profile was updated!',
                     text: 'The changes were updated!'
                 });
                 $('.close').click();
             }).catch(function (error) {
-                self.$notify({
+                _this2.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to update profile.'
@@ -83569,22 +83564,33 @@ var render = function() {
                           [_vm._v("Date of birth:")]
                         ),
                         _vm._v(" "),
-                        _c("date-picker", {
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.user.age,
+                              expression: "user.age"
+                            }
+                          ],
+                          staticClass: "form-control",
                           attrs: {
-                            lang: "en",
-                            format: "yyyy/MM/dd",
-                            disabled: ""
+                            type: "text",
+                            id: "email",
+                            disabled: "",
+                            required: ""
                           },
-                          model: {
-                            value: _vm.user.age,
-                            callback: function($$v) {
-                              _vm.$set(_vm.user, "age", $$v)
-                            },
-                            expression: "user.age"
+                          domProps: { value: _vm.user.age },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.user, "age", $event.target.value)
+                            }
                           }
                         })
-                      ],
-                      1
+                      ]
                     )
                   ]),
                   _vm._v(" "),
@@ -84029,7 +84035,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('/user_suggestions/' + this.user).then(function (response) {
                 _this.shows = response.data.data;
             }).catch(function (error) {
-                self.$notify({
+                _this.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to load suggestions. '
@@ -84288,10 +84294,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['friends', 'user'],
+    props: ['user'],
     data: function data() {
         return {
-            openChats: []
+            openChats: [],
+            friends: []
         };
     },
 
@@ -84306,7 +84313,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             setTimeout(function () {
                 _this.openChats.push(friend);
             }, 300);
+        },
+        getFriends: function getFriends() {
+            var _this2 = this;
+
+            axios.get('/friends/' + this.user).then(function (response) {
+                _this2.friends = response.data.data;
+            }).catch(function (error) {
+                _this2.$notify({
+                    type: 'error',
+                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                    text: 'Failed to load friends. '
+                });
+            });
         }
+    },
+    created: function created() {
+        this.getFriends();
     }
 });
 
@@ -84333,15 +84356,15 @@ var render = function() {
           : _vm._l(_vm.friends, function(friend, index) {
               return _c("div", { key: index }, [
                 _c("img", {
-                  attrs: { src: friend.photo },
+                  attrs: { src: friend.following.photo },
                   on: {
                     click: function($event) {
-                      _vm.toggleChat(friend.id)
+                      _vm.toggleChat(friend.following.id)
                     }
                   }
                 }),
                 _vm._v(" "),
-                _c("span", [_vm._v(_vm._s(friend.name))])
+                _c("span", [_vm._v(_vm._s(friend.following.name))])
               ])
             })
       ],

@@ -34,7 +34,7 @@
                             {{com.comment}}
                         </div>
                     </div>
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right">
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right">
                         <ul class="comment-actions">
                             <li>
                                 <a href="#" v-if="loved[com.id]" @click.prevent="unlove(com.id)">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="row mt-10">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <a v-if="com.user_id.id != user.id" :href="'/user/' + com.user_id.id">{{ com.user_id.name}}</a>
                         <a v-else href="/my_profile">{{ com.user_id.name}}</a>
                         <span> | {{ com.date}}</span>
@@ -91,7 +91,7 @@
                                     {{rep.comment}}
                                 </div>
                             </div>
-                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right">
+                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right">
                                 <ul class="comment-actions">
                                     <li>
                                         <a href="#" v-if="loved[rep.id]" @click.prevent="unlove(rep.id)">
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <div class="row mt-10">
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                 <a v-if="rep.user_id.id != user.id" :href="'/user/' + rep.user_id.id">{{ rep.user_id.name}}</a>
                                 <a v-else href="/my_profile">{{ rep.user_id.name}}</a>
                                 <span> | {{ rep.date}}</span>
@@ -135,9 +135,6 @@
                     </form>
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                    <div class="comment-avatar text-right">
-                        <img :src="user.photo">
-                    </div>
                     <div class="reply-actions pull-right">
                         <span @click="toggleReplyBox(com.id)"><i class="fa fa-times"></i> <span>Close</span></span>
                     </div>
@@ -217,23 +214,22 @@ export default {
             }
         },
         editComment(comment_id, comment) {
-            let self = this
-            axios.put('/api/episodes/' + self.episode_id + '/discussion/' + comment_id, {comment: comment})
-                .then(function (response) {
-                    self.$notify({
+            axios.put('/api/episodes/' + this.episode_id + '/discussion/' + comment_id, {comment: comment})
+                .then(response => {
+                    this.$notify({
                         type: 'success',
                         title: '<i class="fa fa-heart"></i> Done! You edited the comment!',
                         text: 'The comment was updated!'
-                    });
+                    })
+                    this.getComments()
                 })
-                .catch(function (error) {
-                    self.$notify({
+                .catch(error => {
+                    this.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                         text: 'Try reloading the page or contact the support! Failed to edit comment.'
-                    });
-                });
-            this.getComments()
+                    })
+                })
             Vue.set(this.edit, comment_id, 0)
             this.editing = false
         },

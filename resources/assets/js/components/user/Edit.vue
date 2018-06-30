@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 form-group np-r">
                                     <label for="age" class="col-form-label">Date of birth:</label>
-                                    <date-picker v-model="user.age" lang="en" format="yyyy/MM/dd" disabled></date-picker>
+                                    <input type="text" class="form-control" id="email" v-model="user.age" disabled required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -92,38 +92,36 @@
         },
         methods: {
             getUser() {
-                let self = this
-                axios.get('/api/users/' + self.user_id)
-                    .then(function (response) {
-                        self.user = response.data.data
+                axios.get('/api/users/' + this.user_id)
+                    .then(response => {
+                        this.user = response.data.data
                     })
-                    .catch(function (error) {
-                        self.$notify({
+                    .catch(error => {
+                        this.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Failed to load user information. '
-                        });
-                    });
+                        })
+                    })
             },
             editUser() {
                 this.user.photo = this.$refs.photoProfile.value
-                let self = this;
-                axios.put('/api/users/' + self.user_id, self.user)
-                    .then(function (response) {
-                        self.$notify({
+                axios.put('/api/users/' + this.user_id, this.user)
+                    .then(response => {
+                        this.$notify({
                             type: 'success',
                             title: '<i class="fa fa-heart"></i> Yay! Your profile was updated!',
                             text: 'The changes were updated!'
-                        });
+                        })
                         $('.close').click()
                     })
-                    .catch(function (error) {
-                        self.$notify({
+                    .catch(error => {
+                        this.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Try reloading the page or contact the support! Failed to update profile.'
-                        });
-                    });
+                        })
+                    })
             },
             deleteUser() {
                 let self = this;
@@ -133,16 +131,16 @@
                             type: 'warn',
                             title: '<i class="fa fa-ban"></i> Wow! Bye!',
                             text: 'You deleted your profile!'
-                        });
-                        window.location.href = "/";
+                        })
+                        window.location.href = "/"
                     })
                     .catch(function (error) {
                         self.$notify({
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Try reloading the page or contact the support! Failed to delete profile.'
-                        });
-                    });
+                        })
+                    })
             }
         }
     }

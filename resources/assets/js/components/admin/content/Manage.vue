@@ -7,9 +7,8 @@
             </button>
         </div>
         <div class="modal-body">
-            <table v-if="comments.length > 0" style="width: 100%">
+            <table v-if="comments.length > 0" style="width: 100%" class="manageContentTable">
                 <thead>
-                    <th>#</th>
                     <th>Comment</th>
                     <th>Author</th>
                     <th>Episode</th>
@@ -17,13 +16,12 @@
                 </thead>
                 <tbody>
                     <tr v-for="(comment, index) in comments" :key="index">
-                        <td>{{ comment.id }}</td>
                         <td>"{{ comment.comment }}"</td>
                         <td><a :href="'/user/' + comment.user_id.id">{{ comment.user_id.name }}</a></td>
-                        <td><a :href="'/show/' + comment.episode_id.show_id + '/episode/' + comment.episode_id.id">Check</a></td>
-                        <td>
-                            <a href="#" @click="destroySpam(comment.id)"><i class="fa fa-ban"></i> Destroy</a>  |  
-                            <a href="#" @click="notSpam(comment)"><i class="fa fa-check"></i> Unflag</a>
+                        <td class="text-center"><a :href="'/show/' + comment.episode_id.show_id + '/episode/' + comment.episode_id.id"><i class="fa fa-television"></i> <span class="hideMobile">Check</span></a></td>
+                        <td class="text-center">
+                            <a href="#" @click="destroySpam(comment.id)"><i class="fa fa-ban"></i> <span class="hideMobile">Destroy</span></a>  |  
+                            <a href="#" @click="notSpam(comment)"><i class="fa fa-check"></i> <span class="hideMobile">Unflag</span></a>
                         </td>
                     </tr>
                 </tbody>

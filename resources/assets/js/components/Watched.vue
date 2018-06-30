@@ -12,13 +12,13 @@
             v-for="(rating, index) in ratings"
             :key="index"
             :class="{'is-selected': ((value >= rating) && value != null), 'disabledStar': !isWatched}"
-            @click="set(rating, episode)" 
             v-on:mouseover="star_over(rating)" 
             v-on:mouseout="star_out">
             <input 
                 class="radioStar" 
                 type="radio" 
                 :value="rating"
+                @click="set(rating, episode)"
                 v-model="value"><i class="fa" :class="{'fa-star': ((value >= rating) && value != null), 'fa-star-o': ((value < rating) || value == null)}"></i>
         </label>
     </span>
