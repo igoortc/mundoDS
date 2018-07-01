@@ -13,3 +13,5 @@
     </div>
     @endif
 @endsection
+
+@include('scripts.firebase')

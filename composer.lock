@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c94584ca17624445744ca404cee5b462",
+    "content-hash": "f63f1e4c8c00d92f05f6b4170ee039f9",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -349,6 +349,48 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "ktamas77/firebase-php",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ktamas77/firebase-php.git",
+                "reference": "915fcac8a3e4e1ba457ab0cd0801255ce41445c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ktamas77/firebase-php/zipball/915fcac8a3e4e1ba457ab0cd0801255ce41445c5",
+                "reference": "915fcac8a3e4e1ba457ab0cd0801255ce41445c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tamas Kalman",
+                    "email": "ktamas77@gmail.com"
+                }
+            ],
+            "description": "Firebase PHP Client",
+            "homepage": "https://github.com/ktamas77/firebase-php",
+            "keywords": [
+                "firebase",
+                "rest",
+                "wrapper"
+            ],
+            "time": "2016-06-14T20:11:14+00:00"
         },
         {
             "name": "laravel/framework",
@@ -708,6 +750,55 @@
                 "psr-3"
             ],
             "time": "2017-06-19T01:22:40+00:00"
+        },
+        {
+            "name": "mpociot/laravel-firebase-sync",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mpociot/laravel-firebase-sync.git",
+                "reference": "c7b172b1827bdeb4bb3c22f64d19ef12519b5a32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mpociot/laravel-firebase-sync/zipball/c7b172b1827bdeb4bb3c22f64d19ef12519b5a32",
+                "reference": "c7b172b1827bdeb4bb3c22f64d19ef12519b5a32",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "ktamas77/firebase-php": "^2.2",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "~4.7 || ~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mpociot\\Firebase": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Pociot",
+                    "email": "m.pociot@gmail.com"
+                }
+            ],
+            "description": "Synchronize your Eloquent models with a Firebase realtime database.",
+            "homepage": "http://github.com/mpociot/laravel-firebase-sync",
+            "keywords": [
+                "eloquent",
+                "firebase",
+                "laravel"
+            ],
+            "time": "2016-06-20T21:04:04+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
