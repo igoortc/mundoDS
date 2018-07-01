@@ -20,8 +20,8 @@ class CreateShowsTable extends Migration
             $table->text('synopsis');
             $table->integer('seasons');
             $table->string('status');
-            $table->string('netflix');
-            $table->string('imdb');
+            $table->string('netflix')->nullable();
+            $table->string('imdb')->nullable();
             $table->timestamps();
         });
     }

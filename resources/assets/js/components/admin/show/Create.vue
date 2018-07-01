@@ -15,7 +15,8 @@
                 <div class="form-group">
                     <label for="poster" class="col-form-label">Poster:</label>
                     <input id="poster" type="hidden" ref="poster" class="form-control" name="poster">
-                    <image-upload></image-upload>
+                    <image-upload 
+                        :thumb="show.poster"/>
                 </div>
                 <div class="form-group">
                     <label for="synopsis" class="col-form-label">Synopsis:</label>
@@ -47,6 +48,41 @@
                         <input type="text" class="form-control" id="imdb" v-model="show.imdb">
                     </div>
                 </div>
+                <div class="form-row" style="margin-bottom: 50px">
+                    <label>Related shows:</label>
+                    <multiselect 
+                        v-model="selected"
+                        :options="shows"
+                        :multiple="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="true"
+                        :preserve-search="true"
+                        :block-keys="['Tab', 'Enter']"
+                        :preselect-first="true"
+                        :options-limit="4"
+                        :max="6"
+                        select-label=""
+                        placeholder="Type to search for shows"
+                        label="name"
+                        track-by="id">
+                        <template 
+                            slot="tag"
+                            slot-scope="props">
+                            <span class="custom__tag">
+                                <span>{{ props.option.name }}</span>
+                                <span class="custom__remove" @click="props.remove(props.option)">✖</span>
+                            </span>
+                        </template>
+                        <template 
+                            slot="maxElements"
+                            slot-scope="props">
+                            <span>
+                                You can only select 6 shows.
+                            </span>
+                        </template>
+                    </multiselect>
+                </div>
                 <div class="form-group text-right">
                     <a type="button" class="btn btn-primary" @click="newShow">Create new show!</a>
                 </div>
@@ -54,9 +90,11 @@
         </div>
     </div>
 </template>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
+import Multiselect from 'vue-multiselect'
 export default {
+    components: { Multiselect },
     data: function() {
         return {
             show: {
@@ -69,30 +107,62 @@ export default {
                 netflix: '',
                 imdb: '',
                 date: '',
-            }
+            },
+            selected: [],
+            shows: []
         }
     },
     methods: {
         newShow() {
             this.show.poster = this.$refs.poster.value
-            let self = this;
-            axios.post('/api/shows/', self.show)
-                .then(function (response) {
-                    self.$notify({
+            axios.post('/api/shows/', this.show)
+                .then(response => {
+                    this.insertSuggestions(response.data.data.id)
+                    this.$notify({
                         type: 'success',
                         title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
                         text: 'The show was included in the database!'
-                    });
-                    $('.close').click()
+                    })
                 })
-                .catch(function (error) {
-                    self.$notify({
+                .catch(error => {
+                    this.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                         text: 'Try reloading the page or contact the support! Failed to create new show.'
-                    });
-                });
+                    })
+                })
+        },
+        insertSuggestions(id) {
+            var relatedShows = []
+            this.selected.forEach(s => {
+                relatedShows.push({
+                    show_id: id,
+                    suggestion: s.id
+                })
+            })
+            relatedShows.forEach(r => {
+                axios.post('/api/suggestions/', r)
+                    .then(response => {
+                        $('.close').click()
+                    })
+                    .catch(error => {
+                        this.$notify({
+                            type: 'error',
+                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                            text: 'Try reloading the page or contact the support! Failed to insert suggestions.'
+                        })
+                    })
+            })
+        },
+        getShows() {
+            axios.get('/api/shows')
+                .then(response => {
+                    this.shows = response.data.data
+                })
         }
+    },
+    created () {
+        this.getShows()
     }
 }
 </script>

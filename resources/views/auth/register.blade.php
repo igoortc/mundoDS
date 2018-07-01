@@ -66,7 +66,7 @@
 
                             <div class="col-md-6">
                                 <input id="photo" type="hidden" ref="photo" class="form-control" name="photo" value="{{ old('photo') }}">
-                                <image-upload></image-upload>
+                                <image-upload />
                                 @if ($errors->has('photo'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('photo') }}</strong>

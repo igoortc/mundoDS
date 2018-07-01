@@ -21,7 +21,7 @@ class SuggestionController extends Controller
 
     public function destroy($id)
     {
-        $suggestion = Suggestion::find($id);
+        $suggestion = Suggestion::where('show_id', $id);
         $suggestion->delete();
 
         return response()->json([

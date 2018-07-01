@@ -8462,6 +8462,7 @@ small {
 .searchResults .poster img {
   width: 90px;
   height: auto !important;
+  margin-top: 5px;
 }
 
 @media screen and (max-width: 445px) {
@@ -8480,7 +8481,7 @@ small {
 }
 
 .searchResults div.panel-body {
-  padding: 10px 0 0;
+  padding: 8px 0;
   margin-bottom: 0;
 }
 
@@ -8629,10 +8630,12 @@ small {
 }
 
 .episodeDetail img {
-  width: 200px;
-  height: 112px;
+  width: 100%;
+  height: 150px;
   -o-object-fit: cover;
      object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 .episodeDetail div:nth-child(2) {
@@ -8690,6 +8693,16 @@ small {
 
 .modal-title {
   display: inline-block;
+}
+
+.modal-header .close {
+  top: 0;
+  position: absolute;
+  right: 10px;
+}
+
+.modal-header .close span {
+  font-size: 25px;
 }
 
 .text-right {
@@ -8921,7 +8934,7 @@ legend {
 
 .show-admin-actions .btn {
   min-width: 130px;
-  margin: 10px 0;
+  margin: 10px 5px !important;
 }
 
 .page-header {
@@ -9273,5 +9286,48 @@ ul li {
 .manageContentTable thead th,
 .manageContentTable td {
   padding: 3px 5px;
+}
+
+.thumb img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.multiselect * {
+  font-family: "Raleway", sans-serif !important;
+  font-size: 14px !important;
+  color: #636b6f !important;
+}
+
+.multiselect__option--highlight {
+  background: #876990 !important;
+}
+
+.multiselect__option--highlight:after {
+  background: #9e8baf !important;
+}
+
+.multiselect__option.multiselect__option--highlight span {
+  color: #fff !important;
+}
+
+.custom__tag {
+  display: inline-block;
+  padding: 3px 12px;
+  background: #9e8baf;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.custom__tag span {
+  color: #504d4d !important;
+}
+
+span.custom__remove {
+  font-size: 15px !important;
+  color: #dc458f !important;
 }
 

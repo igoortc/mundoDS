@@ -23,14 +23,10 @@
                                 <input type="text" class="form-control" id="name" v-model="episode.name" required>
                             </div>
                             <div class="form-group">
-                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 np">
-                                    <label for="image" class="col-form-label">Image:</label>
-                                    <input id="image" type="hidden" ref="image" class="form-control" name="image" v-model="episode.image">
-                                    <image-upload></image-upload>
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 np text-right">
-                                    <img :src="episode.image" width="50px" />
-                                </div>
+                                <label for="image" class="col-form-label">Image:</label>
+                                <input id="image" type="hidden" ref="image" class="form-control" name="image" v-model="episode.image">
+                                <image-upload 
+                                    :thumb="episode.image"/>
                             </div>
                             <div class="form-group">
                                 <label for="synopsis" class="col-form-label">Synopsis:</label>
@@ -119,6 +115,9 @@
                             text: 'The changes were updated in the database!'
                         });
                         $('.close').click()
+                        setTimeout(() => {
+                            location.reload()
+                        }, 1000)
                     })
                     .catch(function (error) {
                         self.$notify({

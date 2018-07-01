@@ -1,15 +1,20 @@
 <template>
     <div class="row">
-    <div class="col-md-12">
-        <input v-if="empty" type="file" class="form-control uploader" v-on:change="upload($event.target.files)" accept="image/*" />
-        <span v-if="uploading">Uploading your photo... <i class="fa fa-spinner fa-spin"></i></span>
-        <span v-if="uploaded">Uploaded successfully! <i class="fa fa-check"></i></span>
-    </div>
+        <div class="col-xs-8 col-md-10">
+            <input v-if="empty" type="file" class="form-control uploader" v-on:change="upload($event.target.files)" accept="image/*" />
+            <span v-if="uploading">Uploading your photo... <i class="fa fa-spinner fa-spin"></i></span>
+            <span v-if="uploaded">Uploaded successfully! <i class="fa fa-check"></i></span>
+        </div>
+        <div class="col-xs-4 col-md-2 thumb" style="padding-right: 0">
+            <img v-if="thumb && !newThumb" :src="thumb" />
+            <img v-if="newThumb" :src="'http://res.cloudinary.com/ht0shxjqw/image/upload/c_fill,h_50,w_50/'+newThumb" />
+        </div>
     </div>
  </template>
 
 <script>
     export default {
+        props: ['thumb'],
         data: function() {
             return {
                 cloudinary: {
@@ -20,7 +25,8 @@
                 empty: true,
                 uploading: false,
                 uploaded: false,
-                thumbs: []
+                thumbs: [],
+                newThumb: ''
             }
         },
         computed: {
@@ -41,6 +47,7 @@
                     })
                     this.uploading = false
                     this.uploaded = true
+                    this.newThumb = res.data.public_id
                     $('#photo').val(res.data.secure_url)
                     $('#poster').val(res.data.secure_url)
                     $('#image').val(res.data.secure_url)
