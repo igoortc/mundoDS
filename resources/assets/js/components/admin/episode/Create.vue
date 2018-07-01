@@ -8,7 +8,8 @@
             <div class="form-group">
                 <label for="image" class="col-form-label">Image:</label>
                 <input id="image" type="hidden" ref="image" class="form-control" name="image">
-                <image-upload></image-upload>
+                <image-upload
+                    :thumb="episode.image" />
             </div>
             <div class="form-group">
                 <label for="synopsis" class="col-form-label">Synopsis:</label>
@@ -58,6 +59,7 @@ export default {
             this.episode.image = this.$refs.image.value
             this.episode.show_id = this.show_id
             this.episode.id = this.show_id + this.episode.season + this.episode.number
+            this.episode.date_aired = this.episode.date_aired.toISOString().split('T')[0]
             let self = this
             axios.post('/api/shows/' + self.show_id + '/episodes', self.episode)
                 .then(function (response) {
@@ -65,16 +67,19 @@ export default {
                         type: 'success',
                         title: '<i class="fa fa-heart"></i> Yay! A new episode was created!',
                         text: 'The episode was included in the database!'
-                    });
+                    })
                     $('.close').click()
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000)
                 })
                 .catch(function (error) {
                     self.$notify({
                         type: 'error',
                         title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                         text: 'Try reloading the page or contact the support! Failed to create new episode.'
-                    });
-                });
+                    })
+                })
         }
     }
 }

@@ -7,49 +7,49 @@
             <div class="page-header">
                 <h3>My Favorite Shows</h3>
             </div>
-            @forelse ($myFavorites as $myFavorite)
-                <div class="panel panel-default">
+            @forelse ($myFavorites as $show)
+                <div class="panel panel-default searchResults">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-3 col-md-3 poster">
-                                <img src={{ $myFavorite->poster }}>
+                            <div class="col-md-3 col-xs-3 poster">
+                                <img src={{ $show->poster }}>
                             </div>
-                            <div class="col-sm-9 col-md-9 showInfo">
-                                <a href="{{ url('show') }}/{{ $myFavorite->id }}"><p>{{ $myFavorite->name }}</p></a>
+                            <div class="col-md-9 col-xs-9 showInfo">
+                                <a href="{{ url('show') }}/{{ $show->id }}"><p>{{ $show->name }}</p></a>
+                                @if (Auth::check())
+                                    <favorite
+                                        :show={{ $show->id }}
+                                        :favorited={{ $show->favorited() ? 'true' : 'false' }}
+                                    ></favorite>
+                                @endif
                                 <div class="showDetail">
-                                    <span>{{ $myFavorite->seasons }} seasons | </span>
-                                    @if ($myFavorite->status == 'E')
+                                    <span>{{ $show->seasons }} seasons | </span>
+                                    @if ($show->status == 'E')
                                     <span><i class="fa fa-television"></i> On air | </span>
-                                    @elseif ($myFavorite->status == 'F')
+                                    @elseif ($show->status == 'F')
                                     <span><i class="fa fa-paper-plane-o"></i> Finished | </span>
-                                    @elseif ($myFavorite->status == 'W')
+                                    @elseif ($show->status == 'W')
                                     <span><i class="fa fa-hand-paper-o"></i> To be released | </span>
-                                    @elseif ($myFavorite->status == 'B')
+                                    @elseif ($show->status == 'B')
                                     <span><i class="fa fa-fa-rocket"></i> Binge | </span>
                                     @endif
-                                    @if ($myFavorite->netflix != '')
-                                    <a target="_blank" href={{ $myFavorite->netflix }}>
+                                    @if ($show->netflix != '')
+                                    <a target="_blank" href={{ $show->netflix }}>
                                         <img alt="Netflix" src="/images/netflix.png">
                                     </a>
                                     @else
                                     <img class="unavailable" alt="Netflix" src="/images/netflix.png">
                                     @endif
                                     &nbsp;
-                                    @if ($myFavorite->imdb != '')
-                                    <a target="_blank" href={{ $myFavorite->imdb }}>
+                                    @if ($show->imdb != '')
+                                    <a target="_blank" href={{ $show->imdb }}>
                                         <img alt="IMDb" src="/images/imdb.png">
                                     </a>
                                     @else
                                     <img class="unavailable" alt="IMDb" src="/images/imdb.png">
                                     @endif
                                 </div>
-                                <p>{{ $myFavorite->synopsis }}</p>
-                                @if (Auth::check())
-                                    <favorite
-                                        :show={{ $myFavorite->id }}
-                                        :favorited={{ $myFavorite->favorited() ? 'true' : 'false' }}
-                                    ></favorite>
-                                @endif
+                                <p><i class="fa fa-quote-left"></i> {{ $show->synopsis }}</p>
                             </div>
                         </div>
                     </div>

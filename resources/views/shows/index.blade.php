@@ -8,14 +8,20 @@
                 <h3>All Shows</h3>
             </div>
             @forelse ($shows as $show)
-                <div class="panel panel-default">
+                <div class="panel panel-default searchResults">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-3 col-md-3 poster">
+                            <div class="col-md-3 col-xs-3 poster">
                                 <img src={{ $show->poster }}>
                             </div>
-                            <div class="col-sm-9 col-md-9 showInfo">
+                            <div class="col-md-9 col-xs-9 showInfo">
                                 <a href="{{ url('show') }}/{{ $show->id }}"><p>{{ $show->name }}</p></a>
+                                @if (Auth::check())
+                                    <favorite
+                                        :show={{ $show->id }}
+                                        :favorited={{ $show->favorited() ? 'true' : 'false' }}
+                                    ></favorite>
+                                @endif
                                 <div class="showDetail">
                                     <span>{{ $show->seasons }} seasons | </span>
                                     @if ($show->status == 'E')
@@ -43,13 +49,7 @@
                                     <img class="unavailable" alt="IMDb" src="/images/imdb.png">
                                     @endif
                                 </div>
-                                <p>{{ $show->synopsis }}</p>
-                                @if (Auth::check())
-                                    <favorite
-                                        :show={{ $show->id }}
-                                        :favorited={{ $show->favorited() ? 'true' : 'false' }}
-                                    ></favorite>
-                                @endif
+                                <p><i class="fa fa-quote-left"></i> {{ $show->synopsis }}</p>
                             </div>
                         </div>
                     </div>

@@ -18,14 +18,10 @@
                                 <input type="text" class="form-control" id="name" v-model="user.name" required>
                             </div>
                             <div class="form-group">
-                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 np">
-                                    <label for="photoProfile" class="col-form-label">Photo:</label>
-                                    <input id="photoProfile" type="hidden" ref="photoProfile" class="form-control" name="photoProfile" v-model="user.photo">
-                                    <image-upload></image-upload>
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 np text-right">
-                                    <img :src="user.photo" width="70px" />
-                                </div>
+                                <label for="photoProfile" class="col-form-label">Photo:</label>
+                                <input id="photoProfile" type="hidden" ref="photoProfile" class="form-control" name="photoProfile" v-model="user.photo">
+                                <image-upload 
+                                    :thumb="user.photo" />
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-form-label">E-mail:</label>
@@ -114,6 +110,9 @@
                             text: 'The changes were updated!'
                         })
                         $('.close').click()
+                        setTimeout(() => {
+                            location.reload()
+                        }, 1000)
                     })
                     .catch(error => {
                         this.$notify({

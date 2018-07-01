@@ -8,18 +8,23 @@
                 <h3>My Watched Episodes</h3>
             </div>
             @forelse ($myWatched as $myEpisode)
-                <div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#collapse{{ $myEpisode->id }}" aria-expanded="false" aria-controls="collapse{{ $myEpisode->id }}">
-                        <h4><a href="{{ url('/show/' . $myEpisode->show_id) . '/episode/' . $myEpisode->id }}"><strong>{{ $myEpisode->name }}</strong></a></h4>
-                        <h5><a href="{{ url('/show/' . $myEpisode->show_id) }}">{{ $myEpisode->getShow($myEpisode->show_id) }}</a> - S{{ $myEpisode->season }} x E{{ $myEpisode->number }}</h5>
-                        @if (Auth::check())
-                            <p><strong>My actions:</strong>
-                                <watched
-                                    :episode={{ $myEpisode->id }}
-                                    :user={{ Auth::user()->id }}
-                                ></watched>
-                            </p>
-                        @endif
+                <div class="panel panel-default searchResults">
+                    <div class="panel-body">
+                        <div class="col-md-3 col-xs-3 poster">
+                            <img src={{ $myEpisode->image }}>
+                        </div>
+                        <div class="col-md-9 col-xs-9 showInfo">
+                            <p><a href="{{ url('/show/' . $myEpisode->show_id) . '/episode/' . $myEpisode->id }}">{{ $myEpisode->name }}</a></p>
+                            <h5><a href="{{ url('/show/' . $myEpisode->show_id) }}">{{ $myEpisode->getShow($myEpisode->show_id) }}</a> - S{{ $myEpisode->season }} x E{{ $myEpisode->number }}</h5>
+                            @if (Auth::check())
+                                <p><strong>My actions:</strong>
+                                    <p><watched
+                                        :episode={{ $myEpisode->id }}
+                                        :user={{ Auth::user()->id }}
+                                    /></p>
+                                </p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             @empty

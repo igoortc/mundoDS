@@ -13,7 +13,7 @@ class ShowController extends Controller
     public function index()
     {
         $shows = Show::latest()
-            ->paginate(3);
+            ->get();
 
         return ShowResource::collection($shows);
     }
@@ -31,8 +31,8 @@ class ShowController extends Controller
             'synopsis' => 'required|min:10',
             'seasons' => 'required|numeric',
             'status' => 'required',
-            'netflix' => 'nullable|url',
-            'imdb' => 'nullable|url'
+            'netflix' => 'nullable',
+            'imdb' => 'nullable'
         ]);
 
         $show = Show::create($show);

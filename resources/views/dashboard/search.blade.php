@@ -67,7 +67,11 @@
                                         <img src={{ $user->photo }}>
                                     </div>
                                     <div class="col-md-9 col-xs-9 showInfo">
-                                        <a href="{{ url('user') }}/{{ $user->id }}"><p>{{ $user->name }}</p></a>
+                                        @if (Auth::user()->id == $user->id)
+                                            <a href="{{ url('my_profile') }}"><p>{{ $user->name }}</p></a>
+                                        @else
+                                            <a href="{{ url('user') }}/{{ $user->id }}"><p>{{ $user->name }}</p></a>
+                                        @endif
                                         <p><i class="fa fa-quote-left"></i> {{ $user->bio }}</p>
                                         @if (Auth::user()->id != $user->id)
                                             <p>

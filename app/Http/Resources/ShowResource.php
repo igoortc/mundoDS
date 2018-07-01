@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use App\Suggestion;
+use App\Http\Resources\SuggestionResource;
 
 class ShowResource extends Resource
 {
@@ -23,7 +25,8 @@ class ShowResource extends Resource
             'status' => $this->status,
             'netflix' => $this->netflix,
             'imdb' => $this->imdb,
-            'date' => $this->created_at->diffForHumans()
+            'date' => $this->created_at->diffForHumans(),
+            'suggestions' => SuggestionResource::collection(Suggestion::where('show_id', $this->id)->get())
         ];
     }
 }
