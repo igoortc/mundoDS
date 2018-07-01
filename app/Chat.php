@@ -14,3 +14,9 @@ class Chat extends Model
         'friend'
     ];
 }
+
+// \App\Chat::create([
+//     'message' => 'test',
+//     'user' => 1,
+//     'friend' => 2
+// ]);
