@@ -37,14 +37,14 @@ window.axios.defaults.headers.common = {
  * allows your team to easily build robust real-time web applications.
  */
 
-import Pusher from "pusher-js"
-import Echo from "laravel-echo"
+// import Pusher from "pusher-js"
+// import Echo from "laravel-echo"
 
-Pusher.logToConsole = false
+// Pusher.logToConsole = false
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: '53f8175d391caf9cc0af',
-    cluster: 'mt1',
-    encrypted: true,
-});
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: '53f8175d391caf9cc0af',
+//     cluster: 'mt1',
+//     encrypted: true,
+// });

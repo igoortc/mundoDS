@@ -18954,12 +18954,15 @@ __webpack_require__(60);
 
 
 
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.config.productionTip = false;
+
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_paginate___default.a);
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_0_vue_resource__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_notification___default.a);
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue2_datepicker___default.a);
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_bootstrap_vue__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_7_vue_chat_scroll___default.a);
+
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('paginate', __webpack_require__(241));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('favorite', __webpack_require__(242));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('episodes', __webpack_require__(245));
@@ -19043,14 +19046,14 @@ window.axios.defaults.headers.common = {
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_pusher_js___default.a.logToConsole = false;
+__WEBPACK_IMPORTED_MODULE_0_pusher_js___default.a.logToConsole = true;
 
-window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
-  broadcaster: 'pusher',
-  key: '53f8175d391caf9cc0af',
-  cluster: 'mt1',
-  encrypted: true
-});
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: '53f8175d391caf9cc0af',
+//     cluster: 'mt1',
+//     encrypted: true,
+// });
 
 /***/ }),
 /* 61 */
@@ -84854,85 +84857,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['friend', 'user'],
-    data: function data() {
-        return {
-            messages: [],
-            chat: {
-                message: '',
-                user: '',
-                friend: ''
-            },
-            friend_resource: []
-        };
-    },
+  props: ['friend', 'user'],
+  data: function data() {
+    return {
+      chat: {
+        message: '',
+        user: '',
+        friend: ''
+      },
+      messages: [],
+      friend_resource: []
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
 
-    methods: {
-        getMessages: function getMessages() {
-            var _this = this;
+    this.getMessages();
+    this.getFriend();
+    database.ref('/chats').on('value', function (snapshot) {
+      _this.getMessages();
+    });
+  },
 
-            axios.get('/api/chat/' + this.user + '/friend/' + this.friend).then(function (response) {
-                _this.messages = response.data.data;
-            }).catch(function (error) {
-                _this.$notify({
-                    type: 'error',
-                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                    text: 'Failed to load messages. '
-                });
-            });
-        },
-        sendMessage: function sendMessage() {
-            var _this2 = this;
+  methods: {
+    getMessages: function getMessages() {
+      var _this2 = this;
 
-            this.chat.user = this.user;
-            this.chat.friend = this.friend;
-            axios.post('/api/chat/' + this.user + '/friend/' + this.friend, this.chat).then(function (response) {
-                _this2.$emit('messagesent', _this2.chat);
-                _this2.chat.message = '';
-                _this2.getMessages();
-            }).catch(function (error) {
-                _this2.$notify({
-                    type: 'error',
-                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                    text: 'Failed to send message. '
-                });
-            });
-        },
-        getFriend: function getFriend() {
-            var _this3 = this;
-
-            axios.get('/api/users/' + this.friend).then(function (response) {
-                _this3.friend_resource = response.data.data;
-            }).catch(function (error) {
-                _this3.$notify({
-                    type: 'error',
-                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                    text: 'Failed to load user. '
-                });
-            });
-        }
-    },
-    created: function created() {
-        var _this4 = this;
-
-        Echo.private('chat').listen('MessageSent', function (e) {
-            console.log('cheguei', e);
-            // if (e.chat.user === this.friend && e.chat.friend === this.user) {
-            //     this.messages.push({
-            //         message: e.chat.message,
-            //         user: e.chat.user,
-            //         friend: e.chat.friend
-            //     })
-            // }
-            if (e.chat.user === _this4.friend && e.chat.friend === _this4.user) {
-                _this4.getMessages();
-            }
+      axios.get("/api/chat/" + this.user + "/friend/" + this.friend).then(function (response) {
+        _this2.messages = response.data.data;
+      }).catch(function (error) {
+        _this2.$notify({
+          type: "error",
+          title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + " - " + error.response.statusText,
+          text: "Failed to load messages. "
         });
+      });
     },
-    mounted: function mounted() {
-        this.getMessages();
-        this.getFriend();
+    sendMessage: function sendMessage() {
+      var _this3 = this;
+
+      this.chat.user = this.user;
+      this.chat.friend = this.friend;
+      axios.post("/api/chat/" + this.user + "/friend/" + this.friend, this.chat).then(function (response) {
+        _this3.chat.message = "";
+      }).catch(function (error) {
+        _this3.$notify({
+          type: "error",
+          title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + " - " + error.response.statusText,
+          text: "Failed to send message. "
+        });
+      });
+    },
+    getFriend: function getFriend() {
+      var _this4 = this;
+
+      axios.get("/api/users/" + this.friend).then(function (response) {
+        _this4.friend_resource = response.data.data;
+      }).catch(function (error) {
+        _this4.$notify({
+          type: "error",
+          title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + " - " + error.response.statusText,
+          text: "Failed to load user. "
+        });
+      });
     }
+  }
 });
 
 /***/ }),

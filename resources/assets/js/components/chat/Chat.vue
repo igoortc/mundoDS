@@ -31,83 +31,68 @@
 </template>
 
 <script>
-    export default {
-        props: ['friend', 'user'],
-        data () {
-            return {
-                messages: [],
-                chat: {
-                    message: '',
-                    user: '',
-                    friend: ''
-                },
-                friend_resource: []
-            }
+export default {
+  props: ['friend', 'user'],
+  data() {
+    return {
+        chat: {
+            message: '',
+            user: '',
+            friend: ''
         },
-        methods: {
-            getMessages () {
-                axios.get('/api/chat/' + this.user + '/friend/' + this.friend)
-                    .then(response => {
-                        this.messages = response.data.data
-                    })
-                    .catch(error => {
-                        this.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Failed to load messages. '
-                        });
-                    });
-            },
-            sendMessage () {
-                this.chat.user = this.user
-                this.chat.friend = this.friend
-                axios.post('/api/chat/' + this.user + '/friend/' + this.friend, this.chat)
-                    .then(response => {
-                        this.$emit('messagesent', this.chat)
-                        this.chat.message = ''
-                        this.getMessages()
-                    })
-                    .catch(error => {
-                        this.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Failed to send message. '
-                        });
-                    });
-            },
-            getFriend () {
-                axios.get('/api/users/' + this.friend)
-                    .then(response => {
-                        this.friend_resource = response.data.data
-                    })
-                    .catch(error => {
-                        this.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Failed to load user. '
-                        });
-                    });
-            }
-        },
-        created () {
-            Echo.private('chat')
-                .listen('MessageSent', (e) => {
-                    console.log('cheguei', e)
-                    // if (e.chat.user === this.friend && e.chat.friend === this.user) {
-                    //     this.messages.push({
-                    //         message: e.chat.message,
-                    //         user: e.chat.user,
-                    //         friend: e.chat.friend
-                    //     })
-                    // }
-                    if (e.chat.user === this.friend && e.chat.friend === this.user) {
-                        this.getMessages()
-                    }
-                })
-        },
-        mounted () {
-            this.getMessages()
-            this.getFriend()
+        messages: [],
+        friend_resource: []
         }
+  },
+  mounted() {
+    this.getMessages()
+    this.getFriend()
+    database.ref('/chats').on('value', snapshot => {
+      this.getMessages()
+    })
+  },
+  methods: {
+    getMessages () {
+      axios.get('/api/chat/' + this.user + '/friend/' + this.friend)
+        .then(response => {
+          this.messages = response.data.data
+        })
+        .catch(error => {
+          this.$notify({
+            type: 'error',
+            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+            text: 'Failed to load messages.'
+          })
+        })
+    },
+    sendMessage () {
+      this.chat.user = this.user
+      this.chat.friend = this.friend
+      axios.post('/api/chat/' + this.user + '/friend/' + this.friend, this.chat)
+        .then(response => {
+          this.chat.message = ''
+        })
+        .catch(error => {
+          this.$notify({
+            type: 'error',
+            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+            text: 'Failed to send message.'
+          })
+        })
+    },
+    getFriend () {
+      axios.get('/api/users/' + this.friend)
+        .then(response => {
+          this.friend_resource = response.data.data
+        })
+        .catch(error => {
+          this.$notify({
+            type: 'error',
+            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+            text: 'Failed to load user.'
+          })
+        })
     }
+  }
+}
 </script>

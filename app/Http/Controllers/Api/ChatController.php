@@ -30,7 +30,7 @@ class ChatController extends Controller
         ]);
 
         $chat = Chat::create($chat);
-        broadcast(new MessageSent($chat))->toOthers();
+        // broadcast(new MessageSent($chat))->toOthers();
 
         return ['status' => 'Message Sent!'];
     }
