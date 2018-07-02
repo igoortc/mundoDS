@@ -1,9 +1,7 @@
 # mundoDS
-This is a code for a social network to manage TV shows and episodes followed by the user & find friends that like the same shows!
+This is a mini social network to manage TV shows and episodes followed by the user & find friends that like the same shows!
 
-The application is being written using Vue.js and Laravel.
-
-#### STILL IN DEVELOPMENT
+The application is written in Vue.js and Laravel.
 
 ### Start the development
 ```
@@ -12,7 +10,7 @@ git clone https://github.com/igoortc/mundoDS.git
 ```
 composer install
 ```
-Check the `.env` file
+Fill out the `.env.example` with your variables, then remove the `.example`
 
 ```
 php artisan key:generate
@@ -29,13 +27,13 @@ php artisan migrate
 ```
 php artisan db:seed
 ```
-```
-php artisan serve
-```
 
-### Running the application
+### Running and serving the application
 ```
 npm run dev
+```
+```
+php artisan serve
 ```
 Go to [http://localhost:8000/](http://localhost:8000/).
 
