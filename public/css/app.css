@@ -9128,6 +9128,12 @@ ul li {
   margin-bottom: 30px;
 }
 
+.searchInput {
+  margin: 10px 15px;
+  font-family: "Raleway", FontAwesome;
+  max-width: 265px;
+}
+
 .chat-list {
   height: 80vh;
   overflow: auto;
@@ -9148,6 +9154,7 @@ ul li {
 @media screen and (max-width: 990px) {
   .chat-list div {
     display: inline-block;
+    text-align: center;
   }
 }
 
@@ -9166,13 +9173,13 @@ ul li {
 }
 
 .chat-list div span {
-  margin-left: 10px;
   font-size: 16px;
 }
 
 @media screen and (max-width: 990px) {
   .chat-list div span {
     display: block;
+    font-size: 14px;
   }
 }
 

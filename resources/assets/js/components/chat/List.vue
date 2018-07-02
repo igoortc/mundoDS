@@ -1,10 +1,11 @@
 <template>
     <div class="row">
+        <input type="text" class="form-control searchInput" id="keyword" placeholder="Search a friend" v-model="keyword">
         <div class="chat-list col-md-4 col-sm-12">
             <p v-if="friends.length === 0">
                 You don't have any friends yet. <a href="all_users">Find some</a>! <i class="fa fa-smile-o"></i>
             </p>
-            <div v-else v-for="(friend, index) in friends" :key="index">
+            <div v-else v-for="(friend, index) in searchedFriends" :key="index">
                 <img @click="toggleChat(friend.following.id)" :src="friend.following.photo"/>
                 <span>{{friend.following.name}}</span>
             </div>
@@ -25,7 +26,8 @@
         data () {
             return {
                 openChats: [],
-                friends: []
+                friends: [],
+                keyword: ''
             }
         },
         methods: {
@@ -48,9 +50,16 @@
                             type: 'error',
                             title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                             text: 'Failed to load friends. '
-                        });
-                    });
+                        })
+                    })
             },
+        },
+        computed: {
+            searchedFriends () {
+                return this.friends.filter(friend => {
+                    return friend.following.name.toLowerCase().includes(this.keyword.toLowerCase())
+                })
+            }
         },
         created () {
             this.getFriends()
