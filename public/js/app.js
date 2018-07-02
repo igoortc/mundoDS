@@ -79675,13 +79675,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user'],
     data: function data() {
         return {
             openChats: [],
-            friends: []
+            friends: [],
+            keyword: ''
         };
     },
 
@@ -79711,6 +79713,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
+    computed: {
+        searchedFriends: function searchedFriends() {
+            var _this3 = this;
+
+            return this.friends.filter(function (friend) {
+                return friend.following.name.toLowerCase().includes(_this3.keyword.toLowerCase());
+            });
+        }
+    },
     created: function created() {
         this.getFriends();
     }
@@ -79725,6 +79736,28 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.keyword,
+          expression: "keyword"
+        }
+      ],
+      staticClass: "form-control searchInput",
+      attrs: { type: "text", id: "keyword", placeholder: "Search a friend" },
+      domProps: { value: _vm.keyword },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.keyword = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
     _c(
       "div",
       { staticClass: "chat-list col-md-4 col-sm-12" },
@@ -79736,7 +79769,7 @@ var render = function() {
               _vm._v("! "),
               _c("i", { staticClass: "fa fa-smile-o" })
             ])
-          : _vm._l(_vm.friends, function(friend, index) {
+          : _vm._l(_vm.searchedFriends, function(friend, index) {
               return _c("div", { key: index }, [
                 _c("img", {
                   attrs: { src: friend.following.photo },

@@ -6,7 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             @if (Auth::check())
             <div class="page-header">
-                <h3>{{ $user->name }} <small>{{ $user->age->diffForHumans(null, true) }}</small> </h3>
+                <h3>{{ $user->name }}</h3>
                 @if (Auth::user()->id != $user->id)
                     <follow
                         :user_id={{ $user->id }}

@@ -759,6 +759,12 @@ ul {
     margin-bottom: 30px;
 }
 
+.searchInput {
+    margin: 10px 15px;
+    font-family: "Raleway", FontAwesome;
+    max-width: 265px;
+}
+
 .chat-list {
     height: 80vh;
     overflow: auto;
@@ -774,6 +780,7 @@ ul {
 
         @media screen and (max-width: $large-screen) {
             display: inline-block;
+            text-align: center;
         }
 
         img {
@@ -789,11 +796,11 @@ ul {
         }
 
         span {
-            margin-left: 10px;
             font-size: 16px;
 
             @media screen and (max-width: $large-screen) {
                 display: block;
+                font-size: 14px;
             }
         }
     }
