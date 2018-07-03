@@ -75192,7 +75192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
             relatedShows.forEach(function (r) {
-                axios.post('/api/suggestions/', r).then(function (response) {
+                axios.post('/api/suggestions', r).then(function (response) {
                     $('.close').click();
                 }).catch(function (error) {
                     _this2.$notify({
@@ -75895,7 +75895,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           });
         });
         relatedShows.forEach(function (r) {
-          axios.post('/api/suggestions/', r).then(function (response) {
+          axios.post('/api/suggestions', r).then(function (response) {
             $('.close').click();
           }).catch(function (error) {
             _this2.$notify({
