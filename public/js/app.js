@@ -75167,7 +75167,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.show.poster = this.$refs.poster.value;
             axios.post('/api/shows/', this.show).then(function (response) {
-                _this.insertSuggestions(response.data.data.id);
+                setTimeout(function () {
+                    _this.insertSuggestions(response.data.data.id);
+                }, 1000);
                 _this.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
