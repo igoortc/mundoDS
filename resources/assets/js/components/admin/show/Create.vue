@@ -118,6 +118,7 @@ export default {
             axios.post('/api/shows/', this.show)
                 .then(response => {
                     // this.insertSuggestions(response.data.data.id)
+                    $('.close').click()
                     this.$notify({
                         type: 'success',
                         title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
