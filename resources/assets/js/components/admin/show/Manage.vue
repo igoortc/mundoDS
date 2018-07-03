@@ -188,7 +188,7 @@ export default {
                     })
                 })
                 relatedShows.forEach(r => {
-                    axios.post('/api/suggestions/', r)
+                    axios.post('/api/suggestions', r)
                         .then(response => {
                             $('.close').click()
                         })
