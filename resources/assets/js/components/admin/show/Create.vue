@@ -114,17 +114,19 @@ export default {
     },
     methods: {
         newShow() {
+            var newId
             this.show.poster = this.$refs.poster.value
             axios.post('/api/shows/', this.show)
                 .then(response => {
-                    setTimeout(() => {
-                        this.insertSuggestions(response.data.data.id)
-                    }, 1000)
+                    newId = response.data.data.id
                     this.$notify({
                         type: 'success',
                         title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
                         text: 'The show was included in the database!'
                     })
+                })
+                .then(response => {
+                    this.insertSuggestions(newId)
                 })
                 .catch(error => {
                     this.$notify({
