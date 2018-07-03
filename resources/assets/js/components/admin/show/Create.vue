@@ -115,7 +115,7 @@ export default {
     methods: {
         newShow() {
             this.show.poster = this.$refs.poster.value
-            axios.post('/api/shows/', this.show)
+            axios.post('/api/shows', this.show)
                 .then(response => {
                     // this.insertSuggestions(response.data.data.id)
                     $('.close').click()

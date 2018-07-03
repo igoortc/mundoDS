@@ -75166,7 +75166,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.show.poster = this.$refs.poster.value;
-            axios.post('/api/shows/', this.show).then(function (response) {
+            axios.post('/api/shows', this.show).then(function (response) {
                 // this.insertSuggestions(response.data.data.id)
                 $('.close').click();
                 _this.$notify({
