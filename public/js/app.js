@@ -75165,16 +75165,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         newShow: function newShow() {
             var _this = this;
 
+            var newId;
             this.show.poster = this.$refs.poster.value;
             axios.post('/api/shows/', this.show).then(function (response) {
-                setTimeout(function () {
-                    _this.insertSuggestions(response.data.data.id);
-                }, 1000);
+                newId = response.data.data.id;
                 _this.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
                     text: 'The show was included in the database!'
                 });
+            }).then(function (response) {
+                _this.insertSuggestions(newId);
             }).catch(function (error) {
                 _this.$notify({
                     type: 'error',
