@@ -75165,17 +75165,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         newShow: function newShow() {
             var _this = this;
 
-            var newId;
             this.show.poster = this.$refs.poster.value;
             axios.post('/api/shows/', this.show).then(function (response) {
-                newId = response.data.data.id;
+                // this.insertSuggestions(response.data.data.id)
                 _this.$notify({
                     type: 'success',
                     title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
                     text: 'The show was included in the database!'
                 });
-            }).then(function (response) {
-                _this.insertSuggestions(newId);
             }).catch(function (error) {
                 _this.$notify({
                     type: 'error',
@@ -75492,78 +75489,6 @@ var render = function() {
             ]
           )
         ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "form-row", staticStyle: { "margin-bottom": "50px" } },
-          [
-            _c("label", [_vm._v("Related shows:")]),
-            _vm._v(" "),
-            _c("multiselect", {
-              attrs: {
-                options: _vm.shows,
-                multiple: true,
-                "close-on-select": false,
-                "clear-on-select": false,
-                "hide-selected": true,
-                "preserve-search": true,
-                "block-keys": ["Tab", "Enter"],
-                "preselect-first": true,
-                "options-limit": 4,
-                max: 6,
-                "select-label": "",
-                placeholder: "Type to search for shows",
-                label: "name",
-                "track-by": "id"
-              },
-              scopedSlots: _vm._u([
-                {
-                  key: "tag",
-                  fn: function(props) {
-                    return [
-                      _c("span", { staticClass: "custom__tag" }, [
-                        _c("span", [_vm._v(_vm._s(props.option.name))]),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          {
-                            staticClass: "custom__remove",
-                            on: {
-                              click: function($event) {
-                                props.remove(props.option)
-                              }
-                            }
-                          },
-                          [_vm._v("✖")]
-                        )
-                      ])
-                    ]
-                  }
-                },
-                {
-                  key: "maxElements",
-                  fn: function(props) {
-                    return [
-                      _c("span", [
-                        _vm._v(
-                          "\n                            You can only select 6 shows.\n                        "
-                        )
-                      ])
-                    ]
-                  }
-                }
-              ]),
-              model: {
-                value: _vm.selected,
-                callback: function($$v) {
-                  _vm.selected = $$v
-                },
-                expression: "selected"
-              }
-            })
-          ],
-          1
-        ),
         _vm._v(" "),
         _c("div", { staticClass: "form-group text-right" }, [
           _c(
