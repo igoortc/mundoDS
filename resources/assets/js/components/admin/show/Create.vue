@@ -48,7 +48,7 @@
                         <input type="text" class="form-control" id="imdb" v-model="show.imdb">
                     </div>
                 </div>
-                <div class="form-row" style="margin-bottom: 50px">
+                <!-- <div class="form-row" style="margin-bottom: 50px">
                     <label>Related shows:</label>
                     <multiselect 
                         v-model="selected"
@@ -82,7 +82,7 @@
                             </span>
                         </template>
                     </multiselect>
-                </div>
+                </div> -->
                 <div class="form-group text-right">
                     <a type="button" class="btn btn-primary" @click="newShow">Create new show!</a>
                 </div>
@@ -114,19 +114,15 @@ export default {
     },
     methods: {
         newShow() {
-            var newId
             this.show.poster = this.$refs.poster.value
             axios.post('/api/shows/', this.show)
                 .then(response => {
-                    newId = response.data.data.id
+                    // this.insertSuggestions(response.data.data.id)
                     this.$notify({
                         type: 'success',
                         title: '<i class="fa fa-heart"></i> Yay! A new show was created!',
                         text: 'The show was included in the database!'
                     })
-                })
-                .then(response => {
-                    this.insertSuggestions(newId)
                 })
                 .catch(error => {
                     this.$notify({
