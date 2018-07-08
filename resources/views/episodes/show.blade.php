@@ -33,3 +33,5 @@
         :user="{{ Auth::user() }}" />
 </div>
 @endsection
+
+@include('scripts.firebase')

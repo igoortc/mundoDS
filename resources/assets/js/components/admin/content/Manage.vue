@@ -20,8 +20,8 @@
                         <td><a :href="'/user/' + comment.user_id.id">{{ comment.user_id.name }}</a></td>
                         <td class="text-center"><a :href="'/show/' + comment.episode_id.show_id + '/episode/' + comment.episode_id.id"><i class="fa fa-television"></i> <span class="hideMobile">Check</span></a></td>
                         <td class="text-center">
-                            <a href="#" @click="destroySpam(comment.id)"><i class="fa fa-ban"></i> <span class="hideMobile">Destroy</span></a>  |  
-                            <a href="#" @click="notSpam(comment)"><i class="fa fa-check"></i> <span class="hideMobile">Unflag</span></a>
+                            <a href="#" @click="destroySpam(comment.id)"><i class="fa fa-ban"></i> </a>  |  
+                            <a href="#" @click="notSpam(comment)"><i class="fa fa-check"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -73,6 +73,9 @@ export default {
                             title: '<i class="fa fa-heart"></i> Yay! The spam was deleted!',
                             text: 'The changes were updated in the database!'
                         })
+                    setTimeout(() => {
+                        window.location.href = "/"
+                    }, 1000)
                 })
                 .catch(error => {
                     this.$notify({
@@ -92,6 +95,9 @@ export default {
                             title: '<i class="fa fa-heart"></i> Yay! Not a spam!',
                             text: 'The comment was marked as not spam!'
                         })
+                    setTimeout(() => {
+                        window.location.href = "/"
+                    }, 1000)
                 })
                 .catch(error => {
                     this.$notify({

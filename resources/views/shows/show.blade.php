@@ -69,3 +69,5 @@
     </div>
 </div>
 @endsection
+
+@include('scripts.firebase')
