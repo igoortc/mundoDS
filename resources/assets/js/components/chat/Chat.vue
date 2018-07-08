@@ -3,7 +3,7 @@
         <div class="messages-wrapper">
             <div class="user-header row">
                 <img :src="friend_resource.photo" />
-                <span>{{friend_resource.name}}</span>
+                <a :href="'/user/' + friend_resource.id"><span>{{friend_resource.name}}</span></a>
             </div>
             <!-- <div v-if="messages.length === 0">
                 <p>You and {{friend_resource.name}} have not started a conversation yet.</p>
@@ -11,13 +11,13 @@
             </div> -->
             <div class="messages" v-chat-scroll>
                 <div v-for="(message, index) in messages" :key="index">
-                    <div class="speech-bubble-user" v-if="message.user.id === user">
+                    <div class="speech-bubble-user" v-if="message.user.id === user" @click="clicked = !clicked">
                         <span>{{ message.message }}</span><br/>
-                        <p class="chat-date">{{ message.date }}</p>
+                        <p v-if="clicked" class="chat-date">{{ message.date }}</p>
                     </div>
-                    <div class="speech-bubble-friend" v-else>
+                    <div class="speech-bubble-friend" v-else @click="clicked = !clicked">
                         <span>{{ message.message }}</span><br/>
-                        <p class="chat-date">{{ message.date }}</p>
+                        <p v-if="clicked" class="chat-date">{{ message.date }}</p>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,7 @@ export default {
             user: '',
             friend: ''
         },
+        clicked: false,
         messages: [],
         friend_resource: []
         }

@@ -47,6 +47,11 @@
         created : function() {
             this.getWatched()
         },
+        mounted () {
+            database.ref('/watches').on('value', snapshot => {
+                this.getWatched()
+            })
+        },
         methods: {
             watch (episode) {
                 this.watched.user_id = this.user
@@ -124,14 +129,15 @@
             },
             set (value, episode) {
                 this.temp_value = value;
-                let watched_id = ''
-                for (let i = 0; i < this.watchedEpisodes.length; i++) {
-                    if (this.watchedEpisodes[i].episode_id === episode) {
-                        watched_id = this.watchedEpisodes[i].id
-                    }
-                }
+                // let watched_id = ''
+                // for (let i = 0; i < this.watchedEpisodes.length; i++) {
+                //     if (this.watchedEpisodes[i].episode_id === episode) {
+                //         watched_id = this.watchedEpisodes[i].id
+                //     }
+                // }
+                // console.log(this.watched, episode, watched_id)
                 this.watched.rating = value
-                axios.put('/api/users/'+ this.user + '/watches/' + watched_id, {rating: this.watched.rating})
+                axios.put('/api/users/'+ this.user + '/watches/' + this.watched.id, {rating: this.watched.rating})
                     .then(response => {
                         this.isRated = true
                         this.$notify({

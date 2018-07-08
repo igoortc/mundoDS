@@ -59,6 +59,12 @@
                                 </a>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                First time on <strong>mundoDS</strong>? <a href="{{ url('/register') }}"><i class="fa fa-smile-o"></i> Register</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

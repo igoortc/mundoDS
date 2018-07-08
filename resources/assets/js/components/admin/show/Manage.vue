@@ -257,7 +257,7 @@ export default {
     getAllShows() {
         axios.get('/api/shows')
             .then(response => {
-                this.shows = response.data.data
+                this.shows = response.data.data.filter(s => s.id !== this.show_id)
             })
     }
   },

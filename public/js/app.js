@@ -72436,22 +72436,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.getWatched();
     },
+    mounted: function mounted() {
+        var _this = this;
+
+        database.ref('/watches').on('value', function (snapshot) {
+            _this.getWatched();
+        });
+    },
+
     methods: {
         watch: function watch(episode) {
-            var _this = this;
+            var _this2 = this;
 
             this.watched.user_id = this.user;
             this.watched.episode_id = episode;
             this.watched.rating = 0;
             axios.post('/api/users/' + this.watched.user_id + '/watches', this.watched).then(function (response) {
-                _this.isWatched = true;
-                _this.$notify({
+                _this2.isWatched = true;
+                _this2.$notify({
                     type: 'success',
                     title: '<i class="fa fa-smile-o"></i> Yay! This show seems awesome!',
                     text: 'You watched the episode!'
                 });
             }).catch(function (error) {
-                _this.$notify({
+                _this2.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Watch the episode failed.'
@@ -72460,7 +72468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getWatched();
         },
         unwatch: function unwatch(episode) {
-            var _this2 = this;
+            var _this3 = this;
 
             var watched_id = '';
             for (var i = 0; i < this.watchedEpisodes.length; i++) {
@@ -72470,14 +72478,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             this.value = null;
             axios.delete('/api/users/' + this.user + '/watches/' + watched_id).then(function (response) {
-                _this2.isWatched = false;
-                _this2.$notify({
+                _this3.isWatched = false;
+                _this3.$notify({
                     type: 'warn',
                     title: '<i class="fa fa-ban"></i> You hated so much you even unwatched it?',
                     text: 'You unwatched the episode!'
                 });
             }).catch(function (error) {
-                _this2.$notify({
+                _this3.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Unwatch the episode failed.'
@@ -72485,19 +72493,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         getWatched: function getWatched() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('/api/users/' + this.user + '/watches/').then(function (response) {
-                _this3.watchedEpisodes = response.data.data;
-                for (var i = 0; i < _this3.watchedEpisodes.length; i++) {
-                    if (_this3.watchedEpisodes[i].episode_id === _this3.episode) {
-                        _this3.watched = _this3.watchedEpisodes[i];
-                        _this3.value = _this3.watchedEpisodes[i].rating;
-                        _this3.isWatched = true;
+                _this4.watchedEpisodes = response.data.data;
+                for (var i = 0; i < _this4.watchedEpisodes.length; i++) {
+                    if (_this4.watchedEpisodes[i].episode_id === _this4.episode) {
+                        _this4.watched = _this4.watchedEpisodes[i];
+                        _this4.value = _this4.watchedEpisodes[i].rating;
+                        _this4.isWatched = true;
                     }
                 }
             }).catch(function (error) {
-                _this3.$notify({
+                _this4.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Failed to load watched episodes.'
@@ -72512,25 +72520,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.value = this.temp_value;
         },
         set: function set(value, episode) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.temp_value = value;
-            var watched_id = '';
-            for (var i = 0; i < this.watchedEpisodes.length; i++) {
-                if (this.watchedEpisodes[i].episode_id === episode) {
-                    watched_id = this.watchedEpisodes[i].id;
-                }
-            }
+            // let watched_id = ''
+            // for (let i = 0; i < this.watchedEpisodes.length; i++) {
+            //     if (this.watchedEpisodes[i].episode_id === episode) {
+            //         watched_id = this.watchedEpisodes[i].id
+            //     }
+            // }
+            // console.log(this.watched, episode, watched_id)
             this.watched.rating = value;
-            axios.put('/api/users/' + this.user + '/watches/' + watched_id, { rating: this.watched.rating }).then(function (response) {
-                _this4.isRated = true;
-                _this4.$notify({
+            axios.put('/api/users/' + this.user + '/watches/' + this.watched.id, { rating: this.watched.rating }).then(function (response) {
+                _this5.isRated = true;
+                _this5.$notify({
                     type: 'success',
                     title: '<i class="fa fa-star"></i> Stars... stars everywhere!',
                     text: 'You rated the episode!'
                 });
             }).catch(function (error) {
-                _this4.$notify({
+                _this5.$notify({
                     type: 'error',
                     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
                     text: 'Try reloading the page or contact the support! Rating episode failed.'
@@ -75879,7 +75888,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       axios.get('/api/shows').then(function (response) {
-        _this4.shows = response.data.data;
+        _this4.shows = response.data.data.filter(function (s) {
+          return s.id !== _this4.show_id;
+        });
+        // this.shows = response.data.data
       });
     }
   },
@@ -78285,6 +78297,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     title: '<i class="fa fa-heart"></i> Yay! The spam was deleted!',
                     text: 'The changes were updated in the database!'
                 });
+                setTimeout(function () {
+                    window.location.href = "/";
+                }, 1000);
             }).catch(function (error) {
                 _this2.$notify({
                     type: 'error',
@@ -78304,6 +78319,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     title: '<i class="fa fa-heart"></i> Yay! Not a spam!',
                     text: 'The comment was marked as not spam!'
                 });
+                setTimeout(function () {
+                    window.location.href = "/";
+                }, 1000);
             }).catch(function (error) {
                 _this3.$notify({
                     type: 'error',
@@ -78385,13 +78403,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _c("i", { staticClass: "fa fa-ban" }),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "hideMobile" }, [
-                            _vm._v("Destroy")
-                          ])
-                        ]
+                        [_c("i", { staticClass: "fa fa-ban" })]
                       ),
                       _vm._v("  |  \n                        "),
                       _c(
@@ -78404,13 +78416,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _c("i", { staticClass: "fa fa-check" }),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "hideMobile" }, [
-                            _vm._v("Unflag")
-                          ])
-                        ]
+                        [_c("i", { staticClass: "fa fa-check" })]
                       )
                     ])
                   ])
@@ -79835,6 +79841,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         user: '',
         friend: ''
       },
+      clicked: false,
       messages: [],
       friend_resource: []
     };
@@ -79907,7 +79914,9 @@ var render = function() {
       _c("div", { staticClass: "user-header row" }, [
         _c("img", { attrs: { src: _vm.friend_resource.photo } }),
         _vm._v(" "),
-        _c("span", [_vm._v(_vm._s(_vm.friend_resource.name))])
+        _c("a", { attrs: { href: "/user/" + _vm.friend_resource.id } }, [
+          _c("span", [_vm._v(_vm._s(_vm.friend_resource.name))])
+        ])
       ]),
       _vm._v(" "),
       _c(
@@ -79919,22 +79928,48 @@ var render = function() {
         _vm._l(_vm.messages, function(message, index) {
           return _c("div", { key: index }, [
             message.user.id === _vm.user
-              ? _c("div", { staticClass: "speech-bubble-user" }, [
-                  _c("span", [_vm._v(_vm._s(message.message))]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "chat-date" }, [
-                    _vm._v(_vm._s(message.date))
-                  ])
-                ])
-              : _c("div", { staticClass: "speech-bubble-friend" }, [
-                  _c("span", [_vm._v(_vm._s(message.message))]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "chat-date" }, [
-                    _vm._v(_vm._s(message.date))
-                  ])
-                ])
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "speech-bubble-user",
+                    on: {
+                      click: function($event) {
+                        _vm.clicked = !_vm.clicked
+                      }
+                    }
+                  },
+                  [
+                    _c("span", [_vm._v(_vm._s(message.message))]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.clicked
+                      ? _c("p", { staticClass: "chat-date" }, [
+                          _vm._v(_vm._s(message.date))
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              : _c(
+                  "div",
+                  {
+                    staticClass: "speech-bubble-friend",
+                    on: {
+                      click: function($event) {
+                        _vm.clicked = !_vm.clicked
+                      }
+                    }
+                  },
+                  [
+                    _c("span", [_vm._v(_vm._s(message.message))]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.clicked
+                      ? _c("p", { staticClass: "chat-date" }, [
+                          _vm._v(_vm._s(message.date))
+                        ])
+                      : _vm._e()
+                  ]
+                )
           ])
         })
       ),
