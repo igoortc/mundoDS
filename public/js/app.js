@@ -72459,11 +72459,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     text: 'You watched the episode!'
                 });
             }).catch(function (error) {
-                _this2.$notify({
-                    type: 'error',
-                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                    text: 'Try reloading the page or contact the support! Watch the episode failed.'
-                });
+                console.log(error);
+                // this.$notify({
+                //     type: 'error',
+                //     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                //     text: 'Try reloading the page or contact the support! Watch the episode failed.'
+                // })
             });
             this.getWatched();
         },
@@ -72485,11 +72486,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     text: 'You unwatched the episode!'
                 });
             }).catch(function (error) {
-                _this3.$notify({
-                    type: 'error',
-                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                    text: 'Try reloading the page or contact the support! Unwatch the episode failed.'
-                });
+                console.log(error);
+                // this.$notify({
+                //     type: 'error',
+                //     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                //     text: 'Try reloading the page or contact the support! Unwatch the episode failed.'
+                // })
             });
         },
         getWatched: function getWatched() {
@@ -72539,11 +72541,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     text: 'You rated the episode!'
                 });
             }).catch(function (error) {
-                _this5.$notify({
-                    type: 'error',
-                    title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                    text: 'Try reloading the page or contact the support! Rating episode failed.'
-                });
+                console.log(error);
+                // this.$notify({
+                //     type: 'error',
+                //     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                //     text: 'Try reloading the page or contact the support! Rating episode failed.'
+                // })
             });
             return this.value = value;
         }
@@ -75891,7 +75894,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this4.shows = response.data.data.filter(function (s) {
           return s.id !== _this4.show_id;
         });
-        // this.shows = response.data.data
       });
     }
   },
