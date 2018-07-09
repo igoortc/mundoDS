@@ -67,11 +67,12 @@
                         });
                     })
                     .catch(error => {
-                        this.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Try reloading the page or contact the support! Watch the episode failed.'
-                        })
+                        console.log(error)
+                        // this.$notify({
+                        //     type: 'error',
+                        //     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                        //     text: 'Try reloading the page or contact the support! Watch the episode failed.'
+                        // })
                     })
                 this.getWatched()
             },
@@ -93,11 +94,12 @@
                         })
                     })
                     .catch(error => {
-                        this.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Try reloading the page or contact the support! Unwatch the episode failed.'
-                        })
+                        console.log(error)
+                        // this.$notify({
+                        //     type: 'error',
+                        //     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                        //     text: 'Try reloading the page or contact the support! Unwatch the episode failed.'
+                        // })
                     })
             },
             getWatched () {
@@ -147,11 +149,12 @@
                         })
                     })
                     .catch(error => {
-                        this.$notify({
-                            type: 'error',
-                            title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
-                            text: 'Try reloading the page or contact the support! Rating episode failed.'
-                        })
+                        console.log(error)
+                        // this.$notify({
+                        //     type: 'error',
+                        //     title: '<i class="fa fa-frown-o"></i> Uh oh! Error: ' + error.response.status + ' - ' + error.response.statusText,
+                        //     text: 'Try reloading the page or contact the support! Rating episode failed.'
+                        // })
                     })
                 return this.value = value;
             }
