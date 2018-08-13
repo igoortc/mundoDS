@@ -3,6 +3,8 @@ This is a mini social network to manage TV shows and episodes followed by the us
 
 The application is written in Vue.js and Laravel.
 
+:movie_camera: Live preview: [http://mundo-ds.herokuapp.com](http://mundo-ds.herokuapp.com)
+
 ### Start the development :computer:
 ```
 git clone https://github.com/igoortc/mundoDS.git
